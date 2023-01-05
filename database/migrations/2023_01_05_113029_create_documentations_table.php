@@ -22,8 +22,11 @@ class CreateDocumentationsTable extends Migration
             $table->string('noise_certificate_id')->unique();
             $table->string('airworthiness_certificate')->unique();
             $table->string('airworthiness_certificate_id')->unique();
-
+            $table->unsignedBigInteger('drone_id');
             $table->timestamps();
+
+
+            $table->foreign("drone_id")->references("id")->on("drones")->onDelete("cascade");
         });
     }
 

@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class DroneType extends Model
 {
     use HasFactory;
+    protected $fillable = ['name'];
+
+    public function drones()
+    {
+        return $this->hasMany('App\Drone');
+    }
 }

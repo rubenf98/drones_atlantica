@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CrashReport extends Model
 {
     use HasFactory;
+    protected $fillable = ['date', 'flight_report_id', 'latitude', 'longitude', 'damage', 'analysis', 'corrections'];
+
+    public function flightReport()
+    {
+        return $this->belongsTo('App\FlightReport');
+    }
 }

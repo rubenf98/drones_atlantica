@@ -27,13 +27,11 @@ class CreateDronesTable extends Migration
             $table->unsignedBigInteger('drone_type_id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('manufacturer_id')->nullable();
-            $table->unsignedBigInteger('documentation_id')->nullable();
             $table->timestamps();
 
             $table->foreign("drone_type_id")->references("id")->on("drone_types")->onDelete("cascade");
             $table->foreign("project_id")->references("id")->on("projects")->onDelete("cascade");
             $table->foreign("manufacturer_id")->references("id")->on("manufacturers")->onDelete("set null");
-            $table->foreign("documentation_id")->references("id")->on("documentations")->onDelete("set null");
         });
     }
 

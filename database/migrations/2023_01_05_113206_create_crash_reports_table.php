@@ -19,6 +19,7 @@ class CreateCrashReportsTable extends Migration
             $table->unsignedBigInteger('flight_report_id');
             $table->decimal('latitude', 8, 5);
             $table->decimal('longitude', 8, 5);
+            $table->text('damage')->nullable();
             $table->text('analysis')->nullable();
             $table->text('corrections')->nullable();
             $table->timestamps();

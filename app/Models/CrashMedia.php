@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CrashMedia extends Model
 {
     use HasFactory;
+    protected $fillable = ['path', 'crash_report_id', 'file_type'];
+
+    public function crashReport()
+    {
+        return $this->belongsTo('App\CrashReport');
+    }
 }

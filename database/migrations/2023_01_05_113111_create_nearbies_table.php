@@ -18,7 +18,7 @@ class CreateNearbiesTable extends Migration
             $table->text('people')->nullable();
             $table->text('animals')->nullable();
             $table->text('vehicles')->nullable();
-            $table->text('aircraft')->nullable();
+            $table->text('aircrafts')->nullable();
             $table->timestamps();
         });
     }
