@@ -8,6 +8,8 @@ import DashboardHomepage from "./components/pages/dashboard/homepage/Homepage";
 import Layout from "./components/pages/dashboard/Layout";
 import Login from "./components/pages/Login";
 import Drone from "./components/pages/dashboard/drone/Drone";
+import Report from "./components/pages/dashboard/report/Report";
+import Crash from "./components/pages/dashboard/crash/Crash";
 
 export const history = createBrowserHistory();
 
@@ -16,6 +18,8 @@ function Router() {
         <BrowserRouter history={history}>
 
             <Routes>
+                <Route exact path="/painel/acidentes" element={<Layout><Crash /></Layout>} />
+                <Route exact path="/painel/relatorios" element={<Layout><Report /></Layout>} />
                 <Route exact path="/painel/drones" element={<Layout><Drone /></Layout>} />
                 <Route exact path="/painel/" element={<Layout><DashboardHomepage /></Layout>} />
                 <Route exact path="/login" element={<Layout><Login /></Layout>} />
