@@ -22,7 +22,7 @@ const Separator = styled.div`
 `;
 
 const Sidemenu = styled.section`
-    min-width: 250px;
+    min-width: 400px;
     min-height: 100vh;
     padding: 40px 60px;
     box-sizing: border-box;

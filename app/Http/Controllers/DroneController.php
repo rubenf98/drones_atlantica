@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DroneResource;
 use App\Models\Drone;
+use App\QueryFilters\DroneFilters;
 use Illuminate\Http\Request;
 
 class DroneController extends Controller
@@ -12,9 +14,9 @@ class DroneController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(DroneFilters $filters)
     {
-        //
+        return DroneResource::collection(Drone::filterBy($filters)->with('droneType')->with('manufacturer')->paginate(10));
     }
 
     /**

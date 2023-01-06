@@ -1,4 +1,6 @@
 import React from 'react'
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 
@@ -6,16 +8,17 @@ const Container = styled.section`
     display: flex;
     width: 100%;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 50px;
     margin: 100px auto;
 `;
 
-const Drone = styled.div`
+const Drone = styled(Link)`
     width: 33%;
     position: relative;
     cursor: pointer;
-
+    text-decoration: none;
+    
     .background {
         width: 100%;
         height: 60%;
@@ -41,6 +44,8 @@ const Drone = styled.div`
         font-weight: bold;
         text-align: center;
         transition: color .3s ease;
+        color: black;
+        
     }
 
     &:hover {
@@ -55,25 +60,27 @@ const Drone = styled.div`
 
 `;
 
-function DroneList() {
-    const drones = [
-        { name: "Alpha", img: "/images/drones/alpha.png" },
-        { name: "Alpha", img: "/images/drones/alpha.png" },
-        { name: "Alpha", img: "/images/drones/alpha.png" },
-        { name: "Alpha", img: "/images/drones/alpha.png" },
-    ];
+function DroneList({ loading, data }) {
 
     return (
         <Container>
-            {drones.map((drone) => (
-                <Drone>
+            {data.map((project) => (
+                <Drone to={"/painel/drones?project=" + project.id} key={project.id}>
                     <div className='background' />
-                    <img src={drone.img} alt={drone.name} />
-                    <h3>{drone.name}</h3>
+                    <img src={project.image} alt={project.name} />
+                    <h3>{project.name}</h3>
                 </Drone>
             ))}
         </Container>
     )
 }
 
-export default DroneList
+
+const mapStateToProps = (state) => {
+    return {
+        loading: state.project.loading,
+        data: state.project.data,
+    };
+};
+
+export default connect(mapStateToProps, null)(DroneList);

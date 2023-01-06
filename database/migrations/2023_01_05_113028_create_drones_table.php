@@ -22,8 +22,9 @@ class CreateDronesTable extends Migration
             $table->decimal('max_speed', 6, 2);
             $table->decimal('max_distance', 6, 2);
             $table->boolean('danger_transportation');
-            $table->string('designation');
-            $table->string('propulsion_type');
+            $table->string('designation')->nullable();
+            $table->string('propulsion_type')->nullable();
+            $table->string('image')->nullable();
             $table->unsignedBigInteger('drone_type_id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('manufacturer_id')->nullable();
