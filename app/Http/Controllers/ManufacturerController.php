@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ManufacturerResource;
 use App\Models\Manufacturer;
 use Illuminate\Http\Request;
 
@@ -12,19 +13,15 @@ class ManufacturerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $paginate = 10;
+        
+        if ($request->has('selectorMode')) {
+            $paginate = 10000;
+        }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return ManufacturerResource::collection(Manufacturer::paginate($paginate));
     }
 
     /**
@@ -45,17 +42,6 @@ class ManufacturerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Manufacturer $manufacturer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Manufacturer  $manufacturer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Manufacturer $manufacturer)
     {
         //
     }

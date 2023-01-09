@@ -25,7 +25,8 @@ class Drone extends Model
 
     protected $fillable = [
         'project_id', 'manufacturer_id', 'drone_type_id', 'serial_number', 'n_motors', 'image',
-        'n_motors', 'max_weight', 'max_altitude', 'max_speed', 'max_distance', 'danger_transportation', 'designation', 'propulsion_type',
+        'mtom', 'height', 'width', 'length', 'max_speed', 'max_distance', 'max_altitude',
+        'n_motors', 'danger_transportation', 'designation', 'propulsion_type',
     ];
 
     public function crashes()

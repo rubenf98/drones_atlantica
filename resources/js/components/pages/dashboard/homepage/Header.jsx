@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 
@@ -29,8 +30,8 @@ function Header() {
 
             </div>
             <div className='button-container'>
-                <SecundaryButton>Adicionar drone</SecundaryButton>
-                <PrimaryButton>Adicionar relatório</PrimaryButton>
+                <Link to="/painel/drones/create"><SecundaryButton>Adicionar drone</SecundaryButton></Link>
+                <Link to="/painel/relatorios/create"><PrimaryButton>Adicionar relatório</PrimaryButton></Link>
             </div>
         </Container>
     )

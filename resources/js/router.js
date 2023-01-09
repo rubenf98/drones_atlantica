@@ -10,6 +10,7 @@ import Login from "./components/pages/Login";
 import Drone from "./components/pages/dashboard/drone/Drone";
 import Report from "./components/pages/dashboard/report/Report";
 import Crash from "./components/pages/dashboard/crash/Crash";
+import DroneForm from "./components/pages/dashboard/drone/DroneForm";
 
 export const history = createBrowserHistory();
 
@@ -18,6 +19,8 @@ function Router() {
         <BrowserRouter history={history}>
 
             <Routes>
+                <Route exact path="/painel/drones/create" element={<Layout><DroneForm /></Layout>} />
+
                 <Route exact path="/painel/acidentes" element={<Layout><Crash /></Layout>} />
                 <Route exact path="/painel/relatorios" element={<Layout><Report /></Layout>} />
                 <Route exact path="/painel/drones" element={<Layout><Drone /></Layout>} />

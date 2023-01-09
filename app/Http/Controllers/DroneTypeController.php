@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DroneTypeResource;
 use App\Models\DroneType;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,7 @@ class DroneTypeController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return DroneTypeResource::collection(DroneType::all());
     }
 
     /**
@@ -45,17 +36,6 @@ class DroneTypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(DroneType $droneType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\DroneType  $droneType
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(DroneType $droneType)
     {
         //
     }

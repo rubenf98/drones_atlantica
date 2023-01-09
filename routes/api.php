@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\DroneController;
+use App\Http\Controllers\DroneTypeController;
+use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,3 +26,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('projects', ProjectController::class);
 Route::apiResource('drones', DroneController::class);
+Route::apiResource('drone-type', DroneTypeController::class);
+Route::apiResource('manufacturers', ManufacturerController::class);

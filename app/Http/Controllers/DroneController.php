@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DroneRequest;
 use App\Http\Resources\DroneResource;
 use App\Models\Drone;
 use App\QueryFilters\DroneFilters;
@@ -20,24 +21,27 @@ class DroneController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DroneRequest $request)
     {
-        //
+        $validator = $request->validated();
+
+        $record = Drone::create($validator);
+
+        if ($validator['image']) {
+            $imageName = time() . '_' . $record->id . '.' . $validator['image']->extension();
+
+            $validator['image']->move(public_path('images/drones'), $imageName);
+            $record->image = $imageName;
+            $record->save();
+        }
+
+
+        return new DroneResource($record);
     }
 
     /**
@@ -47,17 +51,6 @@ class DroneController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Drone $drone)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Drone  $drone
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Drone $drone)
     {
         //
     }
@@ -82,6 +75,8 @@ class DroneController extends Controller
      */
     public function destroy(Drone $drone)
     {
-        //
+        $drone->delete();
+
+        return response()->json(null, 204);
     }
 }
