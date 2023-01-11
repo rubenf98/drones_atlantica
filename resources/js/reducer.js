@@ -12,6 +12,8 @@ import operator from './redux/operator'
 import flightReport from './redux/flightReport'
 import crashReport from './redux/crashReport'
 
+import user from './redux/user'
+
 const reducer = combineReducers({
     auth,
     application,
@@ -24,7 +26,9 @@ const reducer = combineReducers({
     operator,
 
     flightReport,
-    crashReport
+    crashReport,
+
+    user
 })
 
 export default reducer

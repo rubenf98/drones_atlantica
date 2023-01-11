@@ -24,7 +24,7 @@ function ManufacturerForm() {
 
         <Row gutter={16}>
             <Col xs={24} md={12}>
-                <Form.Item name="name" label="Nome do proprietário" rules={rules.serial_number}>
+                <Form.Item name="name" label="Nome do fabricante" rules={rules.serial_number}>
                     <Input placeholder='0001' />
                 </Form.Item>
             </Col>
@@ -36,7 +36,7 @@ function ManufacturerForm() {
             </Col>
 
             <Col xs={24} md={6}>
-                <Form.Item name="title" label="Título do proprietário" rules={rules.serial_number}>
+                <Form.Item name="title" label="Título do fabricante" rules={rules.serial_number}>
                     <Input placeholder='Designação' />
                 </Form.Item>
             </Col>
@@ -58,7 +58,7 @@ function ManufacturerForm() {
                 </Form.Item>
             </Col>
             <Col xs={12} md={6}>
-                <Form.Item name="country" label="País de registo do proprietário" rules={rules.serial_number}>
+                <Form.Item name="country" label="País de registo do fabricante" rules={rules.serial_number}>
                     <Input placeholder='0001' />
                 </Form.Item>
             </Col>

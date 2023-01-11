@@ -13,6 +13,7 @@ import CrashReport from "./components/pages/dashboard/crashReport/CrashReport";
 import DroneForm from "./components/pages/dashboard/drone/DroneForm";
 import FlightReportForm from "./components/pages/dashboard/flightReport/FlightReportForm";
 import CrashReportForm from "./components/pages/dashboard/crashReport/CrashReportForm";
+import Members from "./components/pages/dashboard/Members";
 
 export const history = createBrowserHistory();
 
@@ -28,7 +29,9 @@ function Router() {
                 <Route exact path="/painel/acidentes" element={<Layout><CrashReport /></Layout>} />
                 <Route exact path="/painel/relatorios" element={<Layout><FlightReport /></Layout>} />
                 <Route exact path="/painel/drones" element={<Layout><Drone /></Layout>} />
+                <Route exact path="/painel/membros" element={<Layout><Members /></Layout>} />
                 <Route exact path="/painel/" element={<Layout><DashboardHomepage /></Layout>} />
+
                 <Route exact path="/login" element={<Login />} />
                 <Route exact path="/" element={<Homepage />} />
             </Routes>

@@ -61,9 +61,9 @@ function Navbar() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/painel/utilizadores" >
+                    <NavLink to="/painel/membros" >
                         <img src="/images/icons/user.svg" />
-                        Utilizadores
+                        Membros
                     </NavLink>
                 </li>
             </ul>

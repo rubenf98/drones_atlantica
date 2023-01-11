@@ -34,7 +34,7 @@ function DroneTypeRemoteSelectContainer({ fetchManufacturers, data, loading, val
             onChange={onChange}
             loading={loading}
             showSearch
-            placeholder="Tipologia do UAS"
+            placeholder="Fabricante"
             optionFilterProp="name"
             filterOption={(input, option) => option.children.toLowerCase().includes(input.toLowerCase())}
             dropdownRender={(menu) => (
@@ -47,7 +47,7 @@ function DroneTypeRemoteSelectContainer({ fetchManufacturers, data, loading, val
                         }}
                     >
                         <Button size='small' type="primary" onClick={() => setHasNewManufacturer(true)}>
-                            <span>&#43;</span> Criar novo proprietário
+                            <span>&#43;</span> Criar novo fabricante
                         </Button>
                     </Add>
                 </>

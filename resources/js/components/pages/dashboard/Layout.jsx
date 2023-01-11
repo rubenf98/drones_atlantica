@@ -87,10 +87,10 @@ const Logout = styled.div`
 `;
 
 const Content = styled.section`
-    flex: 1;
-    min-height: 100vh;
     padding: 57px 100px;
     box-sizing: border-box;
+    flex: 1;
+    min-height: 100vh;  
 `;
 
 

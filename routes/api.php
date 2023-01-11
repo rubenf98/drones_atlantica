@@ -11,6 +11,7 @@ use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ManufacturerController;
 use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,3 +51,5 @@ Route::apiResource('localizations', LocalizationController::class);
 Route::apiResource('operators', OperatorController::class);
 Route::apiResource('flight-reports', FlightReportController::class);
 Route::apiResource('crash-reports', CrashReportController::class);
+
+Route::apiResource('users', UserController::class);
