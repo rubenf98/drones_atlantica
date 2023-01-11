@@ -27,13 +27,17 @@ function Drone({ fetchProjects, fetchDrones }) {
         fetchDrones({ project: currentId });
     }, [currentId])
 
+    const handlePageChange = (paginate) => {
+        fetchDrones({ page: paginate.current, project: currentId });
+    }
+
     return (
         <div>
             <DroneHeader
                 currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
                 currentId={currentId} setCurrentId={setCurrentId}
             />
-            <DroneTableContainer />
+            <DroneTableContainer handlePageChange={handlePageChange} />
         </div>
     )
 }

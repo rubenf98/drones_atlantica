@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CrashReportController;
 use App\Http\Controllers\DroneController;
 use App\Http\Controllers\DroneTypeController;
+use App\Http\Controllers\FetchCrashReportGraph;
 use App\Http\Controllers\FetchFlightReportGraph;
 use App\Http\Controllers\FlightReportController;
 use App\Http\Controllers\LocalizationController;
@@ -34,7 +36,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
 });
 Route::get('/selector/projects', 'App\Http\Controllers\ProjectController@selector');
+Route::get('/selector/flight-reports', 'App\Http\Controllers\FlightReportController@selector');
+Route::get('/selector/crash-reports', 'App\Http\Controllers\CrashReportController@selector');
+
 Route::get('/flight-reports/graph', FetchFlightReportGraph::class);
+Route::get('/crash-reports/graph', FetchCrashReportGraph::class);
 
 Route::apiResource('projects', ProjectController::class);
 Route::apiResource('drones', DroneController::class);
@@ -43,3 +49,4 @@ Route::apiResource('manufacturers', ManufacturerController::class);
 Route::apiResource('localizations', LocalizationController::class);
 Route::apiResource('operators', OperatorController::class);
 Route::apiResource('flight-reports', FlightReportController::class);
+Route::apiResource('crash-reports', CrashReportController::class);

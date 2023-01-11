@@ -56,14 +56,14 @@ const columns = [
     },
 ];
 
-function DroneTableContainer({ data, loading, meta }) {
+function DroneTableContainer({ data, loading, meta, handlePageChange }) {
     return (
         <Container>
             <Row type="flex" justify="space-between" align="middle">
                 <h2>Últimos relatórios</h2>
                 <Link to="/painel/drones/create"><SecundaryButton>Adicionar drone</SecundaryButton></Link>
             </Row>
-            <TableContainer data={data} loading={loading} meta={meta} columns={columns} />
+            <TableContainer handlePageChange={handlePageChange} data={data} loading={loading} meta={meta} columns={columns} />
         </Container>
     )
 }

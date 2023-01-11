@@ -8,10 +8,11 @@ import DashboardHomepage from "./components/pages/dashboard/homepage/Homepage";
 import Layout from "./components/pages/dashboard/Layout";
 import Login from "./components/pages/Login";
 import Drone from "./components/pages/dashboard/drone/Drone";
-import Report from "./components/pages/dashboard/report/Report";
-import Crash from "./components/pages/dashboard/crash/Crash";
+import FlightReport from "./components/pages/dashboard/flightReport/FlightReport";
+import CrashReport from "./components/pages/dashboard/crashReport/CrashReport";
 import DroneForm from "./components/pages/dashboard/drone/DroneForm";
-import ReportForm from "./components/pages/dashboard/report/ReportForm";
+import FlightReportForm from "./components/pages/dashboard/flightReport/FlightReportForm";
+import CrashReportForm from "./components/pages/dashboard/crashReport/CrashReportForm";
 
 export const history = createBrowserHistory();
 
@@ -21,10 +22,11 @@ function Router() {
 
             <Routes>
                 <Route exact path="/painel/drones/create" element={<Layout><DroneForm /></Layout>} />
-                <Route exact path="/painel/relatorios/create" element={<Layout><ReportForm /></Layout>} />
+                <Route exact path="/painel/relatorios/create" element={<Layout><FlightReportForm /></Layout>} />
+                <Route exact path="/painel/acidentes/create" element={<Layout><CrashReportForm /></Layout>} />
 
-                <Route exact path="/painel/acidentes" element={<Layout><Crash /></Layout>} />
-                <Route exact path="/painel/relatorios" element={<Layout><Report /></Layout>} />
+                <Route exact path="/painel/acidentes" element={<Layout><CrashReport /></Layout>} />
+                <Route exact path="/painel/relatorios" element={<Layout><FlightReport /></Layout>} />
                 <Route exact path="/painel/drones" element={<Layout><Drone /></Layout>} />
                 <Route exact path="/painel/" element={<Layout><DashboardHomepage /></Layout>} />
                 <Route exact path="/login" element={<Login />} />

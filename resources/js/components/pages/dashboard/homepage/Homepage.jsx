@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import DroneList from './DroneList'
 import Header from './Header'
 import Statistics from './Statistics';
-import TableContainer from './TableContainer';
+import HomepageTableContainer from './HomepageTableContainer';
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import { fetchProjects } from '../../../../redux/project/actions';
+import { fetchFlightReports } from '../../../../redux/flightReport/actions';
 
 const FlexContainer = styled.section`
     display: flex;
@@ -13,10 +14,11 @@ const FlexContainer = styled.section`
 `;
 
 
-function Homepage({ fetchProjects }) {
+function Homepage({ fetchProjects, fetchFlightReports }) {
 
     useEffect(() => {
         fetchProjects();
+        fetchFlightReports();
     }, [])
 
     return (
@@ -25,7 +27,7 @@ function Homepage({ fetchProjects }) {
             <DroneList />
             <FlexContainer>
                 <Statistics />
-                <TableContainer />
+                <HomepageTableContainer />
             </FlexContainer>
         </div>
     )
@@ -37,6 +39,7 @@ const mapStateToProps = (state) => ({})
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchProjects: () => dispatch(fetchProjects()),
+        fetchFlightReports: () => dispatch(fetchFlightReports()),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Homepage)

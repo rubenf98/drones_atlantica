@@ -10,6 +10,7 @@ import manufacturer from './redux/manufacturer'
 import localization from './redux/localization'
 import operator from './redux/operator'
 import flightReport from './redux/flightReport'
+import crashReport from './redux/crashReport'
 
 const reducer = combineReducers({
     auth,
@@ -22,7 +23,8 @@ const reducer = combineReducers({
     localization,
     operator,
 
-    flightReport
+    flightReport,
+    crashReport
 })
 
 export default reducer

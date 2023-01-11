@@ -28,6 +28,11 @@ class FlightReportController extends Controller
         );
     }
 
+    public function selector()
+    {
+        return FlightReportResource::collection(FlightReport::all());
+    }
+
     /**
      * Store a newly created resource in storage.
      *

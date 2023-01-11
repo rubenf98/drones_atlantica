@@ -2,6 +2,7 @@ import { types } from "./types";
 
 export const initialState = {
     data: [],
+    selector: [],
     current: {},
     loading: false,
     dataGraph: [],
@@ -14,6 +15,7 @@ export default (state = initialState, action = {}) => {
         case `${types.CREATE_FLIGHT_REPORT}_PENDING`:
         case `${types.UPDATE_FLIGHT_REPORT}_PENDING`:
         case `${types.FETCH_FLIGHT_REPORTS}_PENDING`:
+        case `${types.FETCH_FLIGHT_REPORT_SELECTOR}_PENDING`:
         case `${types.FETCH_FLIGHT_REPORT}_PENDING`:
             return {
                 ...state,
@@ -30,6 +32,7 @@ export default (state = initialState, action = {}) => {
         case `${types.UPDATE_FLIGHT_REPORT}_REJECTED`:
         case `${types.DELETE_FLIGHT_REPORT}_REJECTED`:
         case `${types.CREATE_FLIGHT_REPORT}_REJECTED`:
+        case `${types.FETCH_FLIGHT_REPORT_SELECTOR}_REJECTED`:
             return {
                 ...state,
                 loading: false,
@@ -85,6 +88,12 @@ export default (state = initialState, action = {}) => {
                 current: {},
             };
 
+        case `${types.FETCH_FLIGHT_REPORT_SELECTOR}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                selector: action.payload.data.data,
+            };
 
         case `${types.FETCH_FLIGHT_REPORTS}_REJECTED`:
             return {

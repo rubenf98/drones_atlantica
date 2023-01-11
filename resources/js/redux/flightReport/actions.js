@@ -7,6 +7,11 @@ export const fetchFlightReports = (filters = {}) => ({
     payload: axios.get(`${window.location.origin}/api/flight-reports?${queryString.stringify(filters)}`)
 })
 
+export const fetchFlightReportSelector = (filters = {}) => ({
+    type: types.FETCH_FLIGHT_REPORT_SELECTOR,
+    payload: axios.get(`${window.location.origin}/api/selector/flight-reports?${queryString.stringify(filters)}`)
+})
+
 export const fetchFlightReportGraph = (filters = {}) => ({
     type: types.FETCH_FLIGHT_REPORT_GRAPH,
     payload: axios.get(`${window.location.origin}/api/flight-reports/graph?${queryString.stringify(filters)}`)
