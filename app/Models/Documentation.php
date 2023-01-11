@@ -22,6 +22,6 @@ class Documentation extends Model
 
     public function drone()
     {
-        return $this->belongsTo('App\Drone');
+        return $this->belongsTo(Drone::class);
     }
 }

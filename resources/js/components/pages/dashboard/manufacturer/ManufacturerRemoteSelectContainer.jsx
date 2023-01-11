@@ -1,4 +1,4 @@
-import { Divider, Select, Space, Button } from 'antd';
+import { Select, Space, Button } from 'antd';
 import React, {
     useEffect
 } from 'react'
@@ -13,6 +13,14 @@ const Add = styled(Space)`
         font-weight: bold;
         margin-right: 5px;
     }
+`;
+
+const Divider = styled.div`
+    width: 100%;
+    height: 1px;
+    background-color: black;
+    opacity: .2;
+    margin: 20px 0px 10px 0px;
 `;
 
 function DroneTypeRemoteSelectContainer({ fetchManufacturers, data, loading, value, onChange, setHasNewManufacturer }) {
@@ -32,7 +40,7 @@ function DroneTypeRemoteSelectContainer({ fetchManufacturers, data, loading, val
             dropdownRender={(menu) => (
                 <>
                     {menu}
-                    <br />
+                    <Divider />
                     <Add
                         style={{
                             padding: '0 8px 4px',

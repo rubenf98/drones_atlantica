@@ -15,6 +15,6 @@ class Manufacturer extends Model
 
     public function drones()
     {
-        return $this->hasMany('App\Drone');
+        return $this->hasMany(Drone::class);
     }
 }

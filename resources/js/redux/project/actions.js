@@ -6,6 +6,11 @@ export const fetchProjects = (filters = {}) => ({
     payload: axios.get(`${window.location.origin}/api/projects?${JSON.stringify(filters)}`)
 })
 
+export const fetchProjectsSelector = (filters = {}) => ({
+    type: types.FETCH_PROJECTS_SELECTOR,
+    payload: axios.get(`${window.location.origin}/api/selector/projects?${JSON.stringify(filters)}`)
+})
+
 export const fetchProject = (id) => ({
     type: types.FETCH_PROJECT,
     payload: axios.get(`${window.location.origin}/api/projects/${id}`)

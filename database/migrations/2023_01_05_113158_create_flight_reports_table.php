@@ -15,15 +15,15 @@ class CreateFlightReportsTable extends Migration
     {
         Schema::create('flight_reports', function (Blueprint $table) {
             $table->id();
-            $table->string('serial_number')->unique();
+            $table->string('serial_number')->unique()->nullable();
             $table->datetime('date');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('drone_id')->nullable();
-            $table->unsignedBigInteger('operator_id')->nullable();
-            $table->unsignedBigInteger('start_localization_id')->nullable();
-            $table->unsignedBigInteger('end_localization_id')->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('drone_id');
+            $table->unsignedBigInteger('operator_id');
+            $table->unsignedBigInteger('start_localization_id');
+            $table->unsignedBigInteger('end_localization_id');
             $table->unsignedBigInteger('nearby_id')->nullable();
-            $table->unsignedBigInteger('condition_id')->nullable();
+            $table->unsignedBigInteger('condition_id');
             $table->text('objective');
             $table->string('client')->nullable();
             $table->text('plan');

@@ -12,6 +12,6 @@ class CrashReport extends Model
 
     public function flightReport()
     {
-        return $this->belongsTo('App\FlightReport');
+        return $this->belongsTo(FlightReport::class);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\LocalizationResource;
 use App\Models\Localization;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class LocalizationController extends Controller
      */
     public function index()
     {
-        //
+        return LocalizationResource::collection(Localization::all());
     }
 
     /**

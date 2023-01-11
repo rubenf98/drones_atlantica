@@ -39,15 +39,15 @@ class DroneRequest extends FormRequest
             'designation' => 'nullable|string',
             'propulsion_type' => 'nullable|string',
 
-            'height' => 'required|integer|min:0',
-            'length' => 'required|integer|min:0',
-            'width' => 'required|integer|min:0',
+            'height' => 'required|numeric|min:0',
+            'length' => 'required|numeric|min:0',
+            'width' => 'required|numeric|min:0',
             'n_motors' => 'required|integer|min:0',
-            'mtom' => 'required|integer|min:0',
+            'mtom' => 'required|numeric|min:0',
 
-            'max_altitude' => 'required|integer|min:0',
-            'max_distance' => 'required|integer|min:0',
-            'max_speed' => 'required|integer|min:0',
+            'max_altitude' => 'required|numeric|min:0',
+            'max_distance' => 'required|numeric|min:0',
+            'max_speed' => 'required|numeric|min:0',
 
             'danger_transportation' => 'required|bool',
             'image' => 'nullable|image|mimes:jpg,jpeg',

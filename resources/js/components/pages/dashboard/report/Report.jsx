@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from "styled-components";
 import { PrimaryButton } from '../../../globalStyles';
-import GraphContainer from './GraphContainer'
-import TableContainer from './TableContainer';
+import ReportFlightGraphContainer from './ReportFlightGraphContainer'
+import ReportFlightTableContainer from './ReportFlightTableContainer';
+import { fetchFlightReportGraph, fetchFlightReports } from '../../../../redux/flightReport/actions';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import ReportFlightMapContainer from './ReportFlightMapContainer';
 
 const Title = styled.section`
     display: flex;
@@ -16,19 +20,32 @@ const Title = styled.section`
 
 `;
 
-function Report() {
+function Report({ fetchFlightReports, fetchFlightReportGraph }) {
+
+    useEffect(() => {
+        fetchFlightReports();
+        fetchFlightReportGraph();
+    }, [])
+
     return (
         <div>
             <Title>
                 <h2>Histórico de voos</h2>
-                <PrimaryButton>Adicionar relatório</PrimaryButton>
+                <Link to="/painel/relatorios/create"><PrimaryButton>Adicionar relatório</PrimaryButton></Link>
+
             </Title>
 
-            <GraphContainer />
+            <ReportFlightGraphContainer />
 
-            <TableContainer />
+            <ReportFlightTableContainer />
         </div>
     )
 }
 
-export default Report
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchFlightReports: (data) => dispatch(fetchFlightReports(data)),
+        fetchFlightReportGraph: (data) => dispatch(fetchFlightReportGraph(data)),
+    };
+};
+export default connect(null, mapDispatchToProps)(Report)

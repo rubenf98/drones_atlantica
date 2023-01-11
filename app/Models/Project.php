@@ -20,9 +20,10 @@ class Project extends Model
     public function getNCrashReportsAttribute()
     {
         $flightReports = $this->flightReports()->get();
+        
         $counter = 0;
         foreach ($flightReports as $key => $flightReport) {
-            if (CrashReport::where('flight_report_id', $flightReport->id)) {
+            if (CrashReport::where('flight_report_id', $flightReport->id)->count()) {
                 $counter++;
             }
         }

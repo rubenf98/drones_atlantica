@@ -7,6 +7,9 @@ import project from './redux/project'
 import drone from './redux/drone'
 import droneType from './redux/droneType'
 import manufacturer from './redux/manufacturer'
+import localization from './redux/localization'
+import operator from './redux/operator'
+import flightReport from './redux/flightReport'
 
 const reducer = combineReducers({
     auth,
@@ -15,7 +18,11 @@ const reducer = combineReducers({
     project,
     drone,
     droneType,
-    manufacturer
+    manufacturer,
+    localization,
+    operator,
+
+    flightReport
 })
 
 export default reducer

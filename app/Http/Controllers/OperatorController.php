@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\OperatorResource;
 use App\Models\Operator;
 use Illuminate\Http\Request;
 
@@ -12,9 +13,15 @@ class OperatorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $paginate = 10;
+
+        if ($request->has('selectorMode')) {
+            $paginate = 10000;
+        }
+
+        return OperatorResource::collection(Operator::paginate($paginate));
     }
 
     /**

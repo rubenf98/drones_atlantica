@@ -2,6 +2,7 @@ import { types } from "./types";
 
 export const initialState = {
     data: [],
+    selector: [],
     meta: {},
     current: {},
     loading: false,
@@ -14,6 +15,7 @@ export default (state = initialState, action = {}) => {
         case `${types.UPDATE_PROJECT}_PENDING`:
         case `${types.FETCH_PROJECTS}_PENDING`:
         case `${types.FETCH_PROJECT}_PENDING`:
+        case `${types.FETCH_PROJECTS_SELECTOR}_PENDING`:
             return {
                 ...state,
                 loading: true,
@@ -22,6 +24,7 @@ export default (state = initialState, action = {}) => {
         case `${types.UPDATE_PROJECT}_REJECTED`:
         case `${types.DELETE_PROJECT}_REJECTED`:
         case `${types.CREATE_PROJECT}_REJECTED`:
+        case `${types.FETCH_PROJECTS_SELECTOR}_REJECTED`:
             return {
                 ...state,
                 loading: false,
@@ -76,6 +79,14 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 current: action.payload.data.data,
+            };
+
+
+        case `${types.FETCH_PROJECTS_SELECTOR}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                selector: action.payload.data.data,
             };
 
         case `${types.FETCH_PROJECTS}_FULFILLED`:

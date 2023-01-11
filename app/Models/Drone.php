@@ -36,7 +36,7 @@ class Drone extends Model
 
     public function flightReports()
     {
-        return $this->belongsTo(FlightReport::class);
+        return $this->hasMany(FlightReport::class);
     }
 
 

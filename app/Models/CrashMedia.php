@@ -12,6 +12,6 @@ class CrashMedia extends Model
 
     public function crashReport()
     {
-        return $this->belongsTo('App\CrashReport');
+        return $this->belongsTo(CrashReport::class);
     }
 }

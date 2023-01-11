@@ -1,6 +1,9 @@
 import React from 'react'
 import styled from 'styled-components';
 import { Form, Button, Input, Row } from 'antd';
+import { login, setAuthorizationToken } from '../../redux/auth/actions';
+import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.section`
     min-height: 100vh;
@@ -68,9 +71,16 @@ const Card = styled.div`
     }
 `;
 
-function Login() {
+function Login({ login }) {
+    let navigate = useNavigate();
 
     const onFinish = (values) => {
+        login(values).then((response) => {
+            const token = response.value.data.access_token;
+            localStorage.setItem("token", token);
+            setAuthorizationToken(token);
+            navigate("/painel")
+        });
         console.log('Received values of form: ', values);
     };
 
@@ -93,7 +103,7 @@ function Login() {
                         onFinish={onFinish}
                     >
                         <Form.Item
-                            name="username"
+                            name="email"
                             rules={[
                                 {
                                     required: true,
@@ -134,4 +144,9 @@ function Login() {
     )
 }
 
-export default Login
+const mapDispatchToProps = (dispatch) => {
+    return {
+        login: (data) => dispatch(login(data)),
+    };
+};
+export default connect(null, mapDispatchToProps)(Login)

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProjectResource;
+use App\Http\Resources\ProjectSelectorResource;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,17 @@ class ProjectController extends Controller
     {
         return ProjectResource::collection(Project::all());
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function selector()
+    {
+        return ProjectSelectorResource::collection(Project::with('drones')->get());
+    }
+
 
     /**
      * Store a newly created resource in storage.
