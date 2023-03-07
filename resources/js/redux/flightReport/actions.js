@@ -42,3 +42,25 @@ export const setCurrentFlightReport = (data) => ({
     type: types.SET_CURRENT_FLIGHT_REPORT,
     payload: data,
 });
+
+export const exportFlightReport = (id, filename) => ({
+    type: types.EXPORT_FLIGHT_REPORT,
+    payload: axios({
+        url: `${window.location.origin}/api/generate-docx/${id}`,
+        method: "GET",
+        responseType: "blob",
+    }).then(
+        response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", filename + ".docx");
+            document.body.appendChild(link);
+            link.click();
+        },
+        error => {
+            return error.data;
+        }
+    ),
+    meta: { globalError: true }
+});

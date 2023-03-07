@@ -1,22 +1,18 @@
 import { Col, Drawer, Row } from 'antd'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchFlightReport, setCurrentFlightReport } from '../../../../redux/flightReport/actions';
+import { exportFlightReport, fetchFlightReport, setCurrentFlightReport } from '../../../../redux/flightReport/actions';
 import styled from "styled-components";
 import MapPicker from 'react-google-map-picker'
-import { SecundaryButton } from '../../../globalStyles';
+import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 import { Link } from 'react-router-dom';
 
-const Title = styled.section`
+const ButtonContainer = styled.section`
     display: flex;
-    width: 100%;
-    justify-content: space-between;
+    margin: 20px 0px;
+    gap: 15px;
+    justify-content: flex-end;
     align-items: center;
-
-    h2 {
-        font-size: clamp(20px, 4vw, 28px);
-    }
-
 `;
 
 export const FlightReportDrawerContainer = (props) => {
@@ -127,11 +123,16 @@ export const FlightReportDrawerContainer = (props) => {
             </>
             }
 
-            <Link to="/painel/relatorios/create?edit">
-                <SecundaryButton>
-                    Atualizar
-                </SecundaryButton>
-            </Link>
+            <ButtonContainer>
+                <Link to="/painel/relatorios/create?edit">
+                    <SecundaryButton>
+                        Atualizar
+                    </SecundaryButton>
+                </Link>
+                <PrimaryButton onClick={() => props.exportFlightReport(current.id, current.serial_number)}>
+                    Descarregar
+                </PrimaryButton>
+            </ButtonContainer>
         </Drawer>
     )
 }
@@ -146,6 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchFlightReport: (id) => dispatch(fetchFlightReport(id)),
+        exportFlightReport: (id, filename) => dispatch(exportFlightReport(id, filename)),
         setCurrentFlightReport: (record) => dispatch(setCurrentFlightReport(record)),
     };
 };

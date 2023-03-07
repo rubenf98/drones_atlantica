@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CrashReportController;
 use App\Http\Controllers\DroneController;
 use App\Http\Controllers\DroneTypeController;
+use App\Http\Controllers\ExportFlightReport;
 use App\Http\Controllers\FetchCrashReportGraph;
 use App\Http\Controllers\FetchFlightReportGraph;
 use App\Http\Controllers\FlightReportController;
@@ -29,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('generate-docx/{flightReport}', ExportFlightReport::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');

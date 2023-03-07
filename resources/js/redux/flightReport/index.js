@@ -7,6 +7,7 @@ export const initialState = {
     loading: false,
     dataGraph: [],
     loadingGraph: false,
+    loadingExport: false
 }
 
 export default (state = initialState, action = {}) => {
@@ -122,6 +123,19 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 current: action.payload,
+            };
+
+        case `${types.EXPORT_FLIGHT_REPORT}_PENDING`:
+            return {
+                ...state,
+                loadingExport: true
+            };
+
+        case `${types.EXPORT_FLIGHT_REPORT}_REJECTED`:
+        case `${types.EXPORT_FLIGHT_REPORT}_FULFILLED`:
+            return {
+                ...state,
+                loadingExport: false
             };
 
         default:
