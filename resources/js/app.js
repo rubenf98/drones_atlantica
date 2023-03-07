@@ -8,7 +8,7 @@ import promise from 'redux-promise-middleware'
 import { Provider } from 'react-redux'
 import jwtDecode from "jwt-decode";
 
-import { loginSuccess, refreshAuthorizationToken, setAuthorizationToken } from './redux/auth/actions';
+import { loginSuccess, me, refreshAuthorizationToken, setAuthorizationToken } from './redux/auth/actions';
 const container = document.getElementById('index');
 const root = createRoot(container);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -22,9 +22,6 @@ const store = createStore(
         )
     )
 )
-if (!localStorage.language) {
-    localStorage.setItem("language", "en")
-}
 
 if (localStorage.token) {
     const token = jwtDecode(localStorage.token);
@@ -35,6 +32,8 @@ if (localStorage.token) {
     } else {
         store.dispatch(loginSuccess());
         setAuthorizationToken(localStorage.token);
+        store.dispatch(me());
+
     }
 }
 

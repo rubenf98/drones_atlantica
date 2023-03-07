@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ManufacturerRequest;
 use App\Http\Resources\ManufacturerResource;
 use App\Models\Manufacturer;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ManufacturerController extends Controller
     public function index(Request $request)
     {
         $paginate = 10;
-        
+
         if ($request->has('selectorMode')) {
             $paginate = 10000;
         }
@@ -30,9 +31,13 @@ class ManufacturerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ManufacturerRequest $request)
     {
-        //
+        $validator = $request->validated();
+
+        $record = Manufacturer::create($validator);
+
+        return new ManufacturerResource($record);
     }
 
     /**

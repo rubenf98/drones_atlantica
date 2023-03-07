@@ -65,15 +65,6 @@ class FlightReportController extends Controller
 
         $record = FlightReport::store($validator);
 
-        // if ($validator['image']) {
-        //     $imageName = time() . '_' . $record->id . '.' . $validator['image']->extension();
-
-        //     $validator['image']->move(public_path('images/drones'), $imageName);
-        //     $record->image = $imageName;
-        //     $record->save();
-        // }
-
-
         return new FlightReportResource($record);
     }
 
@@ -95,9 +86,35 @@ class FlightReportController extends Controller
      * @param  \App\Models\FlightReport  $flightReport
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, FlightReport $flightReport)
+    public function update(FlightReportRequest $request, FlightReport $flightReport)
     {
-        //
+        $validator = $request->validated();
+
+        $condition = $flightReport->condition;
+        $condition->edit($validator);
+
+        $nearby = $flightReport->nearby;
+        $nearby->edit($validator);
+
+        $validator['condition_id'] = $condition->id;
+        $validator['nearby_id'] = $nearby->id;
+
+        if (!Arr::get($validator, "operator_id")) {
+            $operator = Operator::store($validator);
+            $validator['operator_id'] = $operator->id;
+        }
+
+        if (!Arr::get($validator, "start_localization_id")) {
+            $start_localization = Localization::store($validator, "start");
+            $validator['start_localization_id'] = $start_localization->id;
+        }
+
+        if (Arr::get($validator, "reuseStartLocalization")) {
+            $validator['end_localization_id'] = $validator['start_localization_id'];
+        }
+
+        $flightReport->update($flightReport->generateDataArray($validator));
+        return new FlightReportResource($flightReport);
     }
 
     /**

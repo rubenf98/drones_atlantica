@@ -52,7 +52,7 @@ class DroneController extends Controller
      */
     public function show(Drone $drone)
     {
-        //
+        return new DroneResource($drone);
     }
 
     /**

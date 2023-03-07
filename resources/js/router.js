@@ -14,6 +14,9 @@ import DroneForm from "./components/pages/dashboard/drone/DroneForm";
 import FlightReportForm from "./components/pages/dashboard/flightReport/FlightReportForm";
 import CrashReportForm from "./components/pages/dashboard/crashReport/CrashReportForm";
 import Members from "./components/pages/dashboard/Members";
+import OperatorForm from "./components/pages/dashboard/operator/OperatorForm";
+import ManufacturerForm from "./components/pages/dashboard/manufacturer/ManufacturerForm";
+import UserForm from "./components/pages/dashboard/users/UserForm";
 
 export const history = createBrowserHistory();
 
@@ -22,6 +25,9 @@ function Router() {
         <BrowserRouter history={history}>
 
             <Routes>
+                <Route exact path="/painel/users/create" element={<Layout><UserForm /></Layout>} />
+                <Route exact path="/painel/fabricantes/create" element={<Layout><ManufacturerForm /></Layout>} />
+                <Route exact path="/painel/operador/create" element={<Layout><OperatorForm /></Layout>} />
                 <Route exact path="/painel/drones/create" element={<Layout><DroneForm /></Layout>} />
                 <Route exact path="/painel/relatorios/create" element={<Layout><FlightReportForm /></Layout>} />
                 <Route exact path="/painel/acidentes/create" element={<Layout><CrashReportForm /></Layout>} />

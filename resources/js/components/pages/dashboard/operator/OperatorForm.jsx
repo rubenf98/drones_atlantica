@@ -1,84 +1,96 @@
-import { Col, Form, Input, Row } from 'antd'
-import React from 'react'
+import { Form, Breadcrumb, Alert } from 'antd'
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import OperatorFormTemplate from './OperatorFormTemplate';
 
+import { createOperator } from '../../../../redux/operator/actions';
+import { PrimaryButton } from '../../../globalStyles';
 
 const rules = {
-    name: [{
+    serial_number: [{
         required: true,
-        message: 'O nome do operador é obrigatório!',
+        message: 'Número de série é obrigatório!',
     }],
-    email: [{
+    date: [{
         required: true,
-        message: 'O email do operador é obrigatório!',
-    }, {
-        type: "email",
-        message: 'O email fornecido não é válido!',
+        message: 'A data é obrigatória!',
+    }],
+    drone: [{
+        required: true,
+        message: 'O drone é obrigatório!',
+    }],
+    flight_duration: [{
+        required: true,
+        message: 'A duração do voo é obrigatória!',
     }],
 };
 
-function OperatorForm() {
+function FlightReportForm(props) {
+    const [form] = Form.useForm();
+    const [errors, setErrors] = useState([])
+    var navigate = useNavigate();
+
+    const onFinish = (values) => {
+
+        props.createOperator(values).then((response) => {
+            navigate('/painel/membros');
+        }).catch((err) => {
+            var response = err.response.data.errors;
+            var aErrors = [];
+            Object.values(response).map((item) => {
+                aErrors.push(item);
+            })
+            setErrors(aErrors);
+        });
+    }
+
+    const onFinishFailed = (values) => {
+        console.log("error: " + values);
+    }
 
     return (
-        <>
-            <h2>Dados do operador</h2>
-            <Row gutter={16}>
+        <div>
+            <Breadcrumb>
+                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                    <Link to="/painel/membros">Membros</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
+            </Breadcrumb>
 
-                <Col xs={24} md={12}>
-                    <Form.Item name="operator_name" label="Nome do operador" rules={rules.name}>
-                        <Input placeholder='Nome do operador' />
-                    </Form.Item>
-                </Col>
+            <Form
+                form={form}
+                name="flight_report"
+                layout="vertical"
+                requiredMark
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+            >
+                {
+                    errors.length ? <Alert
+                        message="Criação do operador falhou"
+                        description={errors.map((error, index) => (
+                            <p key={index}>{error}</p>
+                        ))}
+                        style={{ margin: "20px 0px" }}
+                        type="error"
+                        closable
+                    /> : <></>
+                }
+                <OperatorFormTemplate />
 
-                <Col xs={24} md={12}>
-                    <Form.Item name="operator_address" label="Morada">
-                        <Input placeholder='Morada' />
-                    </Form.Item>
-                </Col>
-
-                <Col xs={24} md={6}>
-                    <Form.Item name="operator_title" label="Título do operador">
-                        <Input placeholder='Título do operador' />
-                    </Form.Item>
-                </Col>
-
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_door_number" label="Número da Porta">
-                        <Input placeholder='Número da Porta' />
-                    </Form.Item>
-                </Col>
-
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_postal_code" label="Código postal">
-                        <Input placeholder='Código postal' />
-                    </Form.Item>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_locality" label="Localidade">
-                        <Input placeholder='Localidade' />
-                    </Form.Item>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_country" label="País de registo do proprietário">
-                        <Input placeholder='País de registo do proprietário' />
-                    </Form.Item>
-                </Col>
-
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_email" label="Email" rules={rules.email}>
-                        <Input placeholder='Email do operador' />
-                    </Form.Item>
-                </Col>
-                <Col xs={12} md={6}>
-                    <Form.Item name="operator_phone" label="Número de telefone">
-                        <Input placeholder='Número de telefone' />
-                    </Form.Item>
-                </Col>
-
-            </Row>
-        </>
-
-
+                <PrimaryButton>
+                    Submeter
+                </PrimaryButton>
+            </Form >
+        </div >
     )
 }
 
-export default OperatorForm
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createOperator: (data) => dispatch(createOperator(data)),
+    };
+};
+export default connect(null, mapDispatchToProps)(FlightReportForm)

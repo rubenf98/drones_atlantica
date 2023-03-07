@@ -29,4 +29,9 @@ class Condition extends Model
     {
         return self::create(self::generateDataArray($validator));
     }
+
+    public function edit($validator)
+    {
+        return $this->update(self::generateDataArray($validator));
+    }
 }

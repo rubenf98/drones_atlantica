@@ -11,33 +11,35 @@ const Container = styled.section`
     }
 `;
 
-const columns = [
-    {
-        title: 'Data',
-        dataIndex: 'date',
-    },
-    {
-        title: 'Relatório',
-        dataIndex: 'flight_report',
-        render: (record) => record.serial_number,
-    },
-    {
-        title: 'Drone',
-        dataIndex: 'flight_report',
-        render: (record) => record.drone?.project?.name + " # " + record.drone?.serial_number,
-    },
-    {
-        title: 'Danos',
-        dataIndex: 'damage',
-    },
-    {
-        title: '',
-        dataIndex: '',
-        render: (text, row) => <a>ver detalhes</a>,
-    },
-];
 
-function CrashReportTableContainer({ data, loading, meta, handlePageChange }) {
+
+function CrashReportTableContainer({ data, loading, meta, handleRowClick, handlePageChange }) {
+
+    const columns = [
+        {
+            title: 'Data',
+            dataIndex: 'date',
+        },
+        {
+            title: 'Relatório',
+            dataIndex: 'flightReport',
+            render: (record) => record?.serial_number,
+        },
+        {
+            title: 'Drone',
+            dataIndex: 'flightReport',
+            render: (record) => record?.drone?.project?.name + " # " + record?.drone?.serial_number,
+        },
+        {
+            title: 'Danos',
+            dataIndex: 'damage',
+        },
+        {
+            title: '',
+            dataIndex: '',
+            render: (text, row) => <a onClick={() => handleRowClick(row.id)}>ver detalhes</a>,
+        },
+    ];
     return (
         <Container>
             <h2>Últimos relatórios</h2>

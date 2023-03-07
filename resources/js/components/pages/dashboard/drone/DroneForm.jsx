@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { createDrone } from '../../../../redux/drone/actions';
 import { PrimaryButton } from '../../../globalStyles';
 import DroneTypeRemoteSelectContainer from '../droneType/DroneTypeRemoteSelectContainer';
-import ManufacturerForm from '../manufacturer/ManufacturerForm';
+import ManufacturerFormTemplate from '../manufacturer/ManufacturerFormTemplate';
 import ManufacturerRemoteSelectContainer from '../manufacturer/ManufacturerRemoteSelectContainer';
 import ProjectRemoteSelectContainer from '../project/ProjectRemoteSelectContainer';
 
@@ -230,7 +230,7 @@ function DroneForm({ createDrone }) {
                         hasNewManufacturer &&
                         <Row>
                             <h2>Dados do proprietário</h2>
-                            <ManufacturerForm />
+                            <ManufacturerFormTemplate />
                         </Row>
                     }
 

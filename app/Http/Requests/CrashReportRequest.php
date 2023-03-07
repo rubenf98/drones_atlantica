@@ -40,10 +40,9 @@ class CrashReportRequest extends FormRequest
             'damage' => 'nullable|string',
             'analysis' => 'nullable|string',
             'corrections' => 'nullable|string',
-            'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg',
-            'latitude' => 'required|string',
-            'longitude' => 'required|string',
+            'images_*' => 'nullable|image|mimes:jpg,jpeg',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ];
     }
 

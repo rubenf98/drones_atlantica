@@ -23,12 +23,13 @@ class FlightReportRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        // $out = new ConsoleOutput();
+        $out = new ConsoleOutput();
 
-        $ids = explode(",", $this->drone_id);
-        // $out->writeln('R-19' . $date->format('Y'));
+        // $ids = explode(",", $this->drone_id);
+        $out->writeln($this->drone_id);
         $this->merge([
-            'drone_id' => $ids[1],
+            'drone_id' => $this->drone_id[1],
+            'operator_id' => $this->operator_id != "undefined" ? $this->operator_id : null,
             'user_id' => Auth::user()->id,
             'date' => Carbon::parse($this->date),
             'nearby_vehicles' => $this->nearby_vehicles ? $this->nearby_vehicles : null,
@@ -104,7 +105,7 @@ class FlightReportRequest extends FormRequest
             'payload' => 'nullable|string',
             'client' => 'nullable|string',
             'connected_devices' => 'nullable|string',
-            'visibility' => 'required|string',
+            'visibility' => 'nullable|string',
 
             'nearby_vehicles' => 'nullable|string',
             'nearby_aircrafts' => 'nullable|string',

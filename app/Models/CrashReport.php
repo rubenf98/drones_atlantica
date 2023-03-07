@@ -14,4 +14,9 @@ class CrashReport extends Model
     {
         return $this->belongsTo(FlightReport::class)->with('drone.project');
     }
+
+    public function media()
+    {
+        return $this->hasMany(CrashMedia::class);
+    }
 }

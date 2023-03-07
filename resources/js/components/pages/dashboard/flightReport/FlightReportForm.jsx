@@ -1,14 +1,13 @@
 import { Checkbox, Col, Form, Input, InputNumber, Row, Breadcrumb, Alert, DatePicker } from 'antd'
-import Dragger from 'antd/es/upload/Dragger';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from "styled-components";
-import { createFlightReport } from '../../../../redux/flightReport/actions';
+import { createFlightReport, updateFlightReport } from '../../../../redux/flightReport/actions';
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
-
+import moment from 'moment';
 import LocalizationRemoteSelectContainer from '../localization/LocalizationRemoteSelectContainer';
-import OperatorForm from '../operator/OperatorForm';
+import OperatorFormTemplate from '../operator/OperatorFormTemplate';
 import ProjectRemoteCascadeContainer from '../project/ProjectRemoteCascadeContainer';
 
 import LocalizationForm from '../localization/LocalizationForm';
@@ -19,10 +18,6 @@ const Decimal = styled(InputNumber)`
     width: 100%;
 `;
 
-const UploadImage = styled.img`
-    width: 60px;
-    height: auto;
-`;
 
 const rules = {
     serial_number: [{
@@ -32,6 +27,10 @@ const rules = {
     date: [{
         required: true,
         message: 'A data é obrigatória!',
+    }],
+    operator: [{
+        required: true,
+        message: 'O operadot é obrigatório!',
     }],
     drone: [{
         required: true,
@@ -84,41 +83,114 @@ const rules = {
     }],
 };
 
-function FlightReportForm({ createFlightReport }) {
+function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
     const [form] = Form.useForm();
     const [hasNewOperator, setHasNewOperator] = useState(false)
     const [errors, setErrors] = useState([])
+    const [editMode, setEditMode] = useState(false);
     const [startLocalizationCreateMode, setStartLocalizationCreateMode] = useState(false)
     const [endLocalizationCreateMode, setEndLocalizationCreateMode] = useState(false)
     const [reuseStartLocalization, setReuseStartLocalization] = useState(true)
     const [redirect, setRedirect] = useState('/painel/relatorios')
     const [nearby, setNearby] = useState({ people: false, animals: false, vehicles: false, aircraft: false });
     var navigate = useNavigate();
+    const [searchParams, _] = useSearchParams();
 
-    const onFinish = (values) => {
-        var formData = new FormData();
+    useEffect(() => {
+        var hasEdit = searchParams.get("edit");
+        if (hasEdit != null && current.id) {
+            setReuseStartLocalization(false);
 
-        for (var key in values) {
-            formData.append(key, values[key]);
+            setNearby({
+                people: current.nearby.people != null && true,
+                animals: current.nearby.animals != null && true,
+                vehicles: current.nearby.vehicles != null && true,
+                aircraft: current.nearby.aircrafts != null && true
+            });
+
+            form.setFieldsValue({
+                date: moment(current.date, 'DD-MM-YYYY HH:mm'),
+                drone_id: [2, 6],
+                operator_id: current?.operator?.id,
+                flight_duration: current.flight_duration,
+                max_distance: current.max_distance,
+                max_altitude: current.max_altitude,
+                client: current?.client?.id,
+                description: current.description,
+                objective: current.objective,
+                plan: current.plan,
+                start_localization_id: current.startLocalization.id,
+                end_localization_id: current.endLocalization.id,
+
+                pre_verification: current.pre_verification,
+                during_verification: current.during_verification,
+                post_verification: current.post_verification,
+                condition_weather: current.condition.weather,
+                condition_safety: current.condition.safety,
+                condition_transmission: current.condition.transmission,
+                payload: current.payload,
+
+                connection_type: current.connection_type,
+                transmission_power: current.transmission_power,
+                visibility: current.visibility,
+                connected_devices: current.connected_devices,
+
+                nearby_people: current.nearby.people,
+                nearby_animals: current.nearby.animals,
+                nearby_vehicles: current.nearby.vehicles,
+                nearby_aircrafts: current.nearby.aircrafts,
+
+                pix4d: current.pix4d
+            })
+
+            setEditMode(true);
         }
 
-        formData.append('reuseStartLocalization', reuseStartLocalization);
+    }, [])
 
-        createFlightReport(formData).then((response) => {
-            navigate(redirect);
-        }).catch((err) => {
-            var response = err.response.data.errors;
-            var aErrors = [];
-            Object.values(response).map((item) => {
-                aErrors.push(item);
-            })
-            setErrors(aErrors);
-        });
+
+    const onFinish = (values) => {
+        console.log(values);
+        // var formData = new FormData();
+
+        // for (var key in values) {
+        //     if (values[key]) {
+        //         formData.append(key, values[key]);
+        //     }
+
+        // }
+
+        // formData.append('reuseStartLocalization', reuseStartLocalization);
+
+        if (editMode) {
+            updateFlightReport(current.id, { ...values, reuseStartLocalization: reuseStartLocalization }).then(() => {
+                navigate(redirect);
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        } else {
+            createFlightReport({ ...values, reuseStartLocalization: reuseStartLocalization }).then((response) => {
+                navigate(redirect);
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        }
 
 
     }
 
     const onFinishFailed = (values) => {
+        console.log(form.getFieldsValue());
         console.log("error: " + values);
     }
 
@@ -131,6 +203,11 @@ function FlightReportForm({ createFlightReport }) {
         setHasNewOperator(true);
     }
 
+    const handleOperatorChange = (e) => {
+        form.setFieldValue('operator_id', e);
+        setHasNewOperator(false);
+    }
+    console.log(form.getFieldsValue('drone_id'))
     return (
         <div>
             <Breadcrumb>
@@ -170,20 +247,21 @@ function FlightReportForm({ createFlightReport }) {
                     </Col>
                     <Col xs={24} md={8}>
                         <Form.Item name="drone_id" label="Drone" rules={rules.drone}>
-                            <ProjectRemoteCascadeContainer />
+                            <ProjectRemoteCascadeContainer onChange={(e) => console.log(e)} />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={8}>
                         <Form.Item name="operator_id" label="* Operador">
-                            <OperatorRemoteSelectContainer setHasNewOperator={setHasNewOperator} handleOperatorSelection={handleOperatorSelection} />
+                            <OperatorRemoteSelectContainer value={form.getFieldsValue('drone_id')} handleChange={handleOperatorChange} handleOperatorSelection={handleOperatorSelection} />
                         </Form.Item>
                     </Col>
+
+
                     <Col xs={24} md={6}>
                         <Form.Item name="flight_duration" label="Duração do voo" rules={rules.flight_duration}>
                             <Decimal placeholder="Duração do voo" />
                         </Form.Item>
                     </Col>
-
                     <Col xs={12} md={6}>
                         <Form.Item label="Distância máxima (em metros)" name="max_distance" rules={rules.max_distance}>
                             <Decimal placeholder='Distância máxima' />
@@ -194,15 +272,15 @@ function FlightReportForm({ createFlightReport }) {
                             <Decimal placeholder='Altura máxima' />
                         </Form.Item>
                     </Col>
-
                     <Col xs={12} md={6}>
                         <Form.Item label="Cliente" name="client">
                             <Input placeholder='Cliente' />
                         </Form.Item>
                     </Col>
 
+
                     {hasNewOperator &&
-                        <OperatorForm />
+                        <OperatorFormTemplate />
                     }
                 </Row>
 
@@ -328,16 +406,16 @@ function FlightReportForm({ createFlightReport }) {
 
 
                     <Col xs={12} md={6}>
-                        <Checkbox onChange={(e) => setNearby({ ...nearby, people: e.target.checked })}>Pessoas nas proximidades?</Checkbox>
+                        <Checkbox checked={nearby.people} onChange={(e) => setNearby({ ...nearby, people: e.target.checked })}>Pessoas nas proximidades?</Checkbox>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Checkbox onChange={(e) => setNearby({ ...nearby, animals: e.target.checked })}>Animais nas proximidades?</Checkbox>
+                        <Checkbox checked={nearby.animals} onChange={(e) => setNearby({ ...nearby, animals: e.target.checked })}>Animais nas proximidades?</Checkbox>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Checkbox onChange={(e) => setNearby({ ...nearby, vehicles: e.target.checked })}>Veículos próximos?</Checkbox>
+                        <Checkbox checked={nearby.vehicles} onChange={(e) => setNearby({ ...nearby, vehicles: e.target.checked })}>Veículos próximos?</Checkbox>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Checkbox onChange={(e) => setNearby({ ...nearby, aircraft: e.target.checked })}>Aeronaves nas proximidades?</Checkbox>
+                        <Checkbox checked={nearby.aircraft} onChange={(e) => setNearby({ ...nearby, aircraft: e.target.checked })}>Aeronaves nas proximidades?</Checkbox>
                     </Col>
 
 
@@ -392,9 +470,12 @@ function FlightReportForm({ createFlightReport }) {
                 </Row>
 
                 <Row type="flex" style={{ gap: "10px", marginTop: "30px" }}>
-                    <SecundaryButton onClick={() => setRedirect('/painel/acidentes/create')}>
-                        Adicionar registo de acidente
-                    </SecundaryButton>
+                    {!editMode &&
+                        <SecundaryButton onClick={() => setRedirect('/painel/acidentes/create')}>
+                            Adicionar registo de acidente
+                        </SecundaryButton>
+                    }
+
 
                     <PrimaryButton>
                         Submeter
@@ -410,6 +491,15 @@ function FlightReportForm({ createFlightReport }) {
 const mapDispatchToProps = (dispatch) => {
     return {
         createFlightReport: (data) => dispatch(createFlightReport(data)),
+        updateFlightReport: (id, data) => dispatch(updateFlightReport(id, data)),
     };
 };
-export default connect(null, mapDispatchToProps)(FlightReportForm)
+
+const mapStateToProps = (state) => {
+    return {
+        loading: state.flightReport.loading,
+        current: state.flightReport.current,
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlightReportForm)

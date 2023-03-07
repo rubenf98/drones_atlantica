@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import { PrimaryButton } from '../../../globalStyles';
 import CrashReportGraphContainer from './CrashReportGraphContainer'
 import CrashReportTableContainer from './CrashReportTableContainer';
 import { fetchCrashReportGraph, fetchCrashReports } from '../../../../redux/crashReport/actions';
+import CrashReportDrawerContainer from './CrashReportDrawerContainer';
 
 const Title = styled.section`
     display: flex;
@@ -20,6 +21,7 @@ const Title = styled.section`
 `;
 
 function CrashReport({ fetchCrashReports, fetchCrashReportGraph }) {
+    const [currentID, setCurrentID] = useState(undefined)
 
     useEffect(() => {
         fetchCrashReports();
@@ -37,9 +39,15 @@ function CrashReport({ fetchCrashReports, fetchCrashReportGraph }) {
                 <Link to="/painel/acidentes/create"><PrimaryButton>Registar acidente</PrimaryButton></Link>
             </Title>
 
+            <CrashReportDrawerContainer
+                visible={currentID != undefined}
+                id={currentID}
+                handleClose={() => setCurrentID(undefined)}
+            />
+
             <CrashReportGraphContainer />
 
-            <CrashReportTableContainer handlePageChange={handlePageChange} />
+            <CrashReportTableContainer handleRowClick={(val) => setCurrentID(val)} handlePageChange={handlePageChange} />
         </div>
     )
 }

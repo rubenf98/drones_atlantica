@@ -14,6 +14,17 @@ class CrashReportResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'date' => $this->date,
+            'damage' => $this->damage,
+            'analysis' => $this->analysis,
+            'corrections' => $this->corrections,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'media' => $this->media,
+            'flightReport' => $this->flightReport,
+            'drone' => $this->flightReport->drone,
+        ];
     }
 }

@@ -6,9 +6,10 @@ import CrashReportMapPicker from './CrashReportMapPicker';
 import styled from "styled-components";
 import FlightReportRemoteSelectContainer from '../flightReport/FlightReportRemoteSelectContainer';
 import { PrimaryButton } from '../../../globalStyles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { createCrashReport } from '../../../../redux/crashReport/actions';
 import { connect } from 'react-redux';
+import Error from '../../../common/Error';
 
 const UploadImage = styled.img`
     width: 60px;
@@ -19,6 +20,7 @@ function CrashReportForm({ createCrashReport }) {
     const [form] = Form.useForm();
     const [files, setFiles] = useState([]);
     const [errors, setErrors] = useState([]);
+    var navigate = useNavigate();
 
     const handleArrayToFormData = (formData, array, field) => {
         for (var i = 0; i < array.length; i++) {
@@ -28,17 +30,20 @@ function CrashReportForm({ createCrashReport }) {
         return formData;
     };
 
+
     const onFinish = (values) => {
 
         var formData = new FormData();
 
         for (var key in values) {
-            formData.append(key, values[key]);
-        }
-        for (const image of files) {
-            formData.append("images[]", image);
-        }
+            if (values[key]) {
+                formData.append(key, values[key]);
+            }
 
+        }
+        files.map((file, index) => {
+            formData.append("image_" + index, file);
+        })
 
         createCrashReport(formData).then((response) => {
             navigate('/painel/acidentes');
@@ -73,19 +78,13 @@ function CrashReportForm({ createCrashReport }) {
                 requiredMark
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                initialValues={{
-                    latitude: "32.6",
-                    longitude: "-16.8"
-                }}
             >
+                <Error message="Criação do registo falhou" errors={errors} />
                 <h2>Registo de acidente</h2>
                 <Row gutter={16}>
-                    <Form.Item name="latitude" label="Data e hora">
-                        <Input format="DD-MM-YYYY HH:mm" style={{ width: "100%" }} showTime placeholder='DD-MM-YYYY HH:mm' />
-                    </Form.Item>
-                    <Form.Item name="longitude" label="Data e hora">
-                        <Input format="DD-MM-YYYY HH:mm" style={{ width: "100%" }} showTime placeholder='DD-MM-YYYY HH:mm' />
-                    </Form.Item>
+                    <Form.Item name="latitude" />
+                    <Form.Item name="longitude" />
+                    <Form.Item name="images" />
                     <Col xs={24} md={12}>
                         <Form.Item name="date" label="Data e hora">
                             <DatePicker format="DD-MM-YYYY HH:mm" style={{ width: "100%" }} showTime placeholder='DD-MM-YYYY HH:mm' />
@@ -119,14 +118,15 @@ function CrashReportForm({ createCrashReport }) {
                     </Col>
 
                     <Col span={12}>
+
                         <Dragger
                             name='file'
-                            accept='.jpg,.jpeg'
+                            accept=".jpg, .png, .jpeg"
                             onRemove={() => {
                                 setFiles([]);
                             }}
                             multiple
-                            showUploadList={false}
+                            showUploadList
                             onChange={(info) => {
                                 // const { status } = info.file;
                                 // if (status !== 'uploading') {
@@ -138,12 +138,11 @@ function CrashReportForm({ createCrashReport }) {
                                 //     console.log(`${info.file.name} file upload failed.`);
                                 // }
                             }}
-                            beforeUpload={(file, files) => {
-                                if (file == files[0]) {
-                                    setFiles(files);
-                                    console.log(files);
-                                }
+                            beforeUpload={(_, fileList) => {
+                                console.log(fileList);
+                                var aFiles = [...files, ...fileList];
 
+                                setFiles(aFiles);
 
                                 return false;
                             }}

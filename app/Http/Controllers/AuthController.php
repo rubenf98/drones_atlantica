@@ -54,7 +54,7 @@ class AuthController extends Controller
      */
     public function me()
     {
-        return response()->json(auth()->user());
+        return $this->respondWithToken(Auth::user());
     }
 
     /**
@@ -91,6 +91,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
+            'user' => Auth::user(),
         ]);
     }
 }

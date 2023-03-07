@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
+import PrivateRoute from "../../common/PrivateRoute";
 import ScrollToTop from "../../common/ScrollToTop"
 import ThemeContainer from "../../ThemeContainer";
 import Navbar from "./Navbar";
@@ -94,35 +96,45 @@ const Content = styled.section`
 `;
 
 
-function Layout({ children }) {
+function Layout({ children, loading, currentUser }) {
     return (
         <ThemeContainer>
+
             <ScrollToTop>
-                <Container>
-                    <Sidemenu>
-                        <Separator />
-                        <h1>Drones <span>Atlântica</span></h1>
+                <PrivateRoute>
+                    <Container>
+                        <Sidemenu>
+                            <Separator />
+                            <h1>Drones <span>Atlântica</span></h1>
 
-                        <Profile>
-                            <img src="/images/users/profile.png" alt="" />
-                            <h2>Victor Azevedo</h2>
-                            <p>victor.azevedo@arditi.pt</p>
-                        </Profile>
+                            <Profile>
+                                <img src={currentUser.image} alt={currentUser.name} />
+                                <h2>{currentUser.name}</h2>
+                                <p>{currentUser.email}</p>
+                            </Profile>
 
-                        <Navbar />
+                            <Navbar />
 
-                        <Logout >
-                            <img src="/images/icons/exit.svg" />
-                            Sair
-                        </Logout>
-                    </Sidemenu>
-                    <Content>
-                        {children}
-                    </Content>
-                </Container>
+                            <Logout >
+                                <img src="/images/icons/exit.svg" />
+                                Sair
+                            </Logout>
+                        </Sidemenu>
+                        <Content>
+                            {children}
+                        </Content>
+                    </Container>
+                </PrivateRoute>
             </ScrollToTop>
         </ThemeContainer>
     )
 }
 
-export default Layout
+const mapStateToProps = (state) => {
+    return {
+        loading: state.auth.loading,
+        currentUser: state.auth.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, null)(Layout);

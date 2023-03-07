@@ -41,7 +41,11 @@ export default (state = initialState, action = {}) => {
                 isAuthenticated: true,
             };
 
-
+        case `${types.LOGIN_SUCCESS}`:
+            return {
+                ...state,
+                isAuthenticated: true,
+            };
 
         case `${types.ME}_FULFILLED`:
         case `${types.LOGIN}_FULFILLED`:
@@ -49,6 +53,7 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
+                currentUser: action.payload.data.user
             };
         default:
             return state

@@ -23,7 +23,7 @@ const Divider = styled.div`
     margin: 20px 0px 10px 0px;
 `;
 
-function DroneTypeRemoteSelectContainer({ fetchOperators, data, loading, value, setHasNewOperator, handleOperatorSelection }) {
+function OperatorRemoteSelectContainer({ handleChange, fetchOperators, data, loading, value, handleOperatorSelection }) {
     useEffect(() => {
         fetchOperators()
     }, [])
@@ -31,7 +31,7 @@ function DroneTypeRemoteSelectContainer({ fetchOperators, data, loading, value, 
     return (
         <Select
             value={value}
-            onChange={() => { setHasNewOperator(false) }}
+            onChange={handleChange}
             loading={loading}
             showSearch
             placeholder="Nome do operador"
@@ -73,4 +73,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(DroneTypeRemoteSelectContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OperatorRemoteSelectContainer);

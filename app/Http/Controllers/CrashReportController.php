@@ -8,6 +8,7 @@ use App\Models\CrashMedia;
 use App\Models\CrashReport;
 use Illuminate\Http\Request;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Intervention\Image\Facades\Image;
 
 class CrashReportController extends Controller
 {
@@ -32,18 +33,28 @@ class CrashReportController extends Controller
         $validator = $request->validated();
 
         $record = CrashReport::create($validator);
+        $images = [];
+        $inputs = $request->all();
+        $out = new ConsoleOutput();
 
-        if ($validator['images']) {
+        foreach ($inputs as $key => $value) {
+            $out->writeln($key);
+            if (str_contains($key, "image_")) {
+                array_push($images, $value);
+            }
+        }
+
+        if (count($images)) {
             $imageName = time() . '_' . $record->id;
-            foreach ($validator['images'] as $image) {
-                $out = new ConsoleOutput();
-                $out->writeln($image);
-                $imageName = $imageName . '_CR.' . $image->extension();
-                // move_uploaded_file($image, public_path('images/crash_reports' . $imageName));
-                // $image->move(public_path('images/crash_reports'), $imageName);
-                $out->writeln($image->extension());
+
+            foreach ($images as $index => $image) {
+                Image::make($image)->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save(public_path('images/crash_reports/' . $index . "_" . $imageName . "." . $image->extension()));
+
                 CrashMedia::create([
-                    'path' =>  $imageName,
+                    'path' =>  $index . "_"  . $imageName,
                     'crash_report_id' => $record->id,
                     'file_type' => $image->extension(),
                 ]);

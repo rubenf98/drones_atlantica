@@ -21,42 +21,45 @@ const Avatar = styled.img`
     border-radius: 50px;
 `;
 
-const columns = [
-    {
-        title: '',
-        dataIndex: 'image',
-        render: (record) => <Avatar src={"/images/drones/" + record} />
-    },
-    {
-        title: 'Nº de registo',
-        dataIndex: 'serial_number',
-    },
-    {
-        title: 'Tipologia',
-        dataIndex: 'drone_type',
-        render: (record) => record.name
-    },
-    {
-        title: 'Proprietário',
-        dataIndex: 'manufacturer',
-        render: (record) => record.name
-    },
-    {
-        title: 'Relatórios de voo',
-        dataIndex: 'n_flight_reports',
-    },
-    {
-        title: 'Ocorrências de acidentes',
-        dataIndex: 'n_crash_reports',
-    },
-    {
-        title: '',
-        dataIndex: '',
-        render: (text, row) => <a>ver detalhes</a>,
-    },
-];
 
-function DroneTableContainer({ data, loading, meta, handlePageChange }) {
+
+function DroneTableContainer({ data, loading, meta, handleRowClick, handlePageChange }) {
+
+    const columns = [
+        {
+            title: '',
+            dataIndex: 'image',
+            render: (record) => <Avatar src={"/images/drones/" + record} />
+        },
+        {
+            title: 'Nº de registo',
+            dataIndex: 'serial_number',
+        },
+        {
+            title: 'Tipologia',
+            dataIndex: 'drone_type',
+            render: (record) => record.name
+        },
+        {
+            title: 'Proprietário',
+            dataIndex: 'manufacturer',
+            render: (record) => record.name
+        },
+        {
+            title: 'Relatórios de voo',
+            dataIndex: 'n_flight_reports',
+        },
+        {
+            title: 'Ocorrências de acidentes',
+            dataIndex: 'n_crash_reports',
+        },
+        {
+            title: '',
+            dataIndex: '',
+            render: (text, row) => <a onClick={() => handleRowClick(row.id)}>ver detalhes</a>,
+        },
+    ];
+
     return (
         <Container>
             <Row type="flex" justify="space-between" align="middle">

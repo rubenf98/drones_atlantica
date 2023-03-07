@@ -32,12 +32,12 @@ const columns = [
     {
         title: 'Drone',
         dataIndex: 'drone',
-        render: (record) => record.project.name + " # " + record.serial_number,
+        render: (record) => record?.project?.name + " # " + record?.serial_number,
     },
     {
         title: 'Localização',
-        dataIndex: 'start_localization',
-        render: (record) => record.district + ", " + record.conceil + ", " + record.place,
+        dataIndex: 'startLocalization',
+        render: (record) => record?.district + ", " + record?.conceil + ", " + record?.place,
     },
     {
         title: 'Acidente',

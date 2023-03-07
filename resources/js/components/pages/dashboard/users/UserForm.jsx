@@ -45,7 +45,6 @@ function UserForm({ createUser }) {
     const [file, setFile] = useState(undefined)
     const [filename, setFilename] = useState(undefined)
     const [errors, setErrors] = useState([])
-    const [hasNewManufacturer, setHasNewManufacturer] = useState(false)
     var navigate = useNavigate();
 
     const onFinish = (values) => {
@@ -58,7 +57,7 @@ function UserForm({ createUser }) {
 
 
         createUser(formData).then((response) => {
-            navigate('/drones?project=' + values.project_id);
+            navigate('/painel/membros');
         }).catch((err) => {
             var response = err.response.data.errors;
             var aErrors = [];
@@ -86,14 +85,14 @@ function UserForm({ createUser }) {
             </Breadcrumb>
             <Form
                 form={form}
-                name="drone"
+                name="user"
                 layout="vertical"
                 requiredMark
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
                 {errors.length ? <Alert
-                    message="Criação do drone falhou"
+                    message="Criação do utilizador falhou"
                     description={errors.map((error, index) => (
                         <p key={index}>{error}</p>
                     ))}
@@ -109,7 +108,7 @@ function UserForm({ createUser }) {
                             <Input placeholder='Nome' />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} md={6}>
+                    <Col xs={24} md={12}>
                         <Form.Item name="email" label="Email" rules={rules.serial_number}>
                             <Input placeholder='Email' />
                         </Form.Item>

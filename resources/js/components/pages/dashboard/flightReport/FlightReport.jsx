@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from "styled-components";
 import { PrimaryButton } from '../../../globalStyles';
 import FlightReportGraphContainer from './FlightReportGraphContainer'
@@ -6,6 +6,7 @@ import FlightReportTableContainer from './FlightReportTableContainer';
 import { fetchFlightReportGraph, fetchFlightReports } from '../../../../redux/flightReport/actions';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import FlightReportDrawerContainer from './FlightReportDrawerContainer';
 
 const Title = styled.section`
     display: flex;
@@ -20,6 +21,7 @@ const Title = styled.section`
 `;
 
 function FlightReport({ fetchFlightReports, fetchFlightReportGraph }) {
+    const [currentID, setCurrentID] = useState(undefined)
 
     useEffect(() => {
         fetchFlightReports();
@@ -38,9 +40,15 @@ function FlightReport({ fetchFlightReports, fetchFlightReportGraph }) {
 
             </Title>
 
+            <FlightReportDrawerContainer
+                visible={currentID != undefined}
+                id={currentID}
+                handleClose={() => setCurrentID(undefined)}
+            />
+
             <FlightReportGraphContainer />
 
-            <FlightReportTableContainer handlePageChange={handlePageChange} />
+            <FlightReportTableContainer handleRowClick={(val) => setCurrentID(val)} handlePageChange={handlePageChange} />
         </div>
     )
 }

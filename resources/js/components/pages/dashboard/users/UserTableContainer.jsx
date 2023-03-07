@@ -25,7 +25,7 @@ const columns = [
     {
         title: '',
         dataIndex: 'image',
-        render: (record) => <Avatar src={"/images/drones/" + record} />
+        render: (record) => <Avatar src={record} />
     },
     {
         title: '#',
@@ -55,7 +55,7 @@ function UserTableContainer({ data, loading, meta, handlePageChange }) {
         <Container>
             <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
                 <h2>Utilizadores</h2>
-                <Link to="/painel/drones/create"><PrimaryButton>Adicionar utilizador</PrimaryButton></Link>
+                <Link to="/painel/users/create"><PrimaryButton>Adicionar utilizador</PrimaryButton></Link>
             </Row>
             <TableContainer handlePageChange={handlePageChange} data={data} loading={loading} meta={meta} columns={columns} />
         </Container>

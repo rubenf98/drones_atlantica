@@ -7,10 +7,7 @@ function CrashReportMapPicker({ form }) {
 
     function handleChangeLocation(lat, lng) {
         setLocation({ lat: lat, lng: lng });
-        var object = {};
-        object["crash_latitude"] = lat;
-        object["crash_longitude"] = lng;
-        form.setFieldsValue(object)
+        form.setFieldsValue({ latitude: lat, longitude: lng })
     }
 
     function handleChangeZoom(newZoom) {

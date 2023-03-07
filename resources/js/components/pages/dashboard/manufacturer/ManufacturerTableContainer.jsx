@@ -43,7 +43,7 @@ function ManufacturerTableContainer({ data, loading, meta, handlePageChange }) {
         <Container>
             <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
                 <h2>Fabricantes</h2>
-                <Link to="/painel/fabricante/create"><PrimaryButton>Adicionar operador</PrimaryButton></Link>
+                <Link to="/painel/fabricantes/create"><PrimaryButton>Adicionar fabricante</PrimaryButton></Link>
             </Row>
             <TableContainer handlePageChange={handlePageChange} data={data} loading={loading} meta={meta} columns={columns} />
         </Container>

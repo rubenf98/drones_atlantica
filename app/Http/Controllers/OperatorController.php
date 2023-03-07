@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OperatorRequest;
 use App\Http\Resources\OperatorResource;
 use App\Models\Operator;
 use Illuminate\Http\Request;
@@ -25,24 +26,18 @@ class OperatorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OperatorRequest $request)
     {
-        //
+        $validator = $request->validated();
+
+        $record = Operator::create($validator);
+
+        return new OperatorResource($record);
     }
 
     /**
@@ -53,7 +48,7 @@ class OperatorController extends Controller
      */
     public function show(Operator $operator)
     {
-        //
+        return new OperatorResource($operator);
     }
 
     /**

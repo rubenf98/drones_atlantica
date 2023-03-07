@@ -5,11 +5,13 @@ import DroneTableContainer from './DroneTableContainer'
 import { fetchProjects } from '../../../../redux/project/actions';
 import { fetchDrones } from '../../../../redux/drone/actions';
 import { useSearchParams } from 'react-router-dom';
+import DroneDrawerContainer from './DroneDrawerContainer';
 
 function Drone({ fetchProjects, fetchDrones }) {
     const [searchParams] = useSearchParams();
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [currentId, setCurrentId] = useState(1)
+    const [currentId, setCurrentId] = useState(1);
+    const [currentDrone, setCurrentDrone] = useState(undefined);
 
     useEffect(() => {
         fetchProjects();
@@ -37,7 +39,12 @@ function Drone({ fetchProjects, fetchDrones }) {
                 currentSlide={currentSlide} setCurrentSlide={setCurrentSlide}
                 currentId={currentId} setCurrentId={setCurrentId}
             />
-            <DroneTableContainer handlePageChange={handlePageChange} />
+            <DroneDrawerContainer
+                visible={currentDrone != undefined}
+                id={currentDrone}
+                handleClose={() => setCurrentDrone(undefined)}
+            />
+            <DroneTableContainer handleRowClick={(val) => setCurrentDrone(val)} handlePageChange={handlePageChange} />
         </div>
     )
 }

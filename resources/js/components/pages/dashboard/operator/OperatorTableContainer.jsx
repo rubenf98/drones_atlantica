@@ -44,7 +44,7 @@ function OperatorTableContainer({ data, loading, meta, handlePageChange }) {
         <Container>
             <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
                 <h2>Operadores</h2>
-                <Link to="/painel/operator/create"><PrimaryButton>Adicionar fabricante</PrimaryButton></Link>
+                <Link to="/painel/operador/create"><PrimaryButton>Adicionar operador</PrimaryButton></Link>
             </Row>
             <TableContainer handlePageChange={handlePageChange} data={data} loading={loading} meta={meta} columns={columns} />
         </Container>

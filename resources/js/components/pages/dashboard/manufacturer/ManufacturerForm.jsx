@@ -1,84 +1,97 @@
-import { Col, Form, Input, Row } from 'antd'
-import React from 'react'
+import { Form, Breadcrumb, Alert } from 'antd'
+import React, { useState } from 'react'
+import { connect } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import ManufacturerFormTemplate from './ManufacturerFormTemplate';
 
+import { createManufacturer } from '../../../../redux/manufacturer/actions';
+import { PrimaryButton } from '../../../globalStyles';
 
 const rules = {
     serial_number: [{
         required: true,
         message: 'Número de série é obrigatório!',
     }],
-    validity: [{
+    date: [{
         required: true,
-        message: 'Please input your card validity date!',
+        message: 'A data é obrigatória!',
     }],
-    cvv: [{
+    drone: [{
         required: true,
-        message: 'Please input your CVV!',
+        message: 'O drone é obrigatório!',
+    }],
+    flight_duration: [{
+        required: true,
+        message: 'A duração do voo é obrigatória!',
     }],
 };
 
-function ManufacturerForm() {
+function ManufacturerForm(props) {
+    const [form] = Form.useForm();
+    const [errors, setErrors] = useState([])
+    const [redirect, setRedirect] = useState('/painel/membros')
+    var navigate = useNavigate();
+
+    const onFinish = (values) => {
+
+        props.createManufacturer(values).then((response) => {
+            navigate(redirect);
+        }).catch((err) => {
+            var response = err.response.data.errors;
+            var aErrors = [];
+            Object.values(response).map((item) => {
+                aErrors.push(item);
+            })
+            setErrors(aErrors);
+        });
+    }
+
+    const onFinishFailed = (values) => {
+        console.log("error: " + values);
+    }
 
     return (
+        <div>
+            <Breadcrumb>
+                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
+                <Breadcrumb.Item>
+                    <Link to="/painel/membros">Membros</Link>
+                </Breadcrumb.Item>
+                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
+            </Breadcrumb>
 
+            <Form
+                form={form}
+                name="manufacturer"
+                layout="vertical"
+                requiredMark
+                onFinish={onFinish}
+                onFinishFailed={onFinishFailed}
+            >
+                {
+                    errors.length ? <Alert
+                        message="Criação do operador falhou"
+                        description={errors.map((error, index) => (
+                            <p key={index}>{error}</p>
+                        ))}
+                        style={{ margin: "20px 0px" }}
+                        type="error"
+                        closable
+                    /> : <></>
+                }
+                <ManufacturerFormTemplate />
 
-        <Row gutter={16}>
-            <Col xs={24} md={12}>
-                <Form.Item name="name" label="Nome do fabricante" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-           
-            <Col xs={24} md={12}>
-                <Form.Item name="address" label="Morada" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-
-            <Col xs={24} md={6}>
-                <Form.Item name="title" label="Título do fabricante" rules={rules.serial_number}>
-                    <Input placeholder='Designação' />
-                </Form.Item>
-            </Col>
-
-            <Col xs={12} md={6}>
-                <Form.Item name="door_number" label="Número da Porta" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-
-            <Col xs={12} md={6}>
-                <Form.Item name="postal_code" label="Código postal" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-            <Col xs={12} md={6}>
-                <Form.Item name="locality" label="Localidade" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-            <Col xs={12} md={6}>
-                <Form.Item name="country" label="País de registo do fabricante" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-
-            <Col xs={12} md={6}>
-                <Form.Item name="email" label="Email" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-            <Col xs={12} md={6}>
-                <Form.Item name="phone" label="Número de telefone" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
-                </Form.Item>
-            </Col>
-
-        </Row>
-
-
-
+                <PrimaryButton>
+                    Submeter
+                </PrimaryButton>
+            </Form >
+        </div >
     )
 }
 
-export default ManufacturerForm
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createManufacturer: (data) => dispatch(createManufacturer(data)),
+    };
+};
+export default connect(null, mapDispatchToProps)(ManufacturerForm)

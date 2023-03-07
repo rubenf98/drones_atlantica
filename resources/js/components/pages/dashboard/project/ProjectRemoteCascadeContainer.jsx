@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import { connect } from "react-redux";
 import { fetchProjectsSelector } from '../../../../redux/project/actions';
 
-function ProjectRemoteCascadeContainer({ fetchProjectsSelector, data, loading, onChange }) {
+function ProjectRemoteCascadeContainer({ fetchProjectsSelector, value, data, loading, onChange }) {
     useEffect(() => {
         fetchProjectsSelector()
     }, [])
@@ -13,6 +13,7 @@ function ProjectRemoteCascadeContainer({ fetchProjectsSelector, data, loading, o
             options={data}
             onChange={onChange}
             loading={loading}
+            value={value}
             showSearch
             fieldNames={{
                 label: 'name',

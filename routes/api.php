@@ -35,6 +35,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('logout', 'logout');
     Route::post('refresh', 'refresh');
+    Route::get('me', 'me');
 });
 Route::get('/selector/projects', 'App\Http\Controllers\ProjectController@selector');
 Route::get('/selector/flight-reports', 'App\Http\Controllers\FlightReportController@selector');
