@@ -29,7 +29,7 @@ export const updateProject = (id, data) => ({
 
 export const createProject = (data) => ({
     type: types.CREATE_PROJECT,
-    payload: axios.post(`${window.location.origin}/api/projects/`, data),
+    payload: axios.post(`${window.location.origin}/api/projects`, data),
 });
 
 export const setCurrentProject = (data) => ({

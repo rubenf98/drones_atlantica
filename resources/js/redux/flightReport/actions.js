@@ -35,7 +35,7 @@ export const updateFlightReport = (id, data) => ({
 
 export const createFlightReport = (data) => ({
     type: types.CREATE_FLIGHT_REPORT,
-    payload: axios.post(`${window.location.origin}/api/flight-reports/`, data),
+    payload: axios.post(`${window.location.origin}/api/flight-reports`, data),
 });
 
 export const setCurrentFlightReport = (data) => ({

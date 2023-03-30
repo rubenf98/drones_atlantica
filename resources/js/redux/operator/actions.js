@@ -24,7 +24,7 @@ export const updateOperator = (id, data) => ({
 
 export const createOperator = (data) => ({
     type: types.CREATE_OPERATOR,
-    payload: axios.post(`${window.location.origin}/api/operators/`, data),
+    payload: axios.post(`${window.location.origin}/api/operators`, data),
 });
 
 export const setCurrentOperator = (data) => ({

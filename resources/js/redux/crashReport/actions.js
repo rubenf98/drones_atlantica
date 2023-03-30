@@ -35,7 +35,7 @@ export const updateCrashReport = (id, data) => ({
 
 export const createCrashReport = (data) => ({
     type: types.CREATE_CRASH_REPORT,
-    payload: axios.post(`${window.location.origin}/api/crash-reports/`, data),
+    payload: axios.post(`${window.location.origin}/api/crash-reports`, data),
 });
 
 export const setCurrentCrashReport = (data) => ({

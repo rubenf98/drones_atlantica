@@ -24,7 +24,7 @@ export const updateLocalization = (id, data) => ({
 
 export const createLocalization = (data) => ({
     type: types.CREATE_LOCALIZATION,
-    payload: axios.post(`${window.location.origin}/api/localizations/`, data),
+    payload: axios.post(`${window.location.origin}/api/localizations`, data),
 });
 
 export const setCurrentLocalization = (data) => ({

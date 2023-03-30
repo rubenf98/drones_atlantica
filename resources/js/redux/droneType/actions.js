@@ -24,7 +24,7 @@ export const updateDroneType = (id, data) => ({
 
 export const createDroneType = (data) => ({
     type: types.CREATE_DRONE_TYPE,
-    payload: axios.post(`${window.location.origin}/api/drone-type/`, data),
+    payload: axios.post(`${window.location.origin}/api/drone-type`, data),
 });
 
 export const setCurrentDroneType = (data) => ({

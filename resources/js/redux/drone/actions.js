@@ -25,7 +25,7 @@ export const updateDrone = (id, data) => ({
 
 export const createDrone = (data) => ({
     type: types.CREATE_DRONE,
-    payload: axios.post(`${window.location.origin}/api/drones/`, data),
+    payload: axios.post(`${window.location.origin}/api/drones`, data),
 });
 
 export const setCurrentDrone = (data) => ({

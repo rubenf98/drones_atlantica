@@ -24,7 +24,7 @@ export const updateManufacturer = (id, data) => ({
 
 export const createManufacturer = (data) => ({
     type: types.CREATE_MANUFACTURER,
-    payload: axios.post(`${window.location.origin}/api/manufacturers/`, data),
+    payload: axios.post(`${window.location.origin}/api/manufacturers`, data),
 });
 
 export const setCurrentManufacturer = (data) => ({
