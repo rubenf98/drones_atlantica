@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Cerbero\QueryFilters\FiltersRecords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
 class FlightReport extends Model
 {
-    use HasFactory;
+    use HasFactory, FiltersRecords;
 
     protected $fillable = [
         'date', 'client', 'pix4d', 'visibility', 'max_altitude', 'max_distance', 'payload',

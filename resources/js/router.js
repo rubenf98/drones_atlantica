@@ -39,7 +39,7 @@ function Router() {
                 <Route exact path="/painel/" element={<Layout><DashboardHomepage /></Layout>} />
 
                 <Route exact path="/login" element={<Login />} />
-                <Route exact path="/" element={<Homepage />} />
+                <Route exact path="/" element={<Login />} />
             </Routes>
 
         </BrowserRouter>

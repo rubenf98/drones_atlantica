@@ -24,8 +24,20 @@ const columns = [
         dataIndex: 'name',
     },
     {
+        title: 'Email',
+        dataIndex: 'email',
+    },
+    {
+        title: 'Telefone',
+        dataIndex: 'phone',
+    },
+    {
         title: 'País',
         dataIndex: 'country',
+    },
+    {
+        title: 'Localidade',
+        dataIndex: 'locality',
     },
     {
         title: 'Morada',

@@ -23,7 +23,8 @@ class DroneRequest extends FormRequest
     {
 
         $this->merge([
-            'danger_transportation' => $this->danger_transportation ? 1 : 0
+            'danger_transportation' => $this->danger_transportation ? 1 : 0,
+            'active' => $this->active ? 1 : 0
         ]);
     }
 
@@ -35,21 +36,22 @@ class DroneRequest extends FormRequest
     public function rules()
     {
         return [
-            'serial_number' => ['required', Rule::unique('drones')->where(fn ($query) => $query->where('project_id', $this->project_id))],
+            'serial_number' => ['required', Rule::unique('drones')->ignore($this->drone->serial_number, 'serial_number')->where(fn ($query) => $query->where('project_id', $this->project_id))],
             'designation' => 'nullable|string',
             'propulsion_type' => 'nullable|string',
 
-            'height' => 'required|numeric|min:0',
-            'length' => 'required|numeric|min:0',
-            'width' => 'required|numeric|min:0',
-            'n_motors' => 'required|integer|min:0',
-            'mtom' => 'required|numeric|min:0',
+            'height' => 'nullable|numeric|min:0',
+            'length' => 'nullable|numeric|min:0',
+            'width' => 'nullable|numeric|min:0',
+            'n_motors' => 'nullable|integer|min:0',
+            'mtom' => 'nullable|numeric|min:0',
 
-            'max_altitude' => 'required|numeric|min:0',
-            'max_distance' => 'required|numeric|min:0',
-            'max_speed' => 'required|numeric|min:0',
+            'max_altitude' => 'nullable|numeric|min:0',
+            'max_distance' => 'nullable|numeric|min:0',
+            'max_speed' => 'nullable|numeric|min:0',
 
             'danger_transportation' => 'required|bool',
+            'active' => 'required|bool',
             'image' => 'nullable|image|mimes:jpg,jpeg',
 
             'drone_type_id' => 'required|integer|exists:drone_types,id',

@@ -9,6 +9,7 @@ use App\Models\FlightReport;
 use App\Models\Localization;
 use App\Models\Nearby;
 use App\Models\Operator;
+use App\QueryFilters\FlightReportFilters;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -28,9 +29,9 @@ class FlightReportController extends Controller
         );
     }
 
-    public function selector()
+    public function selector(FlightReportFilters $filters)
     {
-        return FlightReportResource::collection(FlightReport::all());
+        return FlightReportResource::collection(FlightReport::filterBy($filters)->get());
     }
 
     /**

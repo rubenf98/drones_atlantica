@@ -1,10 +1,10 @@
-import { Row, Table } from 'antd';
+import { Col, Input, Row, Table } from 'antd';
 import React from 'react'
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from "styled-components";
 import TableContainer from '../../../common/TableContainer';
-import { SecundaryButton } from '../../../globalStyles';
+import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 
 const Container = styled.section`
     flex: 1;
@@ -19,6 +19,12 @@ const Avatar = styled.img`
     height: 50px;
     object-fit: cover;
     border-radius: 50px;
+`;
+const Status = styled.div`
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+    background-color: ${props => props.color};
 `;
 
 
@@ -54,6 +60,11 @@ function DroneTableContainer({ data, loading, meta, handleRowClick, handlePageCh
             dataIndex: 'n_crash_reports',
         },
         {
+            title: 'Status',
+            dataIndex: 'active',
+            render: (status) => <Status color={status ? "green" : "red"} />
+        },
+        {
             title: '',
             dataIndex: '',
             render: (text, row) => <a onClick={() => handleRowClick(row.id)}>ver detalhes</a>,
@@ -62,10 +73,7 @@ function DroneTableContainer({ data, loading, meta, handleRowClick, handlePageCh
 
     return (
         <Container>
-            <Row type="flex" justify="space-between" align="middle">
-                <h2>Últimos relatórios</h2>
-                <Link to="/painel/drones/create"><SecundaryButton>Adicionar drone</SecundaryButton></Link>
-            </Row>
+
             <TableContainer handlePageChange={handlePageChange} data={data} loading={loading} meta={meta} columns={columns} />
         </Container>
     )

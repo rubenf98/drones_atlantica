@@ -20,4 +20,22 @@ class DroneFilters extends QueryFilters
     {
         $this->query->where('project_id', $int);
     }
+
+    public function search($string)
+    {
+        $this->query->where(function ($q) use ($string) {
+            $q->where('serial_number', 'like', '%' . $string . '%')
+                ->orWhere('designation', 'like', '%' . $string . '%')
+                ->orWhere('propulsion_type', 'like', '%' . $string . '%')
+                ->orWhereHas('droneType', function ($query) use ($string) {
+                    $query->where('name', 'like', '%' . $string . '%');
+                });
+        });
+        // $this->query->where('serial_number', 'like', '%' . $string . '%')
+        //     ->orWhere('designation', 'like', '%' . $string . '%')
+        //     ->orWhere('propulsion_type', 'like', '%' . $string . '%')
+        //     ->orWhereHas('droneType', function ($query) use ($string) {
+        //         $query->where('name', 'like', '%' . $string . '%');
+        //     });
+    }
 }

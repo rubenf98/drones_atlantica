@@ -10,11 +10,45 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'image', 'full_image'];
-    protected $appends = ['n_flight_reports', 'n_crash_reports', 'n_drones'];
+    protected $appends = ['n_flight_reports', 'n_crash_reports', 'n_drones', 'n_manufacturers', 'n_flight_hours', 'n_active'];
+
+    public function getNActiveAttribute()
+    {
+        $drones = $this->drones;
+        $counter = 0;
+        foreach ($drones as $drone) {
+            if ($drone->active) {
+                $counter++;
+            }
+        }
+
+        return $counter;
+    }
 
     public function getNFlightReportsAttribute()
     {
         return $this->flightReports()->count();
+    }
+
+    public function getNFlightHoursAttribute()
+    {
+        $flightReports = $this->flightReports;
+        $counter = 0;
+        foreach ($flightReports as  $flightReport) {
+            $counter += $flightReport->flight_duration;
+        }
+
+        return round($counter / 60, 2);
+    }
+
+    public function getNManufacturersAttribute()
+    {
+        $drones = $this->drones;
+        $count = [];
+        foreach ($drones as $drone) {
+            array_push($count, $drone->manufacturer_id);
+        }
+        return count(array_count_values($count));
     }
 
     public function getNCrashReportsAttribute()
@@ -37,6 +71,11 @@ class Project extends Model
     public function drones()
     {
         return $this->hasMany(Drone::class);
+    }
+
+    public function manufacturers()
+    {
+        return $this->hasManyThrough(Manufacturer::class, Drone::class);
     }
 
     public function flightReports()

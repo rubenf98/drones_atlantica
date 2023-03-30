@@ -16,17 +16,18 @@ class CreateDronesTable extends Migration
         Schema::create('drones', function (Blueprint $table) {
             $table->id();
             $table->string('serial_number');
-            $table->integer('n_motors');
-            $table->decimal('mtom', 6, 2);
-            $table->decimal('height', 6, 2);
-            $table->decimal('width', 6, 2);
-            $table->decimal('length', 6, 2);
-            $table->decimal('max_speed', 6, 2);
-            $table->decimal('max_distance', 6, 2);
-            $table->decimal('max_altitude', 6, 2);
+            $table->integer('n_motors')->nullable();
+            $table->decimal('mtom', 6, 2)->nullable();
+            $table->decimal('height', 6, 2)->nullable();
+            $table->decimal('width', 6, 2)->nullable();
+            $table->decimal('length', 6, 2)->nullable();
+            $table->decimal('max_speed', 6, 2)->nullable();
+            $table->decimal('max_distance', 6, 2)->nullable();
+            $table->decimal('max_altitude', 6, 2)->nullable();
             $table->boolean('danger_transportation');
             $table->string('designation')->nullable();
             $table->string('propulsion_type')->nullable();
+            $table->boolean('active')->default(true);
             $table->string('image')->default('default-image.jpg');
             $table->unsignedBigInteger('drone_type_id');
             $table->unsignedBigInteger('project_id');

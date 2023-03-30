@@ -3,6 +3,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { fetchDrone } from '../../../../redux/drone/actions';
 import styled from "styled-components";
+import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
+import { Link } from 'react-router-dom';
 
 const ImageContainer = styled.section`
     display: flex;
@@ -15,6 +17,14 @@ const ImageContainer = styled.section`
         width: 25%;
     }
 
+`;
+
+const ButtonContainer = styled.section`
+    display: flex;
+    margin: 20px 0px;
+    gap: 15px;
+    justify-content: flex-end;
+    align-items: center;
 `;
 
 export const DroneDrawerContainer = (props) => {
@@ -46,6 +56,11 @@ export const DroneDrawerContainer = (props) => {
             open={visible}
             width={1270}
         >
+            <ImageContainer>
+
+                <img src={"/images/drones/" + current.image} alt={current.id} />
+
+            </ImageContainer>
             <h2>Dados gerais</h2>
             <Row type="flex">
                 <Item label="Número de série" value={current?.project?.name + " # " + current.serial_number} />
@@ -68,6 +83,13 @@ export const DroneDrawerContainer = (props) => {
 
             </Row>
             <br />
+            <ButtonContainer>
+                <Link to="/painel/drones/create?edit">
+                    <SecundaryButton>
+                        Atualizar
+                    </SecundaryButton>
+                </Link>
+            </ButtonContainer>
             {/* <h2>Relatório de voo</h2>
             <Row type="flex">
                 <Item label="Número de série" value={current?.flightReport?.serial_number} />

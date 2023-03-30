@@ -24,23 +24,27 @@ const Separator = styled.div`
 `;
 
 const Sidemenu = styled.section`
-    min-width: 400px;
-    min-height: 100vh;
-    padding: 40px 60px;
+    min-width: 350px;
+    height: 100vh;
+    padding: 40px 50px;
     box-sizing: border-box;
     position: relative;
     display: flex;
     flex-direction: column;
+    background-color: #1c1c1c;
+    position: sticky;
+    top: 0;
+    left: 0;
 
     h1 {
-        color: rgba(0,0,0,.5);
+        color: rgba(255,255,255,.5);
         font-weight: 700; 
         font-size: 36px; 
         opacity: .8;
         text-align: center;
 
         span {
-            color:  rgba(0,0,0,1);
+            color:  rgba(255,255,255,1);
         }
     }
 
@@ -48,6 +52,7 @@ const Sidemenu = styled.section`
 
 const Profile = styled.div`
     margin: 50px 0px 50px 0px;
+    color: white;
 
     img {
         width: 140px;
@@ -73,7 +78,7 @@ const Profile = styled.div`
 `;
 
 const Logout = styled.div`
-    color: black;
+    color: white;
     opacity: .6;
     text-decoration: none;
     display: flex;
@@ -85,14 +90,16 @@ const Logout = styled.div`
         width: 20px;
         height: auto;
         margin-right: 8px;
+        filter: invert(1);
     }
 `;
 
 const Content = styled.section`
-    padding: 57px 100px;
+    padding: 60px 100px;
     box-sizing: border-box;
     flex: 1;
     min-height: 100vh;  
+    max-width: calc(100vw - 350px);
 `;
 
 

@@ -1,15 +1,18 @@
 export const light = {
     text: '#000000',
-    background: '#FFF',
-    primary: "#0B4F6C",
-    secundary: "#01BAEF",
+    background: '#fff',
+    offsetBackgorund: "#fff",
+    primary: "#1c1c1c",
+    secundary: "#777",
+    offsetDark: "#1c1c1c",
+    hoverDark: "#777",
 }
 
 export const dark = {
-    text: '#000000',
+    text: '#fff',
     lightText: "#777",
-    inverseText: '#ffffff',
-    background: '#ffffff',
-    primary: "#232E19",
-    primaryHover: "#25412b"
+    background: '#15191D',
+    offsetBackgorund: "#1C212A",
+    primary: "#0B4F6C",
+    secundary: "#01BAEF",
 }

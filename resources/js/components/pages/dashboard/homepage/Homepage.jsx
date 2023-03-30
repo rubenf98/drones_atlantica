@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { connect } from 'react-redux';
 import { fetchProjects } from '../../../../redux/project/actions';
 import { fetchFlightReports } from '../../../../redux/flightReport/actions';
+import CalendarContainer from './CalendarContainer';
 
 const FlexContainer = styled.section`
     display: flex;
@@ -25,10 +26,11 @@ function Homepage({ fetchProjects, fetchFlightReports }) {
         <div>
             <Header />
             <DroneList />
-            <FlexContainer>
+            <CalendarContainer />
+            {/* <FlexContainer>
                 <Statistics />
                 <HomepageTableContainer />
-            </FlexContainer>
+            </FlexContainer> */}
         </div>
     )
 }

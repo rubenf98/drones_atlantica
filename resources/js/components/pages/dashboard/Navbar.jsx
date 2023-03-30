@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const Container = styled.nav`
     flex: 1;
+    color: white;
 
     ul {
         list-style-type: none;
@@ -14,7 +15,7 @@ const Container = styled.nav`
     }
 
     a {
-        color: black;
+        color: white;
         opacity: .6;
         text-decoration: none;
         display: flex;
@@ -24,6 +25,7 @@ const Container = styled.nav`
             width: 20px;
             height: auto;
             margin-right: 8px;
+            filter: invert(1);
         }
     }
     

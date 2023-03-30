@@ -7,14 +7,15 @@ import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 const Container = styled.section`
     display: flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
-    gap: 50px;
     margin: 100px auto;
+    flex-wrap: wrap;
 `;
 
 const Drone = styled(Link)`
-    width: 33%;
+    width: calc(33% - 20px);
+    margin: 10px;
     position: relative;
     cursor: pointer;
     text-decoration: none;
@@ -26,17 +27,17 @@ const Drone = styled(Link)`
         left: 0px;
         z-index: -1;
         position: absolute;
-        background-color: ${({ theme }) => theme.primary};
+        background-color: ${({ theme }) => theme.hoverDark};
         opacity: .2;
-        transition: opacity .3s ease;
+        transition: all .3s ease;
     }
 
     img  {
-        width: 80%;
+        width: 90%;
         margin: auto;
         display: block;
         height:  auto;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
     }
 
     h3 {
@@ -51,6 +52,7 @@ const Drone = styled(Link)`
     &:hover {
         .background {
             opacity: .9;
+            background-color: ${({ theme }) => theme.offsetDark};
         }
 
         h3 {

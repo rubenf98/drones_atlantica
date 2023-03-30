@@ -25,52 +25,52 @@ function ManufacturerFormTemplate() {
         <Row gutter={16}>
             <Col xs={24} md={12}>
                 <Form.Item name="name" label="Nome do fabricante" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                    <Input placeholder='Nome' />
                 </Form.Item>
             </Col>
            
             <Col xs={24} md={12}>
-                <Form.Item name="address" label="Morada" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="address" label="Morada">
+                    <Input placeholder='Morada' />
                 </Form.Item>
             </Col>
 
             <Col xs={24} md={6}>
-                <Form.Item name="title" label="Título do fabricante" rules={rules.serial_number}>
+                <Form.Item name="title" label="Título do fabricante">
                     <Input placeholder='Designação' />
                 </Form.Item>
             </Col>
 
             <Col xs={12} md={6}>
-                <Form.Item name="door_number" label="Número da Porta" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="door_number" label="Número da Porta">
+                    <Input placeholder='Número da Porta' />
                 </Form.Item>
             </Col>
 
             <Col xs={12} md={6}>
-                <Form.Item name="postal_code" label="Código postal" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="postal_code" label="Código postal">
+                    <Input placeholder='Código postal' />
                 </Form.Item>
             </Col>
             <Col xs={12} md={6}>
-                <Form.Item name="locality" label="Localidade" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="locality" label="Localidade">
+                    <Input placeholder='Localidade' />
                 </Form.Item>
             </Col>
             <Col xs={12} md={6}>
-                <Form.Item name="country" label="País de registo do fabricante" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="country" label="País de registo do fabricante">
+                    <Input placeholder='País de registo' />
                 </Form.Item>
             </Col>
 
             <Col xs={12} md={6}>
-                <Form.Item name="email" label="Email" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="email" label="Email">
+                    <Input placeholder='Email' />
                 </Form.Item>
             </Col>
             <Col xs={12} md={6}>
-                <Form.Item name="phone" label="Número de telefone" rules={rules.serial_number}>
-                    <Input placeholder='0001' />
+                <Form.Item name="phone" label="Número de telefone">
+                    <Input placeholder='Número de telefone' />
                 </Form.Item>
             </Col>
 

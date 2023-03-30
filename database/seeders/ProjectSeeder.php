@@ -27,7 +27,7 @@ class ProjectSeeder extends Seeder
         ]);
 
         Project::create([
-            'name' => 'Bravo',
+            'name' => 'Delta',
             'image' => '/images/drones/delta.png',
             'full_image' => '/images/drones/delta.png',
         ]);
@@ -36,6 +36,12 @@ class ProjectSeeder extends Seeder
             'name' => 'Charlie',
             'image' => '/images/drones/charlie.png',
             'full_image' => '/images/drones/charlie.png',
+        ]);
+
+        Project::create([
+            'name' => 'Bravo',
+            'image' => '/images/drones/bravo.png',
+            'full_image' => '/images/drones/bravo.png',
         ]);
     }
 }

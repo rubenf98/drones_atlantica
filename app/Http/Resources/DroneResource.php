@@ -32,6 +32,7 @@ class DroneResource extends JsonResource
             "drone_type" => $this->droneType,
             "project" => $this->project,
             "manufacturer" => $this->manufacturer,
+            "active" => $this->active,
             "created_at" => (string) $this->created_at,
             "n_flight_reports" => $this->n_flight_reports,
             "n_crash_reports" => $this->n_crash_reports

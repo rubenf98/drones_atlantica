@@ -62,9 +62,13 @@ class DroneController extends Controller
      * @param  \App\Models\Drone  $drone
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Drone $drone)
+    public function update(DroneRequest $request, Drone $drone)
     {
-        //
+        $validator = $request->validated();
+
+        $drone->update($validator);
+
+        return new DroneResource($drone);
     }
 
     /**

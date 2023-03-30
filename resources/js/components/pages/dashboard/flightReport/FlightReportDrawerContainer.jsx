@@ -42,8 +42,9 @@ export const FlightReportDrawerContainer = (props) => {
             onClose={props.handleClose}
             open={visible}
             width={1270}
+            destroyOnClose
         >
-            {current.startLocalization &&
+            {(current.startLocalization && visible) &&
                 <MapPicker
                     defaultLocation={
                         { lat: parseFloat(current.startLocalization.latitude), lng: parseFloat(current.startLocalization.longitude) }

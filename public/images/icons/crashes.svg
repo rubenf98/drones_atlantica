@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="279"
+   height="279"
+   viewBox="0 0 279 279"
+   fill="none"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="crashes.svg"
+   inkscape:version="1.2.2 (1:1.2.2+202212051550+b0a8486541)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.84587814"
+     inkscape:cx="130.04237"
+     inkscape:cy="139.5"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="0"
+     inkscape:window-y="34"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <circle
+     cx="139.5"
+     cy="139.5"
+     r="139.5"
+     fill="#C22F00"
+     fill-opacity="0.3"
+     id="circle2"
+     style="fill:#c22f00;fill-opacity:0.15000001" />
+  <path
+     d="M184.783 159.618C188.277 159.615 191.743 160.232 195.021 161.437V67H73V210.854H163.629C158.018 205.244 154.866 197.635 154.864 189.7C154.864 181.764 158.018 174.155 163.629 168.545C169.239 162.934 176.851 159.783 184.785 159.785L184.783 159.618ZM94.7887 99.536H173.233V108.253H94.7887V99.536ZM134.011 134.4H94.7887V125.685H134.011V134.4Z"
+     fill="#C22F00"
+     id="path4" />
+  <path
+     d="M184.783 168.079C179.09 168.079 173.628 170.339 169.6 174.36C165.571 178.382 163.301 183.838 163.29 189.531C163.279 195.223 165.527 200.689 169.54 204.726C173.553 208.764 179.006 211.044 184.698 211.067C190.392 211.088 195.861 208.851 199.908 204.845C203.952 200.84 206.243 195.393 206.277 189.7C206.322 183.974 204.077 178.467 200.039 174.407C196.002 170.345 190.51 168.068 184.784 168.079L184.783 168.079ZM199.423 198.162L193.457 204.127L184.996 195.665L176.534 204.127L170.186 198.162L178.648 189.7L170.186 181.238L176.152 175.273L184.613 183.735L193.075 175.273L199.04 181.238L190.579 189.7L199.423 198.162Z"
+     fill="#C22F00"
+     id="path6" />
+</svg>

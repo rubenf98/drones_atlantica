@@ -55,7 +55,7 @@ function LocalizationRemoteSelectContainer({ fetchLocalizations, data, loading, 
             )}
         >
             {data.map((element) => (
-                <Select.Option key={element.id} value={element.id}>{element.district}, {element.conceil}, {element.place}</Select.Option>
+                <Select.Option key={element.id} value={element.id}>{element.district}, {element.conceil}, {element.place} ({element.latitude}, {element.longitude})</Select.Option>
             ))}
         </Select>
     )

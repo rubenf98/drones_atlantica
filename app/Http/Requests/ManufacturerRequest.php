@@ -33,7 +33,7 @@ class ManufacturerRequest extends FormRequest
             'postal_code' => 'nullable|string',
             'locality' => 'nullable|string',
             'country' => 'nullable|string',
-            'email' => 'required|email:rfc',
+            'email' => 'nullable|email:rfc',
             'phone' => 'nullable|string',
         ];
     }

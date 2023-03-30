@@ -1,10 +1,10 @@
 import { Checkbox, Col, Form, Input, InputNumber, Row, Breadcrumb, Alert } from 'antd'
 import Dragger from 'antd/es/upload/Dragger';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from "styled-components";
-import { createDrone } from '../../../../redux/drone/actions';
+import { createDrone, updateDrone } from '../../../../redux/drone/actions';
 import { PrimaryButton } from '../../../globalStyles';
 import DroneTypeRemoteSelectContainer from '../droneType/DroneTypeRemoteSelectContainer';
 import ManufacturerFormTemplate from '../manufacturer/ManufacturerFormTemplate';
@@ -39,35 +39,74 @@ const rules = {
     }],
 };
 
-function DroneForm({ createDrone }) {
+function DroneForm({ createDrone, updateDrone, current }) {
     const [form] = Form.useForm();
     const [file, setFile] = useState(undefined)
     const [filename, setFilename] = useState(undefined)
     const [errors, setErrors] = useState([])
+    const [editMode, setEditMode] = useState(false);
     const [hasNewManufacturer, setHasNewManufacturer] = useState(false)
     var navigate = useNavigate();
+    const [searchParams, _] = useSearchParams();
+
+    useEffect(() => {
+        var hasEdit = searchParams.get("edit");
+
+        if (hasEdit != null && current.id) {
+            form.setFieldsValue({
+                serial_number: current.serial_number,
+                designation: current.designation,
+                propulsion_type: current.propulsion_type,
+                mtom: current.mtom,
+                height: current.height,
+                width: current.width,
+                length: current.drone_length,
+                n_motors: current.n_motors,
+                max_speed: current.max_speed,
+                max_distance: current.max_distance,
+                max_altitude: current.max_altitude,
+                drone_type_id: current?.drone_type?.id,
+                project_id: current?.project?.id,
+                manufacturer_id: current?.manufacturer?.id,
+                danger_transportation: current.danger_transportation,
+                active: current.active,
+            })
+
+            setEditMode(true);
+        }
+    }, [])
+
+    const catchError = (err) => {
+        var response = err.response.data.errors;
+        var aErrors = [];
+        Object.values(response).map((item) => {
+            aErrors.push(item);
+        })
+        setErrors(aErrors);
+    }
+
 
     const onFinish = (values) => {
-        var formData = new FormData();
+        if (editMode) {
+            updateDrone(current.id, values).then((response) => {
+                navigate('/painel/drones?project=' + values.project_id);
+            }).catch((err) => {
+                catchError(err);
+            });
+        } else {
+            var formData = new FormData();
 
-        for (var key in values) {
-            formData.append(key, values[key]);
+            for (var key in values) {
+                formData.append(key, values[key]);
+            }
+            formData.append('image', file);
+
+            createDrone(formData).then((response) => {
+                navigate('/painel/drones?project=' + values.project_id);
+            }).catch((err) => {
+                catchError(err);
+            });
         }
-        formData.append('image', file);
-
-
-        createDrone(formData).then((response) => {
-            navigate('/drones?project=' + values.project_id);
-        }).catch((err) => {
-            var response = err.response.data.errors;
-            var aErrors = [];
-            Object.values(response).map((item) => {
-                aErrors.push(item);
-            })
-            setErrors(aErrors);
-        });
-
-        console.log(formData);
     }
 
     const onFinishFailed = (values) => {
@@ -108,56 +147,56 @@ function DroneForm({ createDrone }) {
                         </Form.Item>
                     </Col>
                     <Col xs={24} md={6}>
-                        <Form.Item name="designation" label="Designação" rules={rules.serial_number}>
+                        <Form.Item name="designation" label="Designação">
                             <Input placeholder='Designação' />
                         </Form.Item>
                     </Col>
                     <Col xs={24} md={6}>
-                        <Form.Item name="propulsion_type" label="Tipo de propulsão" rules={rules.serial_number}>
+                        <Form.Item name="propulsion_type" label="Tipo de propulsão">
                             <Input placeholder='Tipo de propulsão' />
                         </Form.Item>
                     </Col>
 
                     <Col xs={12} md={6}>
-                        <Form.Item name="mtom" label="Massa máxima à descolagem (MTOM)" rules={rules.serial_number}>
-                            <Decimal placeholder='Massa máxima à descolagem (MTOM)' />
+                        <Form.Item name="mtom" label="Massa máxima à descolagem (MTOM)">
+                            <Decimal placeholder='Massa máxima à descolagem' />
                         </Form.Item>
                     </Col>
 
                     <Col xs={12} md={6}>
-                        <Form.Item name="height" label="Altura do UAS (em centímetros)" rules={rules.serial_number}>
-                            <Decimal placeholder='Altura do UAS (em centímetros)' />
+                        <Form.Item name="height" label="Altura do UAS (centímetros)">
+                            <Decimal placeholder='Altura do UAS' />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="width" label="Largura do UAS (em centímetros)" rules={rules.serial_number}>
-                            <Decimal placeholder='Largura do UAS (em centímetros)' />
+                        <Form.Item name="width" label="Largura do UAS (centímetros)">
+                            <Decimal placeholder='Largura do UAS' />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="length" label="Comprimentos do UAS (em centímetros)" rules={rules.serial_number}>
-                            <Decimal placeholder='0001' />
+                        <Form.Item name="length" label="Comprimentos do UAS (centímetros)">
+                            <Decimal placeholder='Comprimentos do UAS' />
                         </Form.Item>
                     </Col>
 
                     <Col xs={12} md={6}>
-                        <Form.Item name="n_motors" label="Número de motores" rules={rules.serial_number}>
-                            <Decimal placeholder='0001' />
+                        <Form.Item name="n_motors" label="Número de motores">
+                            <Decimal placeholder='Número de motores' />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="max_speed" label="Velocidade máxima do UAS (em m/s)" rules={rules.serial_number}>
-                            <Decimal placeholder='0001' />
+                        <Form.Item name="max_speed" label="Velocidade máxima do UAS (m/s)">
+                            <Decimal placeholder='Velocidade máxima do UAS' />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="max_distance" label="Distância de operação (1)" rules={rules.serial_number}>
-                            <Decimal placeholder='0001' />
+                        <Form.Item name="max_distance" label="Distância de operação (1)">
+                            <Decimal placeholder='Distância de operação' />
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="max_altitude" label="Teto máximo de operação (em metros)" rules={rules.serial_number}>
-                            <Decimal placeholder='0001' />
+                        <Form.Item name="max_altitude" label="Teto máximo de operação (em metros)">
+                            <Decimal placeholder='Teto máximo de operação' />
                         </Form.Item>
                     </Col>
 
@@ -179,12 +218,20 @@ function DroneForm({ createDrone }) {
                         </Col>
                     }
 
-                    <Col span={24}>
+                    <Col span={12}>
                         <Form.Item
                             name="danger_transportation"
                             valuePropName="checked"
                         >
                             <Checkbox>Transporte de mercadorias perigosas</Checkbox>
+                        </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                        <Form.Item
+                            name="active"
+                            valuePropName="checked"
+                        >
+                            <Checkbox>Drone em atividade</Checkbox>
                         </Form.Item>
                     </Col>
 
@@ -246,9 +293,17 @@ function DroneForm({ createDrone }) {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        loading: state.drone.loading,
+        current: state.drone.current,
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createDrone: (data) => dispatch(createDrone(data)),
+        updateDrone: (id, data) => dispatch(updateDrone(id, data)),
     };
 };
-export default connect(null, mapDispatchToProps)(DroneForm)
+export default connect(mapStateToProps, mapDispatchToProps)(DroneForm)
