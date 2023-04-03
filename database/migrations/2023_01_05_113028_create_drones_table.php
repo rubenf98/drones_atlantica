@@ -28,7 +28,7 @@ class CreateDronesTable extends Migration
             $table->string('designation')->nullable();
             $table->string('propulsion_type')->nullable();
             $table->boolean('active')->default(true);
-            $table->string('image')->default('default-image.jpg');
+            $table->string('image')->default('/images/drones/default-image.jpg');
             $table->unsignedBigInteger('drone_type_id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('manufacturer_id')->nullable();

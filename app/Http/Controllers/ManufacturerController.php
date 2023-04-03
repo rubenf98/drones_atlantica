@@ -48,7 +48,7 @@ class ManufacturerController extends Controller
      */
     public function show(Manufacturer $manufacturer)
     {
-        //
+        return new ManufacturerResource($manufacturer);
     }
 
     /**
@@ -58,9 +58,13 @@ class ManufacturerController extends Controller
      * @param  \App\Models\Manufacturer  $manufacturer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Manufacturer $manufacturer)
+    public function update(ManufacturerRequest $request, Manufacturer $manufacturer)
     {
-        //
+        $validator = $request->validated();
+
+        $manufacturer->update($validator);
+
+        return new ManufacturerResource($manufacturer);
     }
 
     /**
@@ -71,6 +75,8 @@ class ManufacturerController extends Controller
      */
     public function destroy(Manufacturer $manufacturer)
     {
-        //
+        $manufacturer->delete();
+
+        return response()->json(null, 204);
     }
 }

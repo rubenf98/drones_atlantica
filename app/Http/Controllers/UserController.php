@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class UserController extends Controller
 {
@@ -31,6 +32,14 @@ class UserController extends Controller
 
         $record = User::create($validator);
 
+        if (Arr::get($validator, 'file')) {
+            $imageName = time() . '_' . $record->id . '.' . $validator['file']->extension();
+
+            $validator['file']->move(public_path('images/users'), $imageName);
+            $record->image = "/images/users/" .  $imageName;
+            $record->save();
+        }
+
         return new UserResource($record);
     }
 
@@ -42,7 +51,7 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return new UserResource($user);
     }
 
     /**
@@ -52,9 +61,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
-        //
+        $validator = $request->validated();
+
+        $user->update($validator);
+
+        if (Arr::get($validator, 'file')) {
+            $imageName = time() . '_' . $user->id . '.' . $validator['file']->extension();
+
+            $validator['file']->move(public_path('images/users'), $imageName);
+            $user->image = "/images/users/" .  $imageName;
+            $user->save();
+        }
+
+        return new UserResource($user);
     }
 
     /**
@@ -65,6 +86,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json(null, 204);
     }
 }

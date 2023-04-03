@@ -1,8 +1,9 @@
-import { Row, Table } from 'antd';
+import { Popconfirm, Row } from 'antd';
 import React from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { deleteOperator, setCurrentOperator } from '../../../../redux/operator/actions';
 import TableContainer from '../../../common/TableContainer';
 import { PrimaryButton } from '../../../globalStyles';
 
@@ -14,32 +15,66 @@ const Container = styled.section`
     }
 `;
 
-const columns = [
-    {
-        title: '#',
-        dataIndex: 'id',
-    },
-    {
-        title: 'Operador',
-        dataIndex: 'name',
-        render: (record, row) => (row.title ? row.title : "") + " " + record,
-    },
-    {
-        title: 'País',
-        dataIndex: 'country',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-    },
-    {
-        title: '',
-        dataIndex: '',
-        render: (text, row) => <a>apagar</a>,
-    },
-];
+const OperationContainer = styled.div`
+    display: flex;
+    gap: 10px;
+`;
 
-function OperatorTableContainer({ data, loading, meta, handlePageChange }) {
+
+
+
+function OperatorTableContainer({ data, loading, meta, handlePageChange, deleteOperator, setCurrentOperator }) {
+    let navigate = useNavigate();
+
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'id',
+        },
+        {
+            title: 'Nome',
+            dataIndex: 'name',
+            render: (record, row) => (row.title ? row.title : "") + " " + record,
+        },
+        {
+            title: 'País',
+            dataIndex: 'country',
+        },
+        {
+            title: 'Localidade',
+            dataIndex: 'locality',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'Número de telefone',
+            dataIndex: 'phone',
+        },
+        {
+            title: '',
+            dataIndex: '',
+            render: (text, row) => <OperationContainer>
+                <a onClick={() => handleEditClick(row)}>editar</a>
+                <Popconfirm
+                    title="Apagar operador"
+                    description="Tem a certeza que pretende apagar este operador permanentemente?"
+                    onConfirm={() => deleteOperator(row.id)}
+                    okText="Sim"
+                    cancelText="Não"
+                >
+                    <a >apagar</a>
+                </Popconfirm>
+            </OperationContainer>,
+        },
+    ];
+
+    const handleEditClick = (row) => {
+        setCurrentOperator(row)
+        navigate("/painel/operador/create?edit")
+    }
+
     return (
         <Container>
             <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
@@ -51,6 +86,14 @@ function OperatorTableContainer({ data, loading, meta, handlePageChange }) {
     )
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCurrentOperator: (filters) => dispatch(setCurrentOperator(filters)),
+        deleteOperator: (id) => dispatch(deleteOperator(id)),
+    };
+};
+
+
 const mapStateToProps = (state) => {
     return {
         loading: state.operator.loading,
@@ -59,4 +102,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(OperatorTableContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(OperatorTableContainer);

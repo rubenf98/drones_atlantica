@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|string',
             'email' => 'required|email',
+            'file' => 'nullable|image|mimes:jpg,jpeg,png',
         ];
     }
 

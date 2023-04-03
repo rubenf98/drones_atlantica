@@ -20,7 +20,7 @@ export const deleteUser = id => ({
 
 export const updateUser = (id, data) => ({
     type: types.UPDATE_USER,
-    payload: axios.put(`${window.location.origin}/api/users/${id}`, data),
+    payload: axios.post(`${window.location.origin}/api/users/${id}`, data),
 });
 
 export const createUser = (data) => ({

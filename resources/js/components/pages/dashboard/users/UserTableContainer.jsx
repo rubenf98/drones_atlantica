@@ -1,8 +1,9 @@
-import { Row, Table } from 'antd';
+import { Popconfirm, Row, Table } from 'antd';
 import React from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from "styled-components";
+import { deleteUser, setCurrentUser } from '../../../../redux/user/actions';
 import TableContainer from '../../../common/TableContainer';
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 
@@ -21,36 +22,61 @@ const Avatar = styled.img`
     border-radius: 50px;
 `;
 
-const columns = [
-    {
-        title: '',
-        dataIndex: 'image',
-        render: (record) => <Avatar src={record} />
-    },
-    {
-        title: '#',
-        dataIndex: 'id',
-    },
-    {
-        title: 'Nome',
-        dataIndex: 'name',
-    },
-    {
-        title: 'Email',
-        dataIndex: 'email',
-    },
-    {
-        title: 'Cargo',
-        dataIndex: 'role',
-    },
-    {
-        title: '',
-        dataIndex: '',
-        render: (text, row) => <a>apagar</a>,
-    },
-];
+const OperationContainer = styled.div`
+    display: flex;
+    gap: 10px;
+`;
 
-function UserTableContainer({ data, loading, meta, handlePageChange }) {
+
+
+function UserTableContainer({ data, loading, meta, handlePageChange, setCurrentUser, deleteUser }) {
+    let navigate = useNavigate();
+
+    const columns = [
+        {
+            title: '',
+            dataIndex: 'image',
+            render: (record) => <Avatar src={record} />
+        },
+        {
+            title: '#',
+            dataIndex: 'id',
+        },
+        {
+            title: 'Nome',
+            dataIndex: 'name',
+        },
+        {
+            title: 'Email',
+            dataIndex: 'email',
+        },
+        {
+            title: 'Cargo',
+            dataIndex: 'role',
+        },
+        {
+            title: '',
+            dataIndex: '',
+            render: (text, row) => <OperationContainer>
+                <a onClick={() => handleEditClick(row)}>editar</a>
+                <Popconfirm
+                    title="Apagar utilizador"
+                    description="Tem a certeza que pretende apagar este utilziador permanentemente?"
+                    onConfirm={() => deleteUser(row.id)}
+                    okText="Sim"
+                    cancelText="Não"
+                >
+                    <a >apagar</a>
+                </Popconfirm>
+            </OperationContainer>,
+        },
+    ];
+
+    const handleEditClick = (row) => {
+        setCurrentUser(row)
+        navigate("/painel/users/create?edit")
+    }
+
     return (
         <Container>
             <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
@@ -62,6 +88,13 @@ function UserTableContainer({ data, loading, meta, handlePageChange }) {
     )
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCurrentUser: (filters) => dispatch(setCurrentUser(filters)),
+        deleteUser: (id) => dispatch(deleteUser(id)),
+    };
+};
+
 const mapStateToProps = (state) => {
     return {
         loading: state.user.loading,
@@ -70,4 +103,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(UserTableContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(UserTableContainer);

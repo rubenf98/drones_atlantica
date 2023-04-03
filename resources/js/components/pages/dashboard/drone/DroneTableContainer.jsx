@@ -35,7 +35,7 @@ function DroneTableContainer({ data, loading, meta, handleRowClick, handlePageCh
         {
             title: '',
             dataIndex: 'image',
-            render: (record) => <Avatar src={"/images/drones/" + record} />
+            render: (record) => <Avatar src={record} />
         },
         {
             title: 'Nº de registo',

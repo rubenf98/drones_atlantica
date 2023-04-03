@@ -55,11 +55,12 @@ const Profile = styled.div`
     color: white;
 
     img {
-        width: 140px;
-        height: 140px;
-        border-radius: 140px;
+        width: 150px;
+        height: 150px;
+        border-radius: 150px;
         margin: auto;
         display: block;
+        object-fit: cover;
     }
 
     h2 {

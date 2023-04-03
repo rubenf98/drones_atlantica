@@ -20,7 +20,7 @@ export const deleteDrone = id => ({
 
 export const updateDrone = (id, data) => ({
     type: types.UPDATE_DRONE,
-    payload: axios.put(`${window.location.origin}/api/drones/${id}`, data),
+    payload: axios.post(`${window.location.origin}/api/drones/${id}`, data),
 });
 
 export const createDrone = (data) => ({

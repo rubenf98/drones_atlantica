@@ -1,49 +1,64 @@
 import { Form, Breadcrumb, Alert } from 'antd'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import ManufacturerFormTemplate from './ManufacturerFormTemplate';
 
-import { createManufacturer } from '../../../../redux/manufacturer/actions';
+import { createManufacturer, updateManufacturer } from '../../../../redux/manufacturer/actions';
 import { PrimaryButton } from '../../../globalStyles';
-
-const rules = {
-    serial_number: [{
-        required: true,
-        message: 'Número de série é obrigatório!',
-    }],
-    date: [{
-        required: true,
-        message: 'A data é obrigatória!',
-    }],
-    drone: [{
-        required: true,
-        message: 'O drone é obrigatório!',
-    }],
-    flight_duration: [{
-        required: true,
-        message: 'A duração do voo é obrigatória!',
-    }],
-};
 
 function ManufacturerForm(props) {
     const [form] = Form.useForm();
     const [errors, setErrors] = useState([])
-    const [redirect, setRedirect] = useState('/painel/membros')
+    const [editMode, setEditMode] = useState(false);
     var navigate = useNavigate();
+    const [searchParams, _] = useSearchParams();
+
+    useEffect(() => {
+        var hasEdit = searchParams.get("edit");
+
+        if (hasEdit != null && props?.current?.id) {
+            form.setFieldsValue({
+                name: props?.current?.name,
+                address: props?.current?.address,
+                title: props?.current?.title,
+                door_number: props?.current?.door_number,
+                postal_code: props?.current?.postal_code,
+                locality: props?.current?.locality,
+                country: props?.current?.country,
+                email: props?.current?.email,
+                phone: props?.current?.phone,
+            })
+
+            setEditMode(true);
+        }
+    }, [])
 
     const onFinish = (values) => {
 
-        props.createManufacturer(values).then((response) => {
-            navigate(redirect);
-        }).catch((err) => {
-            var response = err.response.data.errors;
-            var aErrors = [];
-            Object.values(response).map((item) => {
-                aErrors.push(item);
-            })
-            setErrors(aErrors);
-        });
+        if (editMode) {
+            props.updateManufacturer(props.current.id, values).then((response) => {
+                navigate('/painel/membros');
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        } else {
+            props.createManufacturer(values).then((response) => {
+                navigate('/painel/membros');
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        }
     }
 
     const onFinishFailed = (values) => {
@@ -89,9 +104,17 @@ function ManufacturerForm(props) {
     )
 }
 
+const mapStateToProps = (state) => {
+    return {
+        loading: state.manufacturer.loading,
+        current: state.manufacturer.current,
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
+        updateManufacturer: (id, data) => dispatch(updateManufacturer(id, data)),
         createManufacturer: (data) => dispatch(createManufacturer(data)),
     };
 };
-export default connect(null, mapDispatchToProps)(ManufacturerForm)
+export default connect(mapStateToProps, mapDispatchToProps)(ManufacturerForm)

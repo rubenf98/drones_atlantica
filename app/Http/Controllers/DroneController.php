@@ -7,6 +7,7 @@ use App\Http\Resources\DroneResource;
 use App\Models\Drone;
 use App\QueryFilters\DroneFilters;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class DroneController extends Controller
 {
@@ -32,10 +33,10 @@ class DroneController extends Controller
 
         $record = Drone::create($validator);
 
-        if ($validator['image']) {
-            $imageName = time() . '_' . $record->id . '.' . $validator['image']->extension();
+        if (Arr::get($validator, 'file')) {
+            $imageName = time() . '_' . $record->id . '.' . $validator['file']->extension();
 
-            $validator['image']->move(public_path('images/drones'), $imageName);
+            $validator['file']->move(public_path('images/drones'), $imageName);
             $record->image = $imageName;
             $record->save();
         }
@@ -67,6 +68,14 @@ class DroneController extends Controller
         $validator = $request->validated();
 
         $drone->update($validator);
+
+        if (Arr::get($validator, 'file')) {
+            $imageName = time() . '_' . $drone->id . '.' . $validator['file']->extension();
+
+            $validator['file']->move(public_path('images/drones'), $imageName);
+            $drone->image = "/images/drones/" .  $imageName;
+            $drone->save();
+        }
 
         return new DroneResource($drone);
     }

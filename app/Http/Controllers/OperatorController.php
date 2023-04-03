@@ -52,26 +52,19 @@ class OperatorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Operator  $operator
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Operator $operator)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Operator $operator)
+    public function update(OperatorRequest $request, Operator $operator)
     {
-        //
+        $validator = $request->validated();
+
+        $operator->update($validator);
+
+        return new OperatorResource($operator);
     }
 
     /**
@@ -82,6 +75,8 @@ class OperatorController extends Controller
      */
     public function destroy(Operator $operator)
     {
-        //
+        $operator->delete();
+
+        return response()->json(null, 204);
     }
 }

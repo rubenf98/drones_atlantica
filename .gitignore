@@ -9,9 +9,12 @@ app/storage/
 
 # Laravel 5 & Lumen specific
 public/images/crash_reports/*
+public/images/drones/*
+public/images/users/*
 public/storage
 /storage/*.docx
 public/hot
+public/js/*
 storage/*.key
 .env
 Homestead.yaml

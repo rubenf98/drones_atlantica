@@ -87,21 +87,28 @@ function DroneForm({ createDrone, updateDrone, current }) {
 
 
     const onFinish = (values) => {
+        var formData = new FormData();
+
+        for (var key in values) {
+            if (values[key]) {
+                formData.append(key, values[key]);
+            }
+
+        }
+        if (file) {
+            formData.append('file', file);
+        }
+
+
         if (editMode) {
-            updateDrone(current.id, values).then((response) => {
+            formData.append("_method", "PATCH");
+            updateDrone(current.id, formData).then(() => {
                 navigate('/painel/drones?project=' + values.project_id);
             }).catch((err) => {
                 catchError(err);
             });
         } else {
-            var formData = new FormData();
-
-            for (var key in values) {
-                formData.append(key, values[key]);
-            }
-            formData.append('image', file);
-
-            createDrone(formData).then((response) => {
+            createDrone(formData).then(() => {
                 navigate('/painel/drones?project=' + values.project_id);
             }).catch((err) => {
                 catchError(err);
@@ -263,7 +270,7 @@ function DroneForm({ createDrone, updateDrone, current }) {
                             }}
                         >
                             <p className="ant-upload-drag-icon">
-                                <UploadImage src="/images/icons/upload.svg" alt="upload" />
+                                <UploadImage src={editMode ? current.image : "/images/icons/upload.svg"} alt="upload" />
                             </p>
                             <p className="ant-upload-text">Carregue ou arraste uma fotografia para esta área para submeter</p>
                             <p className="ant-upload-hint">

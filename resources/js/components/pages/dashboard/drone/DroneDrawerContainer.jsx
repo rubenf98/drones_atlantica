@@ -57,10 +57,9 @@ export const DroneDrawerContainer = (props) => {
             width={1270}
         >
             <ImageContainer>
-
-                <img src={"/images/drones/" + current.image} alt={current.id} />
-
+                <img src={current.image} alt={current.id} />
             </ImageContainer>
+            
             <h2>Dados gerais</h2>
             <Row type="flex">
                 <Item label="Número de série" value={current?.project?.name + " # " + current.serial_number} />

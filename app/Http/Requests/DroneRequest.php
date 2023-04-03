@@ -52,7 +52,7 @@ class DroneRequest extends FormRequest
 
             'danger_transportation' => 'required|bool',
             'active' => 'required|bool',
-            'image' => 'nullable|image|mimes:jpg,jpeg',
+            'file' => 'nullable|image|mimes:jpg,jpeg',
 
             'drone_type_id' => 'required|integer|exists:drone_types,id',
             'project_id' => 'required|integer|exists:projects,id',
