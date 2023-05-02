@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DroneRequest;
+use App\Http\Requests\UpdateDroneRequest;
 use App\Http\Resources\DroneResource;
 use App\Models\Drone;
 use App\QueryFilters\DroneFilters;
@@ -63,7 +64,7 @@ class DroneController extends Controller
      * @param  \App\Models\Drone  $drone
      * @return \Illuminate\Http\Response
      */
-    public function update(DroneRequest $request, Drone $drone)
+    public function update(UpdateDroneRequest $request, Drone $drone)
     {
         $validator = $request->validated();
 

@@ -36,7 +36,7 @@ class UpdateDroneRequest extends FormRequest
     public function rules()
     {
         return [
-            'serial_number' => ['required', Rule::unique('drones')->where(fn ($query) => $query->where('project_id', $this->project_id))],
+            'serial_number' => ['required', Rule::unique('drones')->ignore($this->drone->serial_number, 'serial_number')->where(fn ($query) => $query->where('project_id', $this->project_id))],
             'designation' => 'nullable|string',
             'propulsion_type' => 'nullable|string',
 
