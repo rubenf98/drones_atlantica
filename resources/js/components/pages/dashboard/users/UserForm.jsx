@@ -144,7 +144,7 @@ function UserForm(props) {
                     <Col span={24}>
                         <Dragger
                             name='file'
-                            accept='.jpg,.jpeg'
+                            accept='.jpg,.jpeg,.png'
                             onRemove={() => {
                                 setFile(undefined);
                                 setFilename(undefined);
