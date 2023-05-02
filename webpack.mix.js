@@ -13,3 +13,8 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/02052023app.js', 'public/js')
     .react();
+
+
+if (mix.inProduction()) {
+    mix.version();
+}
