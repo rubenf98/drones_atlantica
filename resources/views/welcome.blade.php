@@ -31,7 +31,7 @@
 
 <body class="antialiased">
     <div id="index">
-        <script src="{{mix('js/app.js')}}"></script>
+        <script src="{{mix('js/02052023app.js')}}"></script>
     </div>
 </body>
 

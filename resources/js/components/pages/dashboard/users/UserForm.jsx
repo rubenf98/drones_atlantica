@@ -173,7 +173,7 @@ function UserForm(props) {
                             </p>
                             <p className="ant-upload-text">Carregue ou arraste uma fotografia para esta área para submeter</p>
                             <p className="ant-upload-hint">
-                                {filename ? filename : "Suporte para uma imagem em formato jpeg ou jpg."}
+                                {filename ? filename : "Suporte para uma imagem em formato jpeg ou png."}
 
                             </p>
                         </Dragger>
