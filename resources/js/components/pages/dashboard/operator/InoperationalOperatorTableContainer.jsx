@@ -1,6 +1,7 @@
-import { Col, Input, Popconfirm, Row, Table } from 'antd';
+import { Row, Popconfirm } from 'antd';
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from "styled-components";
 import TableContainer from '../../../common/TableContainer';
 import { fetchInoperationalOperators, deleteOperator, setCurrentOperator } from '../../../../redux/operator/actions';
@@ -19,6 +20,7 @@ const OperationContainer = styled.div`
 `;
 
 function InoperationalOperatorTableContainer(props) {
+    let navigate = useNavigate();
     const { data, loading } = props;
     useEffect(() => {
         props.fetchInoperationalOperators();
@@ -55,6 +57,7 @@ function InoperationalOperatorTableContainer(props) {
             dataIndex: '',
             render: (text, row) => <OperationContainer>
                 <a onClick={() => handleEditClick(row)}>editar</a>
+
             </OperationContainer>,
         },
     ];
