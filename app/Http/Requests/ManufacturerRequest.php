@@ -28,7 +28,7 @@ class ManufacturerRequest extends FormRequest
         return [
             'name' => 'required|string',
             'address' => 'nullable|string',
-            'title' => 'nullable|string',
+            'supplier' => 'nullable|string',
             'door_number' => 'nullable|string',
             'postal_code' => 'nullable|string',
             'locality' => 'nullable|string',

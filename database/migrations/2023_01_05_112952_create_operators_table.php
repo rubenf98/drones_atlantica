@@ -24,6 +24,7 @@ class CreateOperatorsTable extends Migration
             $table->string('country')->nullable();
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

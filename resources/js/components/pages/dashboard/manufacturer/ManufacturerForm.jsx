@@ -6,6 +6,7 @@ import ManufacturerFormTemplate from './ManufacturerFormTemplate';
 
 import { createManufacturer, updateManufacturer } from '../../../../redux/manufacturer/actions';
 import { PrimaryButton } from '../../../globalStyles';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
 function ManufacturerForm(props) {
     const [form] = Form.useForm();
@@ -21,7 +22,7 @@ function ManufacturerForm(props) {
             form.setFieldsValue({
                 name: props?.current?.name,
                 address: props?.current?.address,
-                title: props?.current?.title,
+                supplier: props?.current?.supplier,
                 door_number: props?.current?.door_number,
                 postal_code: props?.current?.postal_code,
                 locality: props?.current?.locality,
@@ -67,13 +68,13 @@ function ManufacturerForm(props) {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/membros">Membros</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/membros", name: "Membros" },
+                ]}
+                currentPage="Formulário"
+            />
 
             <Form
                 form={form}

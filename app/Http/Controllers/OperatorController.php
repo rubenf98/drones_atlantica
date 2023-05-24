@@ -22,7 +22,7 @@ class OperatorController extends Controller
             $paginate = 10000;
         }
 
-        return OperatorResource::collection(Operator::paginate($paginate));
+        return OperatorResource::collection(Operator::where('status', true)->paginate($paginate));
     }
 
     /**

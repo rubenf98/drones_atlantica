@@ -5,11 +5,9 @@ import { connect } from 'react-redux';
 import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from "styled-components";
 import { createUser, updateUser } from '../../../../redux/user/actions';
-import { PrimaryButton } from '../../../globalStyles';
+import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
-const Decimal = styled(InputNumber)`
-    width: 100%;
-`;
 
 const Button = styled(PrimaryButton)`
     margin-top: 30px;
@@ -103,13 +101,14 @@ function UserForm(props) {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/membros">Membros</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/membros", name: "Membros" },
+                ]}
+                currentPage="Formulário"
+            />
+
             <Form
                 form={form}
                 name="user"

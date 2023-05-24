@@ -1,15 +1,17 @@
-import { Checkbox, Col, Form, Input, InputNumber, Row, Breadcrumb, Alert } from 'antd'
+import { Checkbox, Col, Form, Input, InputNumber, Row, Breadcrumb, Alert, DatePicker } from 'antd'
 import Dragger from 'antd/es/upload/Dragger';
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
-import { Link, Navigate, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from "styled-components";
+import dayjs from "dayjs";
 import { createDrone, updateDrone } from '../../../../redux/drone/actions';
 import { PrimaryButton } from '../../../globalStyles';
 import DroneTypeRemoteSelectContainer from '../droneType/DroneTypeRemoteSelectContainer';
 import ManufacturerFormTemplate from '../manufacturer/ManufacturerFormTemplate';
 import ManufacturerRemoteSelectContainer from '../manufacturer/ManufacturerRemoteSelectContainer';
 import ProjectRemoteSelectContainer from '../project/ProjectRemoteSelectContainer';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
 const Decimal = styled(InputNumber)`
     width: 100%;
@@ -58,6 +60,7 @@ function DroneForm({ createDrone, updateDrone, current }) {
                 designation: current.designation,
                 propulsion_type: current.propulsion_type,
                 mtom: current.mtom,
+                acquisition: current.acquisition ? dayjs(current.acquisition, 'DD-MM-YYYY') : undefined,
                 height: current.height,
                 width: current.width,
                 length: current.drone_length,
@@ -65,11 +68,15 @@ function DroneForm({ createDrone, updateDrone, current }) {
                 max_speed: current.max_speed,
                 max_distance: current.max_distance,
                 max_altitude: current.max_altitude,
+                autonomy: current.autonomy,
+                connection_type: current.connection_type,
+                connection_distance: current.connection_distance,
                 drone_type_id: current?.drone_type?.id,
                 project_id: current?.project?.id,
                 manufacturer_id: current?.manufacturer?.id,
                 danger_transportation: current.danger_transportation,
                 active: current.active,
+                operational: current.operational,
             })
 
             setEditMode(true);
@@ -91,7 +98,12 @@ function DroneForm({ createDrone, updateDrone, current }) {
 
         for (var key in values) {
             if (values[key]) {
-                formData.append(key, values[key]);
+                if (key == "acquisition") {
+                    formData.append(key, dayjs(values[key]).format('YYYY-MM-DD'));
+                } else {
+                    formData.append(key, values[key]);
+                }
+
             }
 
         }
@@ -122,13 +134,13 @@ function DroneForm({ createDrone, updateDrone, current }) {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/drones">Drones</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/drones", name: "Drones" },
+                ]}
+                currentPage="Formulário"
+            />
             <Form
                 form={form}
                 name="drone"
@@ -154,15 +166,39 @@ function DroneForm({ createDrone, updateDrone, current }) {
                         </Form.Item>
                     </Col>
                     <Col xs={24} md={6}>
+                        <Form.Item name="acquisition" label="Data de aquisição">
+                            <DatePicker style={{ width: "100%" }} placeholder='Data de aquisição' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} md={6}>
                         <Form.Item name="designation" label="Designação">
                             <Input placeholder='Designação' />
                         </Form.Item>
                     </Col>
-                    <Col xs={24} md={6}>
+
+
+
+                    <Col xs={12} md={6}>
                         <Form.Item name="propulsion_type" label="Tipo de propulsão">
                             <Input placeholder='Tipo de propulsão' />
                         </Form.Item>
                     </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Item name="autonomy" label="Autonomia (min)">
+                            <Decimal placeholder='Autonomia' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Item name="connection_type" label="Tipo de ligação">
+                            <Input placeholder='Tipo de ligação' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Item name="connection_distance" label="Distância máxima ligação (km)">
+                            <Decimal placeholder='Distância máxima ligação' />
+                        </Form.Item>
+                    </Col>
+
 
                     <Col xs={12} md={6}>
                         <Form.Item name="mtom" label="Massa máxima à descolagem (MTOM)">
@@ -186,6 +222,9 @@ function DroneForm({ createDrone, updateDrone, current }) {
                         </Form.Item>
                     </Col>
 
+
+
+
                     <Col xs={12} md={6}>
                         <Form.Item name="n_motors" label="Número de motores">
                             <Decimal placeholder='Número de motores' />
@@ -197,7 +236,7 @@ function DroneForm({ createDrone, updateDrone, current }) {
                         </Form.Item>
                     </Col>
                     <Col xs={12} md={6}>
-                        <Form.Item name="max_distance" label="Distância de operação (1)">
+                        <Form.Item name="max_distance" label="Distância de operação (km) (1)">
                             <Decimal placeholder='Distância de operação' />
                         </Form.Item>
                     </Col>
@@ -206,6 +245,8 @@ function DroneForm({ createDrone, updateDrone, current }) {
                             <Decimal placeholder='Teto máximo de operação' />
                         </Form.Item>
                     </Col>
+
+
 
                     <Col xs={12} md={8}>
                         <Form.Item name="drone_type_id" label="Tipologia do UAS" rules={rules.serial_number}>
@@ -225,7 +266,7 @@ function DroneForm({ createDrone, updateDrone, current }) {
                         </Col>
                     }
 
-                    <Col span={12}>
+                    <Col span={8}>
                         <Form.Item
                             name="danger_transportation"
                             valuePropName="checked"
@@ -233,12 +274,20 @@ function DroneForm({ createDrone, updateDrone, current }) {
                             <Checkbox>Transporte de mercadorias perigosas</Checkbox>
                         </Form.Item>
                     </Col>
-                    <Col span={12}>
+                    <Col span={8}>
                         <Form.Item
                             name="active"
                             valuePropName="checked"
                         >
                             <Checkbox>Drone em atividade</Checkbox>
+                        </Form.Item>
+                    </Col>
+                    <Col span={8}>
+                        <Form.Item
+                            name="operational"
+                            valuePropName="checked"
+                        >
+                            <Checkbox>Drone operacional</Checkbox>
                         </Form.Item>
                     </Col>
 

@@ -14,7 +14,7 @@ class FlightReport extends Model
 
     protected $fillable = [
         'date', 'client', 'pix4d', 'visibility', 'max_altitude', 'max_distance', 'payload',
-        'description', 'objective', 'plan',
+        'description', 'objective', 'plan', 'anac', 'aan',
         'connection_type', 'transmission_power', 'connected_devices', 'flight_duration',
         'pre_verification', 'during_verification', 'post_verification',
         'user_id', 'drone_id', 'operator_id', 'start_localization_id', 'end_localization_id', 'nearby_id', 'condition_id'
@@ -26,6 +26,8 @@ class FlightReport extends Model
             "date" => $validator["date"],
             "client" => Arr::get($validator, 'client'),
             "pix4d" => Arr::get($validator, 'pix4d'),
+            "anac" => Arr::get($validator, 'anac'),
+            "aan" => Arr::get($validator, 'aan'),
             "visibility" => Arr::get($validator, 'visibility'),
             "max_altitude" => Arr::get($validator, 'max_altitude'),
             "max_distance" => Arr::get($validator, 'max_distance'),

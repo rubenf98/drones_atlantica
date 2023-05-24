@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\FlightReportRequest;
 use App\Http\Resources\FlightReportResource;
+use App\Models\Authorization;
 use App\Models\Condition;
 use App\Models\FlightReport;
 use App\Models\Localization;
@@ -11,8 +12,10 @@ use App\Models\Nearby;
 use App\Models\Operator;
 use App\QueryFilters\FlightReportFilters;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Storage;
 
 class FlightReportController extends Controller
 {
@@ -64,7 +67,19 @@ class FlightReportController extends Controller
             $validator['end_localization_id'] = $validator['start_localization_id'];
         }
 
+
+
         $record = FlightReport::store($validator);
+
+        if (Arr::get($validator, "authorizations")) {
+            foreach ($validator["authorizations"] as $authorization) {
+                $path = Storage::putFile('public/authorizations', new File($authorization));
+                Authorization::create([
+                    "path" =>  $path,
+                    "flight_report_id" => $record->id
+                ]);
+            }
+        }
 
         return new FlightReportResource($record);
     }
@@ -126,6 +141,8 @@ class FlightReportController extends Controller
      */
     public function destroy(FlightReport $flightReport)
     {
-        //
+        $flightReport->delete();
+
+        return response()->json(null, 204);
     }
 }

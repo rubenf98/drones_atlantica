@@ -2,6 +2,7 @@ import { types } from "./types";
 
 export const initialState = {
     data: [],
+    inoperationalData: [],
     meta: {},
     current: {},
     loading: false,
@@ -14,9 +15,22 @@ export default (state = initialState, action = {}) => {
         case `${types.UPDATE_OPERATOR}_PENDING`:
         case `${types.FETCH_OPERATORS}_PENDING`:
         case `${types.FETCH_OPERATOR}_PENDING`:
+        case `${types.FETCH_INOPERATIONAL_OPERATORS}_PENDING`:
             return {
                 ...state,
                 loading: true,
+            };
+        case `${types.FETCH_INOPERATIONAL_OPERATORS}_REJECTED`:
+            return {
+                ...state,
+                loading: false,
+                inoperationalData: []
+            };
+        case `${types.FETCH_INOPERATIONAL_OPERATORS}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                inoperationalData: action.payload.data.data,
             };
 
         case `${types.UPDATE_OPERATOR}_REJECTED`:

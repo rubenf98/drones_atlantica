@@ -7,6 +7,11 @@ export const fetchDrones = (filters = {}) => ({
     payload: axios.get(`${window.location.origin}/api/drones?${queryString.stringify(filters)}`)
 })
 
+export const fetchInoperationalDrones = () => ({
+    type: types.FETCH_INOPERATIONAL_DRONES,
+    payload: axios.get(`${window.location.origin}/api/inoperatinal-drones`)
+})
+
 export const fetchDrone = (id) => ({
     type: types.FETCH_DRONE,
     payload: axios.get(`${window.location.origin}/api/drones/${id}`)

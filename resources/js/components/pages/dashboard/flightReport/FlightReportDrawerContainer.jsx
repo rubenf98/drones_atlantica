@@ -1,11 +1,13 @@
-import { Col, Drawer, Row } from 'antd'
+import { Col, Drawer, Popconfirm, Row } from 'antd'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { exportFlightReport, fetchFlightReport, setCurrentFlightReport } from '../../../../redux/flightReport/actions';
+import { deleteCrashReport } from '../../../../redux/crashReport/actions';
+import { exportFlightReport, fetchFlightReports, fetchFlightReport, setCurrentFlightReport, deleteFlightReport } from '../../../../redux/flightReport/actions';
 import styled from "styled-components";
-import MapPicker from 'react-google-map-picker'
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 import { Link } from 'react-router-dom';
+import Map, { Marker } from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 
 const ButtonContainer = styled.section`
     display: flex;
@@ -14,6 +16,15 @@ const ButtonContainer = styled.section`
     justify-content: flex-end;
     align-items: center;
 `;
+
+const DeleteContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+const MAPBOX_TOKEN = 'pk.eyJ1IjoicG9udG9taXJhIiwiYSI6ImNsaHFnajVlbjAzb20zanNpc2NqbzQ5ZTUifQ.hQ5L7eM8CyH0scMaIubFkw';
+
 
 export const FlightReportDrawerContainer = (props) => {
     const { visible, loading, current, id } = props;
@@ -35,6 +46,18 @@ export const FlightReportDrawerContainer = (props) => {
         return field ? field : "---";
     }
 
+    function handleDelete() {
+        props.deleteFlightReport(id)
+        props.handleClose();
+    }
+
+    function handleCrashDelete(crashId) {
+        props.deleteCrashReport(crashId)
+        props.fetchFlightReport(id);
+        props.updateData();
+    }
+
+
     return (
         <Drawer
             title={"Relatório de voo #" + current.id}
@@ -42,18 +65,24 @@ export const FlightReportDrawerContainer = (props) => {
             onClose={props.handleClose}
             open={visible}
             width={1270}
-            destroyOnClose
         >
             {(current.startLocalization && visible) &&
-                <MapPicker
-                    defaultLocation={
-                        { lat: parseFloat(current.startLocalization.latitude), lng: parseFloat(current.startLocalization.longitude) }
-                    }
-                    zoom={5}
-                    mapTypeId="satellite"
-                    style={{ height: '300px' }}
-                    apiKey='AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8'
-                />
+                <Map
+                    initialViewState={{
+                        longitude: parseFloat(current.startLocalization.longitude),
+                        latitude: parseFloat(current.startLocalization.latitude),
+                        zoom: 8
+                    }}
+                    style={{ width: "100%", height: "400px" }}
+                    mapStyle="mapbox://styles/mapbox/streets-v9"
+                    mapboxAccessToken={MAPBOX_TOKEN}
+                >
+                    <Marker
+                        longitude={parseFloat(current.startLocalization.longitude)}
+                        latitude={parseFloat(current.startLocalization.latitude)}
+                        color="red"
+                    />
+                </Map>
             }
             <h2>Dados gerais</h2>
             <Row type="flex">
@@ -113,7 +142,18 @@ export const FlightReportDrawerContainer = (props) => {
             </Row>
 
             {current.crashReport && <>
-                <h2>Registo de acidente</h2>
+                <DeleteContainer>
+                    <h2>Registo de acidente</h2>
+                    <Popconfirm
+                        title="Apagar registo de acidente"
+                        description="Tem a certeza que pretende apagar este registo de acidente?"
+                        onConfirm={() => handleCrashDelete(current?.crashReport?.id)}
+                        okText="Apagar"
+                        cancelText="Cancelar"
+                    >
+                        <img style={{ width: "20px", cursor: "pointer" }} src="/icon/delete.svg" alt="delete" />
+                    </Popconfirm>
+                </DeleteContainer>
                 <Row type="flex">
                     <Item label="Coordenadas" value={current?.crashReport?.latitude + ", " + current?.crashReport?.longitude} />
                     <Item span={18} label="Data" value={emptyItem(current?.crashReport?.date)} />
@@ -125,6 +165,17 @@ export const FlightReportDrawerContainer = (props) => {
             }
 
             <ButtonContainer>
+                <Popconfirm
+                    title="Apagar registo de voo"
+                    description="Tem a certeza que pretende apagar este registo?"
+                    onConfirm={() => handleDelete(current.id)}
+                    okText="Apagar"
+                    cancelText="Cancelar"
+                >
+                    <div style={{ cursor: "pointer" }}>
+                        Apagar
+                    </div>
+                </Popconfirm>
                 <Link to="/painel/relatorios/create?edit">
                     <SecundaryButton>
                         Atualizar
@@ -150,6 +201,8 @@ const mapDispatchToProps = (dispatch) => {
         fetchFlightReport: (id) => dispatch(fetchFlightReport(id)),
         exportFlightReport: (id, filename) => dispatch(exportFlightReport(id, filename)),
         setCurrentFlightReport: (record) => dispatch(setCurrentFlightReport(record)),
+        deleteFlightReport: (id) => dispatch(deleteFlightReport(id)),
+        deleteCrashReport: (id) => dispatch(deleteCrashReport(id)),
     };
 };
 

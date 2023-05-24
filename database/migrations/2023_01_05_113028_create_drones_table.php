@@ -27,11 +27,16 @@ class CreateDronesTable extends Migration
             $table->boolean('danger_transportation');
             $table->string('designation')->nullable();
             $table->string('propulsion_type')->nullable();
+            $table->string('autonomy')->nullable();
+            $table->string('connection_type')->nullable();
+            $table->string('connection_distance')->nullable();
             $table->boolean('active')->default(true);
+            $table->boolean('operational')->default(true);
             $table->string('image')->default('/images/drones/default-image.jpg');
             $table->unsignedBigInteger('drone_type_id');
             $table->unsignedBigInteger('project_id');
             $table->unsignedBigInteger('manufacturer_id')->nullable();
+            $table->date('acquisition')->nullable();
             $table->timestamps();
 
             $table->foreign("drone_type_id")->references("id")->on("drone_types")->onDelete("cascade");

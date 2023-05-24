@@ -7,6 +7,8 @@ use App\Http\Controllers\DroneTypeController;
 use App\Http\Controllers\ExportFlightReport;
 use App\Http\Controllers\FetchCrashReportGraph;
 use App\Http\Controllers\FetchFlightReportGraph;
+use App\Http\Controllers\fetchInoperationalDronesInvokable;
+use App\Http\Controllers\FetchInoperationalOperatorInvokable;
 use App\Http\Controllers\FlightReportController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ManufacturerController;
@@ -32,6 +34,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('generate-docx/{flightReport}', ExportFlightReport::class);
+Route::get('inoperatinal-drones', fetchInoperationalDronesInvokable::class);
+Route::get('inoperatinal-operators', FetchInoperationalOperatorInvokable::class);
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('login', 'login');
@@ -40,6 +44,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('refresh', 'refresh');
     Route::get('me', 'me');
 });
+
 Route::get('/selector/projects', 'App\Http\Controllers\ProjectController@selector');
 Route::get('/selector/flight-reports', 'App\Http\Controllers\FlightReportController@selector');
 Route::get('/selector/crash-reports', 'App\Http\Controllers\CrashReportController@selector');

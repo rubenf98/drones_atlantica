@@ -59,13 +59,18 @@ export const DroneDrawerContainer = (props) => {
             <ImageContainer>
                 <img src={current.image} alt={current.id} />
             </ImageContainer>
-            
+
             <h2>Dados gerais</h2>
             <Row type="flex">
                 <Item label="Número de série" value={current?.project?.name + " # " + current.serial_number} />
+                <Item label="Data de aquisição" value={emptyItem(current.acquisition)} />
                 <Item label="Designação" value={emptyItem(current.designation)} />
                 <Item label="Tipo de propulsão" value={emptyItem(current.propulsion_type)} />
                 <Item label="Fabricante e/ou Proprietário" value={emptyItem(current?.manufacturer?.name)} />
+
+                <Item label="Autonomia (min)" value={emptyItem(current.autonomy)} />
+                <Item label="Tipo de ligação" value={emptyItem(current.connection_type)} />
+                <Item label="Distância máxima ligação (km)" value={emptyItem(current.connection_distance)} />
 
                 <Item label="Massa máxima à descolagem (MTOM)" value={emptyItem(current.mtom)} />
                 <Item label="Altura do UAS (em centímetros)" value={emptyItem(current.height)} />
@@ -74,7 +79,7 @@ export const DroneDrawerContainer = (props) => {
 
                 <Item label="Número de motores" value={emptyItem(current.n_motors)} />
                 <Item label="Velocidade máxima do UAS (em m/s)" value={emptyItem(current.max_speed)} />
-                <Item label="Distância de operação" value={emptyItem(current.max_distance)} />
+                <Item label="Distância de operação (km)" value={emptyItem(current.max_distance)} />
                 <Item label="Teto máximo de operação (em metros)" value={emptyItem(current.max_altitude)} />
 
                 <Item label="Tipologia do UAS" value={emptyItem(current?.drone_type?.name)} />

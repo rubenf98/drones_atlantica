@@ -8,6 +8,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import DroneDrawerContainer from './DroneDrawerContainer';
 import { Col, Input, Row } from 'antd';
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
+import InoperationalDroneTableContainer from './InoperationalDroneTableContainer';
 
 function Drone({ fetchProjects, fetchDrones }) {
     const [searchParams] = useSearchParams();
@@ -65,8 +66,11 @@ function Drone({ fetchProjects, fetchDrones }) {
                 </Col>
             </Row>
             <br />
-
             <DroneTableContainer handleRowClick={(val) => setCurrentDrone(val)} handlePageChange={handlePageChange} />
+
+
+            <h2>Drones inoperacionais</h2>
+            <InoperationalDroneTableContainer handleRowClick={(val) => setCurrentDrone(val)} />
         </div>
     )
 }

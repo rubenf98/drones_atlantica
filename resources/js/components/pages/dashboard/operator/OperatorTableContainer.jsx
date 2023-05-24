@@ -77,7 +77,7 @@ function OperatorTableContainer({ data, loading, meta, handlePageChange, deleteO
 
     return (
         <Container>
-            <Row style={{ marginBottom: "30px" }} type="flex" justify="space-between" align="middle">
+            <Row style={{ marginBottom: "10px" }} type="flex" justify="space-between" align="middle">
                 <h2>Operadores</h2>
                 <Link to="/painel/operador/create"><PrimaryButton>Adicionar operador</PrimaryButton></Link>
             </Row>

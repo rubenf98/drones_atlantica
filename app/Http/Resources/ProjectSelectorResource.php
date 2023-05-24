@@ -17,7 +17,7 @@ class ProjectSelectorResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'drones' => DroneSelectorResource::collection($this->drones)
+            'drones' => DroneSelectorResource::collection($this->drones()->where('operational', true)->get())
         ];
     }
 }

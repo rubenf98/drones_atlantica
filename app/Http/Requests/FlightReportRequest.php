@@ -36,7 +36,8 @@ class FlightReportRequest extends FormRequest
             'nearby_aircrafts' => $this->nearby_aircrafts ? $this->nearby_aircrafts : null,
             'nearby_animals' => $this->nearby_animals ? $this->nearby_animals : null,
             'nearby_people' => $this->nearby_people ? $this->nearby_people : null,
-            'reuseStartLocalization' => $this->reuseStartLocalization ? 1 : 0
+            'reuseStartLocalization' => $this->reuseStartLocalization ? 1 : 0,
+            'status' => 1
         ]);
     }
 
@@ -62,7 +63,7 @@ class FlightReportRequest extends FormRequest
             'operator_country' => 'nullable|string',
             'operator_email' => 'required_without:operator_id|email:rfc',
             'operator_phone' => 'nullable|string',
-
+            'status' => 'required',
 
             'reuseStartLocalization' => 'nullable|integer',
 
@@ -102,6 +103,9 @@ class FlightReportRequest extends FormRequest
             'transmission_power' => 'required|numeric|min:0',
 
             'pix4d' => 'nullable|string',
+            'anac' => 'nullable|string',
+            'aan' => 'nullable|string',
+
             'payload' => 'nullable|string',
             'client' => 'nullable|string',
             'connected_devices' => 'nullable|string',
@@ -112,6 +116,8 @@ class FlightReportRequest extends FormRequest
             'nearby_animals' => 'nullable|string',
             'nearby_people' => 'nullable|string',
 
+            'authorizations' => 'nullable|array',
+            'authorizations.*' => 'mimes:pdf',
         ];
     }
 

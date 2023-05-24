@@ -2,6 +2,7 @@ import { types } from "./types";
 
 export const initialState = {
     data: [],
+    inoperationalData: [],
     current: {},
     loading: false,
 }
@@ -12,7 +13,9 @@ export default (state = initialState, action = {}) => {
         case `${types.CREATE_DRONE}_PENDING`:
         case `${types.UPDATE_DRONE}_PENDING`:
         case `${types.FETCH_DRONES}_PENDING`:
+        case `${types.FETCH_INOPERATIONAL_DRONES}_PENDING`:
         case `${types.FETCH_DRONE}_PENDING`:
+
             return {
                 ...state,
                 loading: true,
@@ -63,7 +66,12 @@ export default (state = initialState, action = {}) => {
                 current: {},
             };
 
-
+        case `${types.FETCH_INOPERATIONAL_DRONES}_REJECTED`:
+            return {
+                ...state,
+                loading: false,
+                inoperationalData: []
+            };
         case `${types.FETCH_DRONES}_REJECTED`:
             return {
                 ...state,
@@ -76,6 +84,13 @@ export default (state = initialState, action = {}) => {
                 ...state,
                 loading: false,
                 current: action.payload.data.data,
+            };
+
+        case `${types.FETCH_INOPERATIONAL_DRONES}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                inoperationalData: action.payload.data.data,
             };
 
         case `${types.FETCH_DRONES}_FULFILLED`:

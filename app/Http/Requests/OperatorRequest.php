@@ -29,7 +29,8 @@ class OperatorRequest extends FormRequest
             'locality' => $this->operator_locality,
             'country' => $this->operator_country,
             'email' => $this->operator_email,
-            'phone' => $this->operator_phone
+            'phone' => $this->operator_phone,
+            'status' => $this->operator_status ? 1 : 0
         ]);
     }
 
@@ -50,6 +51,7 @@ class OperatorRequest extends FormRequest
             'country' => 'nullable|string',
             'email' => 'required|email:rfc',
             'phone' => 'nullable|string',
+            'status' => 'required|boolean',
         ];
     }
 

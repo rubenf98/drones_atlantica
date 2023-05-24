@@ -1,4 +1,4 @@
-import { Form, Breadcrumb, Alert } from 'antd'
+import { Form, Breadcrumb, Alert, Checkbox, Col } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -6,6 +6,7 @@ import OperatorFormTemplate from './OperatorFormTemplate';
 
 import { createOperator, updateOperator } from '../../../../redux/operator/actions';
 import { PrimaryButton } from '../../../globalStyles';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
 
 function FlightReportForm(props) {
@@ -29,6 +30,7 @@ function FlightReportForm(props) {
                 operator_country: props?.current?.country,
                 operator_email: props?.current?.email,
                 operator_phone: props?.current?.phone,
+                operator_status: props?.current?.status,
             })
 
             setEditMode(true);
@@ -67,13 +69,13 @@ function FlightReportForm(props) {
 
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/membros">Membros</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/membros", name: "Membros" },
+                ]}
+                currentPage="Formulário"
+            />
 
             <Form
                 form={form}
@@ -95,6 +97,14 @@ function FlightReportForm(props) {
                     /> : <></>
                 }
                 <OperatorFormTemplate />
+                <Col span={8}>
+                    <Form.Item
+                        name="operator_status"
+                        valuePropName="checked"
+                    >
+                        <Checkbox>Operador ativo</Checkbox>
+                    </Form.Item>
+                </Col>
 
                 <PrimaryButton>
                     Submeter

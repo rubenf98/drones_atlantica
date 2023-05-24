@@ -5,7 +5,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import styled from "styled-components";
 import { createFlightReport, updateFlightReport } from '../../../../redux/flightReport/actions';
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import LocalizationRemoteSelectContainer from '../localization/LocalizationRemoteSelectContainer';
 import OperatorFormTemplate from '../operator/OperatorFormTemplate';
 import ProjectRemoteCascadeContainer from '../project/ProjectRemoteCascadeContainer';
@@ -13,11 +13,17 @@ import ProjectRemoteCascadeContainer from '../project/ProjectRemoteCascadeContai
 import LocalizationForm from '../localization/LocalizationForm';
 import TextArea from 'antd/es/input/TextArea';
 import OperatorRemoteSelectContainer from '../operator/OperatorRemoteSelectContainer';
+import Dragger from 'antd/es/upload/Dragger';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
 const Decimal = styled(InputNumber)`
     width: 100%;
 `;
 
+const UploadImage = styled.img`
+    width: 60px;
+    height: auto;
+`;
 
 const rules = {
     serial_number: [{
@@ -85,6 +91,7 @@ const rules = {
 
 function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
     const [form] = Form.useForm();
+    const [files, setFiles] = useState([])
     const [hasNewOperator, setHasNewOperator] = useState(false)
     const [errors, setErrors] = useState([])
     const [editMode, setEditMode] = useState(false);
@@ -109,7 +116,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
             });
 
             form.setFieldsValue({
-                date: moment(current.date, 'DD-MM-YYYY HH:mm'),
+                date: dayjs(current.date, 'DD-MM-YYYY HH:mm', true),
                 drone_id: [2, 6],
                 operator_id: current?.operator?.id,
                 flight_duration: current.flight_duration,
@@ -150,7 +157,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
 
 
     const onFinish = (values) => {
-        console.log(values);
+        // console.log(values);
         // var formData = new FormData();
 
         // for (var key in values) {
@@ -161,6 +168,8 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
         // }
 
         // formData.append('reuseStartLocalization', reuseStartLocalization);
+
+
 
         if (editMode) {
             updateFlightReport(current.id, { ...values, reuseStartLocalization: reuseStartLocalization }).then(() => {
@@ -174,7 +183,29 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 setErrors(aErrors);
             });
         } else {
-            createFlightReport({ ...values, reuseStartLocalization: reuseStartLocalization }).then((response) => {
+            var formData = new FormData();
+
+            for (var key in values) {
+                if (values[key]) {
+                    if (Array.isArray(values[key])) {
+
+                        for (var i = 0; i < values[key].length; i++) {
+                            formData.append('drone_id[]', values[key][i]);
+                        }
+                    } else {
+                        formData.append(key, values[key]);
+                    }
+
+                }
+
+            }
+            formData.append('reuseStartLocalization', reuseStartLocalization);
+            for (var i = 0; i < files.length; i++) {
+                formData.append('authorizations[]', files[i]);
+            }
+
+            console.log(Object.fromEntries(formData.entries()))
+            createFlightReport(formData).then((response) => {
                 navigate(redirect);
             }).catch((err) => {
                 var response = err.response.data.errors;
@@ -207,16 +238,17 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
         form.setFieldValue('operator_id', e);
         setHasNewOperator(false);
     }
-    console.log(form.getFieldsValue('drone_id'))
+
     return (
         <div>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/relatorios">Relatórios de voo</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/relatorios", name: "Relatórios de voo" },
+                ]}
+                currentPage="Formulário"
+            />
 
             <Form
                 form={form}
@@ -461,15 +493,60 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 </Row>
 
                 <h2>Autorizações</h2>
-                <Row>
+                <Row gutter={16} >
                     <Col xs={12} md={6}>
                         <Form.Item label="Pix4D n.º" name="pix4d">
                             <Input placeholder='Pix4D n.º' />
                         </Form.Item>
                     </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Item label="ANAC" name="anac">
+                            <Input placeholder='ANAC' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={12} md={6}>
+                        <Form.Item label="AAN" name="aan">
+                            <Input placeholder='AAN' />
+                        </Form.Item>
+                    </Col>
+                    <Col span={24} >
+                        <Dragger
+                            name='authorizations'
+                            accept='.pdf'
+                            onRemove={(file) => {
+                                const index = files.indexOf(file);
+                                const newFileList = files.slice();
+                                newFileList.splice(index, 1);
+                                setFiles(newFileList);
+                            }}
+                            multiple
+                            showUploadList
+                            onChange={(info) => {
+                                const { status } = info.file;
+                                if (status !== 'uploading') {
+                                    console.log(info.file, info.fileList);
+                                }
+                                if (status === 'done') {
+                                    console.log(`${info.file.name} file uploaded successfully.`);
+                                } else if (status === 'error') {
+                                    console.log(`${info.file.name} file upload failed.`);
+                                }
+                            }}
+                            beforeUpload={(_, fileList) => {
+                                setFiles(fileList);
+                                return false;
+                            }}
+                        >
+                            <p className="ant-upload-drag-icon">
+                                <UploadImage src={editMode ? current.image : "/images/icons/upload.svg"} alt="upload" />
+                            </p>
+                            <p className="ant-upload-text">Carregue ou arraste autorizações para esta área</p>
+                            <p className="ant-upload-hint">Suporte para ficheiros em formato pdf</p>
+                        </Dragger>
+                    </Col>
                 </Row>
 
-                <Row type="flex" style={{ gap: "10px", marginTop: "30px" }}>
+                <Row type="flex" style={{ gap: "10px", marginTop: files.length * 40 + "px" }}>
                     {!editMode &&
                         <SecundaryButton onClick={() => setRedirect('/painel/acidentes/create')}>
                             Adicionar registo de acidente

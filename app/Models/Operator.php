@@ -11,7 +11,7 @@ class Operator extends Model
     use HasFactory;
     protected $fillable = [
         'name', 'title', 'address', 'door_number', 'postal_code',
-        'locality', 'country', 'email', 'phone',
+        'locality', 'country', 'email', 'phone', 'status'
     ];
     public static function generateDataArray($validator)
     {
@@ -25,6 +25,7 @@ class Operator extends Model
             "country" => Arr::get($validator, 'operator_country'),
             "email" => $validator['operator_email'],
             "phone" => Arr::get($validator, 'operator_phone'),
+            "status" => $validator['status'],
         ];
     }
 

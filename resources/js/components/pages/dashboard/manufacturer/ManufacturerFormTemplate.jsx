@@ -20,24 +20,23 @@ const rules = {
 function ManufacturerFormTemplate() {
 
     return (
-
-
-        <Row gutter={16}>
-            <Col xs={24} md={12}>
+        <Row style={{ marginTop: "30px" }} gutter={16}>
+            <Col span={24}>
                 <Form.Item name="name" label="Nome do fabricante" rules={rules.serial_number}>
                     <Input placeholder='Nome' />
                 </Form.Item>
             </Col>
-           
+            <Col span={24}>
+                <h2>Dados do fornecedor</h2>
+            </Col>
+            <Col xs={24} md={12}>
+                <Form.Item name="supplier" label="Nome do fornecedor">
+                    <Input placeholder='Nome' />
+                </Form.Item>
+            </Col>
             <Col xs={24} md={12}>
                 <Form.Item name="address" label="Morada">
                     <Input placeholder='Morada' />
-                </Form.Item>
-            </Col>
-
-            <Col xs={24} md={6}>
-                <Form.Item name="title" label="Título do fabricante">
-                    <Input placeholder='Designação' />
                 </Form.Item>
             </Col>
 
@@ -63,12 +62,16 @@ function ManufacturerFormTemplate() {
                 </Form.Item>
             </Col>
 
-            <Col xs={12} md={6}>
+            <Col span={24}>
+                <h2>Contactos</h2>
+            </Col>
+
+            <Col xs={12} md={12}>
                 <Form.Item name="email" label="Email">
                     <Input placeholder='Email' />
                 </Form.Item>
             </Col>
-            <Col xs={12} md={6}>
+            <Col xs={12} md={12}>
                 <Form.Item name="phone" label="Número de telefone">
                     <Input placeholder='Número de telefone' />
                 </Form.Item>

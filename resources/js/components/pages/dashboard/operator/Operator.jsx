@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import UserTableContainer from './OperatorTableContainer'
+import OperatorTableContainer from './OperatorTableContainer'
 import { fetchOperators } from '../../../../redux/operator/actions';
+import InoperationalOperatorTableContainer from './InoperationalOperatorTableContainer';
 
 function Operator({ fetchOperators }) {
     useEffect(() => {
@@ -15,7 +16,8 @@ function Operator({ fetchOperators }) {
 
     return (
         <div>
-            <UserTableContainer handlePageChange={handlePageChange} />
+            <OperatorTableContainer handlePageChange={handlePageChange} />
+            <InoperationalOperatorTableContainer />
         </div>
     )
 }

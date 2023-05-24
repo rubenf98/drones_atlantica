@@ -6,6 +6,12 @@ export const fetchOperators = (filters = {}) => ({
     payload: axios.get(`${window.location.origin}/api/operators?${JSON.stringify(filters)}`)
 })
 
+export const fetchInoperationalOperators = () => ({
+    type: types.FETCH_INOPERATIONAL_OPERATORS,
+    payload: axios.get(`${window.location.origin}/api/inoperatinal-operators`)
+})
+
+
 export const fetchOperator = (id) => ({
     type: types.FETCH_OPERATOR,
     payload: axios.get(`${window.location.origin}/api/operators/${id}`)

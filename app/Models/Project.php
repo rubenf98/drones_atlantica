@@ -34,11 +34,20 @@ class Project extends Model
     {
         $flightReports = $this->flightReports;
         $counter = 0;
+
         foreach ($flightReports as  $flightReport) {
             $counter += $flightReport->flight_duration;
         }
 
-        return round($counter / 60, 2);
+        $stringValue = explode(".", (string) round($counter / 60, 2));
+
+        if (count($stringValue) > 1) {
+            $hour  = strlen($stringValue[0]) == 2 ? $stringValue[0] : "0" . $stringValue[0];
+            $minute = strlen($stringValue[1]) == 2 ? $stringValue[1] : "0" . $stringValue[1];
+            return $hour . ":" . $minute;
+        }
+
+        return 0;
     }
 
     public function getNManufacturersAttribute()

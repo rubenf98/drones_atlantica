@@ -17,14 +17,19 @@ function CrashReportTableContainer({ data, loading, meta, handleRowClick, handle
 
     const columns = [
         {
-            title: 'Data',
-            dataIndex: 'date',
+            title: 'ID registo',
+            dataIndex: 'id',
         },
         {
             title: 'Relatório',
             dataIndex: 'flightReport',
             render: (record) => record?.serial_number,
         },
+        {
+            title: 'Data',
+            dataIndex: 'date',
+        },
+
         {
             title: 'Drone',
             dataIndex: 'flightReport',

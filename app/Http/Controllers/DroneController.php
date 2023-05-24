@@ -19,7 +19,7 @@ class DroneController extends Controller
      */
     public function index(DroneFilters $filters)
     {
-        return DroneResource::collection(Drone::filterBy($filters)->with('droneType')->with('manufacturer')->paginate(10));
+        return DroneResource::collection(Drone::filterBy($filters)->where("operational", true)->with('droneType')->with('manufacturer')->paginate(10));
     }
 
     /**

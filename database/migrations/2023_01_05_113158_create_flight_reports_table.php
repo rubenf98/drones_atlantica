@@ -28,6 +28,8 @@ class CreateFlightReportsTable extends Migration
             $table->string('client')->nullable();
             $table->text('plan');
             $table->string('pix4d')->nullable();
+            $table->string('anac')->nullable();
+            $table->string('aan')->nullable();
             $table->string('visibility')->nullable();
             $table->decimal('max_altitude', 6, 2);
             $table->decimal('max_distance', 6, 2);

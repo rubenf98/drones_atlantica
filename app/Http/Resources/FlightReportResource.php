@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FlightReportResource extends JsonResource
@@ -17,7 +18,7 @@ class FlightReportResource extends JsonResource
         return [
             'id' => $this->id,
             'serial_number' => $this->serial_number,
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date)->format('d-m-Y H:m'),
             'objective' => $this->objective,
             'plan' => $this->plan,
             'flight_duration' => $this->flight_duration,

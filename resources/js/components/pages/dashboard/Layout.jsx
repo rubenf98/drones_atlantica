@@ -5,6 +5,7 @@ import PrivateRoute from "../../common/PrivateRoute";
 import ScrollToTop from "../../common/ScrollToTop"
 import ThemeContainer from "../../ThemeContainer";
 import Navbar from "./Navbar";
+import { logout } from "../../../redux/auth/actions";
 
 const Container = styled.div`
     width: 100%;
@@ -104,7 +105,8 @@ const Content = styled.section`
 `;
 
 
-function Layout({ children, loading, currentUser }) {
+function Layout({ children, logout, currentUser }) {
+
     return (
         <ThemeContainer>
 
@@ -123,7 +125,7 @@ function Layout({ children, loading, currentUser }) {
 
                             <Navbar />
 
-                            <Logout >
+                            <Logout onClick={logout}>
                                 <img src="/images/icons/exit.svg" />
                                 Sair
                             </Logout>
@@ -145,4 +147,10 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(Layout);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => dispatch(logout()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

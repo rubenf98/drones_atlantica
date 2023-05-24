@@ -61,7 +61,7 @@ function UserTableContainer({ data, loading, meta, handlePageChange, setCurrentU
                 <a onClick={() => handleEditClick(row)}>editar</a>
                 <Popconfirm
                     title="Apagar utilizador"
-                    description="Tem a certeza que pretende apagar este utilziador permanentemente?"
+                    description="Tem a certeza que pretende apagar este utilizador permanentemente?"
                     onConfirm={() => deleteUser(row.id)}
                     okText="Sim"
                     cancelText="Não"

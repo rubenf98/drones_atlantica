@@ -95,6 +95,8 @@ class CrashReportController extends Controller
      */
     public function destroy(CrashReport $crashReport)
     {
-        //
+        $crashReport->delete();
+
+        return response()->json(null, 204);
     }
 }

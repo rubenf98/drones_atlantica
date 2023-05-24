@@ -24,12 +24,16 @@ function FlightReport({ fetchFlightReports, fetchFlightReportGraph }) {
     const [currentID, setCurrentID] = useState(undefined)
 
     useEffect(() => {
-        fetchFlightReports();
-        fetchFlightReportGraph();
+        updateData()
     }, [])
 
     const handlePageChange = (paginate) => {
         fetchFlightReports({ page: paginate.current });
+    }
+
+    const updateData = () => {
+        fetchFlightReports();
+        fetchFlightReportGraph();
     }
 
     return (
@@ -41,6 +45,7 @@ function FlightReport({ fetchFlightReports, fetchFlightReportGraph }) {
             </Title>
 
             <FlightReportDrawerContainer
+                updateData={updateData}
                 visible={currentID != undefined}
                 id={currentID}
                 handleClose={() => setCurrentID(undefined)}

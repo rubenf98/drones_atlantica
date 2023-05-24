@@ -10,6 +10,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { createCrashReport } from '../../../../redux/crashReport/actions';
 import { connect } from 'react-redux';
 import Error from '../../../common/Error';
+import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
 
 const UploadImage = styled.img`
     width: 60px;
@@ -64,13 +65,13 @@ function CrashReportForm({ createCrashReport }) {
 
     return (
         <>
-            <Breadcrumb>
-                <Breadcrumb.Item><Link to="/painel">Início</Link> </Breadcrumb.Item>
-                <Breadcrumb.Item>
-                    <Link to="/painel/acidentes">Registo de acidentes</Link>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Formulário</Breadcrumb.Item>
-            </Breadcrumb>
+            <BreadcrumbContainer
+                links={[
+                    { to: "/painel", name: "Início" },
+                    { to: "/painel/acidentes", name: "Registo de acidentes" },
+                ]}
+                currentPage="Formulário"
+            />
             <Form
                 form={form}
                 name="drone"

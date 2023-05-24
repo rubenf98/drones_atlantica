@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { Form, Button, Input, Row } from 'antd';
 import { login, setAuthorizationToken } from '../../redux/auth/actions';
@@ -72,13 +72,16 @@ const Card = styled.div`
 `;
 
 function Login({ login }) {
+    const [loading, setLoading] = useState(false)
     let navigate = useNavigate();
 
     const onFinish = (values) => {
+        setLoading(true);
         login(values).then((response) => {
             const token = response.value.data.access_token;
             localStorage.setItem("token", token);
             setAuthorizationToken(token);
+            setLoading(false);
             navigate("/painel")
         });
         console.log('Received values of form: ', values);
@@ -129,11 +132,8 @@ function Login({ login }) {
                             />
                         </Form.Item>
                         <br />
-                        <Row type="flex" justify="space-between">
-                            <a className="login-form-forgot" href="">
-                                Recuperar password
-                            </a>
-                            <Button type="primary" htmlType="submit" className="login-form-button">
+                        <Row type="flex" justify="end">
+                            <Button loading={loading} type="primary" htmlType="submit" className="login-form-button">
                                 Iniciar sessão
                             </Button>
                         </Row>

@@ -9,7 +9,7 @@ class Manufacturer extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name', 'title', 'address', 'door_number', 'postal_code',
+        'name', 'supplier', 'address', 'door_number', 'postal_code',
         'locality', 'country', 'email', 'phone',
     ];
 
