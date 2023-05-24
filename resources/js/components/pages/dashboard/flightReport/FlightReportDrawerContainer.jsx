@@ -6,8 +6,8 @@ import { exportFlightReport, fetchFlightReports, fetchFlightReport, setCurrentFl
 import styled from "styled-components";
 import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
 import { Link } from 'react-router-dom';
-import Map, { Marker } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import MapContainer from '../common/MapContainer';
+
 
 const ButtonContainer = styled.section`
     display: flex;
@@ -23,7 +23,7 @@ const DeleteContainer = styled.div`
     align-items: center;
 `;
 
-const MAPBOX_TOKEN = 'pk.eyJ1IjoicG9udG9taXJhIiwiYSI6ImNsaHFnajVlbjAzb20zanNpc2NqbzQ5ZTUifQ.hQ5L7eM8CyH0scMaIubFkw';
+
 
 
 export const FlightReportDrawerContainer = (props) => {
@@ -67,22 +67,12 @@ export const FlightReportDrawerContainer = (props) => {
             width={1270}
         >
             {(current.startLocalization && visible) &&
-                <Map
-                    initialViewState={{
-                        longitude: parseFloat(current.startLocalization.longitude),
-                        latitude: parseFloat(current.startLocalization.latitude),
-                        zoom: 8
+                <MapContainer
+                    coordinates={{
+                        latitude: current.startLocalization.latitude,
+                        longitude: current.startLocalization.longitude,
                     }}
-                    style={{ width: "100%", height: "400px" }}
-                    mapStyle="mapbox://styles/mapbox/streets-v9"
-                    mapboxAccessToken={MAPBOX_TOKEN}
-                >
-                    <Marker
-                        longitude={parseFloat(current.startLocalization.longitude)}
-                        latitude={parseFloat(current.startLocalization.latitude)}
-                        color="red"
-                    />
-                </Map>
+                />
             }
             <h2>Dados gerais</h2>
             <Row type="flex">

@@ -1,9 +1,18 @@
-import { Col, Drawer, Row } from 'antd'
+import { Col, Drawer, Row, Popconfirm } from 'antd'
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { fetchCrashReport } from '../../../../redux/crashReport/actions';
+import { fetchCrashReport, deleteCrashReport } from '../../../../redux/crashReport/actions';
 import styled from "styled-components";
-import MapPicker from 'react-google-map-picker'
+import MapContainer from '../common/MapContainer';
+import { SecundaryButton } from '../../../globalStyles';
+
+const ButtonContainer = styled.section`
+    display: flex;
+    margin: 20px 0px;
+    gap: 15px;
+    justify-content: flex-end;
+    align-items: center;
+`;
 
 const ImageContainer = styled.section`
     display: flex;
@@ -27,6 +36,11 @@ export const CrashReportDrawerContainer = (props) => {
         }
     }, [visible])
 
+    function handleDelete() {
+        props.deleteCrashReport(id)
+        props.handleClose();
+    }
+
     const Item = ({ value, label, span = 6 }) => (
         <Col span={span}>
             <p style={{ fontWeight: "bold" }}>{label}:</p>
@@ -48,14 +62,11 @@ export const CrashReportDrawerContainer = (props) => {
             width={1270}
         >
             {current.latitude &&
-                <MapPicker
-                    defaultLocation={
-                        { lat: parseFloat(current.latitude), lng: parseFloat(current.longitude) }
-                    }
-                    zoom={5}
-                    mapTypeId="satellite"
-                    style={{ height: '300px' }}
-                    apiKey='AIzaSyD07E1VvpsN_0FvsmKAj4nK9GnLq-9jtj8'
+                <MapContainer
+                    coordinates={{
+                        latitude: current.latitude,
+                        longitude: current.longitude,
+                    }}
                 />
             }
             <h2>Dados gerais</h2>
@@ -75,10 +86,24 @@ export const CrashReportDrawerContainer = (props) => {
             <br />
 
             <ImageContainer>
-                {current.media && current.media.length && current.media.map((image) => (
+                {current.media && current.media.length ? current.media.map((image) => (
                     <img src={"/images/crash_reports/" + image.path + "." + image.file_type} alt={image.id} />
-                ))}
+                )) : <></>}
             </ImageContainer>
+
+            <ButtonContainer>
+                <Popconfirm
+                    title="Apagar registo de voo"
+                    description="Tem a certeza que pretende apagar este registo?"
+                    onConfirm={handleDelete}
+                    okText="Apagar"
+                    cancelText="Cancelar"
+                >
+                    <SecundaryButton>
+                        Apagar
+                    </SecundaryButton>
+                </Popconfirm>
+            </ButtonContainer>
         </Drawer>
     )
 }
@@ -93,6 +118,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         fetchCrashReport: (id) => dispatch(fetchCrashReport(id)),
+        deleteCrashReport: (id) => dispatch(deleteCrashReport(id)),
     };
 };
 
