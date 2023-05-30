@@ -13,7 +13,7 @@ import InoperationalDroneTableContainer from './InoperationalDroneTableContainer
 function Drone({ fetchProjects, fetchDrones }) {
     const [searchParams] = useSearchParams();
     const [currentSlide, setCurrentSlide] = useState(0);
-    const [currentId, setCurrentId] = useState(1);
+    const [currentId, setCurrentId] = useState(undefined);
     const [currentDrone, setCurrentDrone] = useState(undefined);
     const [search, setSearch] = useState(undefined);
 
@@ -25,12 +25,17 @@ function Drone({ fetchProjects, fetchDrones }) {
         if (aInitProject) {
             setCurrentSlide(parseInt(aInitProject) - 1);
             setCurrentId(parseInt(aInitProject));
+        } else {
+            setCurrentId(1);
         }
 
     }, [])
 
     useEffect(() => {
-        fetchDrones({ project: currentId });
+        if (currentId) {
+            fetchDrones({ project: currentId });
+        }
+
     }, [currentId])
 
     const handlePageChange = (paginate = { current: 1 }) => {
