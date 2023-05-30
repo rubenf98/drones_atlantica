@@ -19,6 +19,7 @@ class CrashReportResource extends JsonResource
             'date' => $this->date,
             'damage' => $this->damage,
             'analysis' => $this->analysis,
+            'description' => $this->description,
             'corrections' => $this->corrections,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,

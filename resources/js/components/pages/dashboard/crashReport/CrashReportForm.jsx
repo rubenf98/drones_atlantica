@@ -96,6 +96,11 @@ function CrashReportForm({ createCrashReport }) {
                             <FlightReportRemoteSelectContainer />
                         </Form.Item>
                     </Col>
+                    <Col xs={24} md={24}>
+                        <Form.Item name="description" label="Descrição do acidente">
+                            <TextArea placeholder='Descrição do acidente' />
+                        </Form.Item>
+                    </Col>
                     <Col xs={24} md={8}>
                         <Form.Item name="damage" label="Danos ao equipamento">
                             <TextArea placeholder='Danos ao equipamento' />

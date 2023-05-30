@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CrashReport extends Model
 {
     use HasFactory;
-    protected $fillable = ['date', 'flight_report_id', 'latitude', 'longitude', 'damage', 'analysis', 'corrections'];
+    protected $fillable = ['date', 'description', 'flight_report_id', 'latitude', 'longitude', 'damage', 'analysis', 'corrections'];
 
     public function flightReport()
     {

@@ -74,6 +74,7 @@ export const CrashReportDrawerContainer = (props) => {
                 <Item label="Danos ao equipamento" value={emptyItem(current.damage)} />
                 <Item label="Avaliação/Análise" value={emptyItem(current.analysis)} />
                 <Item label="Correções" value={emptyItem(current.corrections)} />
+                <Item label="Descrição" value={emptyItem(current.description)} />
             </Row>
             <br />
             <h2>Relatório de voo</h2>
@@ -87,7 +88,7 @@ export const CrashReportDrawerContainer = (props) => {
 
             <ImageContainer>
                 {current.media && current.media.length ? current.media.map((image) => (
-                    <img src={"/images/crash_reports/" + image.path + "." + image.file_type} alt={image.id} />
+                    <img src={"/storage/crash_reports/" + image.path + "." + image.file_type} alt={image.id} />
                 )) : <></>}
             </ImageContainer>
 

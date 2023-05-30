@@ -39,6 +39,7 @@ class CrashReportRequest extends FormRequest
             'flight_report_id' => 'nullable|integer|exists:flight_reports,id',
             'damage' => 'nullable|string',
             'analysis' => 'nullable|string',
+            'description' => 'nullable|string',
             'corrections' => 'nullable|string',
             'images_*' => 'nullable|image|mimes:jpg,jpeg',
             'latitude' => 'required',

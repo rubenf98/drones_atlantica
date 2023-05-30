@@ -35,10 +35,10 @@ class CrashReportController extends Controller
         $record = CrashReport::create($validator);
         $images = [];
         $inputs = $request->all();
-        $out = new ConsoleOutput();
+        // $out = new ConsoleOutput();
 
         foreach ($inputs as $key => $value) {
-            $out->writeln($key);
+            // $out->writeln($key);
             if (str_contains($key, "image_")) {
                 array_push($images, $value);
             }
@@ -51,7 +51,7 @@ class CrashReportController extends Controller
                 Image::make($image)->resize(800, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
-                })->save(public_path('images/crash_reports/' . $index . "_" . $imageName . "." . $image->extension()));
+                })->save(storage_path('app/public/crash_reports/' . $index . "_" . $imageName . "." . $image->extension()));
 
                 CrashMedia::create([
                     'path' =>  $index . "_"  . $imageName,
