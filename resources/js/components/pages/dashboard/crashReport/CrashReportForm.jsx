@@ -1,27 +1,80 @@
 import { Breadcrumb, Col, DatePicker, Form, Input, Row } from 'antd'
 import TextArea from 'antd/es/input/TextArea';
 import Dragger from 'antd/es/upload/Dragger';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import CrashReportMapPicker from './CrashReportMapPicker';
 import styled from "styled-components";
 import FlightReportRemoteSelectContainer from '../flightReport/FlightReportRemoteSelectContainer';
 import { PrimaryButton } from '../../../globalStyles';
-import { Link, useNavigate } from 'react-router-dom';
-import { createCrashReport } from '../../../../redux/crashReport/actions';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { createCrashReport, updateCrashReport } from '../../../../redux/crashReport/actions';
 import { connect } from 'react-redux';
 import Error from '../../../common/Error';
 import BreadcrumbContainer from '../../../common/BreadcrumbContainer';
+import dayjs from 'dayjs';
 
 const UploadImage = styled.img`
     width: 60px;
     height: auto;
 `;
 
-function CrashReportForm({ createCrashReport }) {
+const ImageContainer = styled.section`
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 50px auto;
+
+    img {
+        cursor: not-allowed;
+        width: 20%;
+        transition: all .3s ease;
+
+        &:hover {
+            opacity: .3;
+        }
+    }
+
+    .remove {
+        opacity: .3;
+        cursor: pointer;
+    }
+
+`;
+
+function CrashReportForm({ createCrashReport, updateCrashReport, current }) {
     const [form] = Form.useForm();
+    const [location, setLocation] = useState({ lat: 32.7, lng: -16.9 });
     const [files, setFiles] = useState([]);
+    const [remove, setRemove] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [editMode, setEditMode] = useState(false);
     var navigate = useNavigate();
+    const [searchParams, _] = useSearchParams();
+
+    useEffect(() => {
+        var hasEdit = searchParams.get("edit");
+        if (hasEdit != null && current.id) {
+
+            form.setFieldsValue({
+                date: dayjs(current.date, 'DD-MM-YYYY HH:mm', true),
+                flight_report_id: current.flightReport.id,
+                description: current.description,
+                damage: current.damage,
+                analysis: current.analysis,
+                corrections: current.corrections,
+                latitude: parseFloat(current.latitude),
+                longitude: parseFloat(current.longitude),
+            })
+
+            setLocation({ lat: parseFloat(current.latitude), lng: parseFloat(current.longitude) });
+
+            setEditMode(true);
+        }
+
+    }, [])
 
     const handleArrayToFormData = (formData, array, field) => {
         for (var i = 0; i < array.length; i++) {
@@ -33,30 +86,59 @@ function CrashReportForm({ createCrashReport }) {
 
 
     const onFinish = (values) => {
-
         var formData = new FormData();
-
+        console.log(values);
         for (var key in values) {
             if (values[key]) {
                 formData.append(key, values[key]);
             }
-
         }
+
         files.map((file, index) => {
             formData.append("image_" + index, file);
         })
 
-        createCrashReport(formData).then((response) => {
-            navigate('/painel/acidentes');
-        }).catch((err) => {
-            var response = err.response.data.errors;
-            var aErrors = [];
-            Object.values(response).map((item) => {
-                aErrors.push(item);
-            })
-            setErrors(aErrors);
-        });
+        if (editMode) {
+            formData = handleArrayToFormData(formData, remove, 'remove');
+            formData.append("_method", "PATCH");
 
+            updateCrashReport(current.id, formData).then(() => {
+                navigate('/painel/acidentes');
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        } else {
+
+
+            createCrashReport(formData).then((response) => {
+                navigate('/painel/acidentes');
+            }).catch((err) => {
+                var response = err.response.data.errors;
+                var aErrors = [];
+                Object.values(response).map((item) => {
+                    aErrors.push(item);
+                })
+                setErrors(aErrors);
+            });
+        }
+
+
+    }
+
+    const handleImageClick = (id) => {
+        if (remove.includes(id)) {
+            var copy = [...remove];
+            const index = copy.indexOf(id);
+            copy.splice(index, 1);
+            setRemove(copy);
+        } else {
+            setRemove([...remove, id]);
+        }
     }
 
     const onFinishFailed = (values) => {
@@ -82,10 +164,16 @@ function CrashReportForm({ createCrashReport }) {
             >
                 <Error message="Criação do registo falhou" errors={errors} />
                 <h2>Registo de acidente</h2>
-                <Row gutter={16}>
-                    <Form.Item name="latitude" />
-                    <Form.Item name="longitude" />
-                    <Form.Item name="images" />
+                <Row type="flex" gutter={16}>
+                    <Form.Item name="latitude" >
+                        <></>
+                    </Form.Item>
+                    <Form.Item name="longitude" >
+                        <></>
+                    </Form.Item>
+                    <Form.Item name="images" >
+                        <></>
+                    </Form.Item>
                     <Col xs={24} md={12}>
                         <Form.Item name="date" label="Data e hora">
                             <DatePicker format="DD-MM-YYYY HH:mm" style={{ width: "100%" }} showTime placeholder='DD-MM-YYYY HH:mm' />
@@ -119,12 +207,12 @@ function CrashReportForm({ createCrashReport }) {
                         </Form.Item>
                     </Col>
 
-                    <Col span={12}>
-                        <CrashReportMapPicker form={form} />
+                    <Col xs={24} md={12}>
+                        <CrashReportMapPicker location={location} setLocation={setLocation} form={form} />
                     </Col>
 
-                    <Col span={12}>
 
+                    <Col xs={24} md={12}>
                         <Dragger
                             name='file'
                             accept=".jpg, .png, .jpeg"
@@ -133,17 +221,6 @@ function CrashReportForm({ createCrashReport }) {
                             }}
                             multiple
                             showUploadList
-                            onChange={(info) => {
-                                // const { status } = info.file;
-                                // if (status !== 'uploading') {
-                                //     console.log(info.file, info.fileList);
-                                // }
-                                // if (status === 'done') {
-                                //     console.log(`${info.file.name} file uploaded successfully.`);
-                                // } else if (status === 'error') {
-                                //     console.log(`${info.file.name} file upload failed.`);
-                                // }
-                            }}
                             beforeUpload={(_, fileList) => {
                                 console.log(fileList);
                                 var aFiles = [...files, ...fileList];
@@ -164,11 +241,16 @@ function CrashReportForm({ createCrashReport }) {
                         </Dragger>
                     </Col>
 
-                    <PrimaryButton style={{ marginTop: "30px" }}>
-                        Submeter
-                    </PrimaryButton>
-
+                    <ImageContainer>
+                        {current.media && current.media.length ? current.media.map((image) => (
+                            <img onClick={() => handleImageClick(image.id)} className={remove.includes(image.id) ? 'remove' : ''} src={"/storage/crash_reports/" + image.path + "." + image.file_type} alt={image.id} />
+                        )) : <></>}
+                    </ImageContainer>
                 </Row>
+
+                <PrimaryButton style={{ marginTop: "30px" }}>
+                    Submeter
+                </PrimaryButton>
             </Form>
         </>
 
@@ -178,6 +260,14 @@ function CrashReportForm({ createCrashReport }) {
 const mapDispatchToProps = (dispatch) => {
     return {
         createCrashReport: (data) => dispatch(createCrashReport(data)),
+        updateCrashReport: (id, data) => dispatch(updateCrashReport(id, data)),
     };
 };
-export default connect(null, mapDispatchToProps)(CrashReportForm)
+
+const mapStateToProps = (state) => {
+    return {
+        loading: state.crashReport.loading,
+        current: state.crashReport.current,
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CrashReportForm)

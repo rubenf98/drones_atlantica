@@ -26,7 +26,7 @@ class FlightReportRequest extends FormRequest
         $out = new ConsoleOutput();
 
         // $ids = explode(",", $this->drone_id);
-        $out->writeln($this->drone_id);
+  
         $this->merge([
             'drone_id' => $this->drone_id[1],
             'operator_id' => $this->operator_id != "undefined" ? $this->operator_id : null,
@@ -64,6 +64,9 @@ class FlightReportRequest extends FormRequest
             'operator_email' => 'required_without:operator_id|email:rfc',
             'operator_phone' => 'nullable|string',
             'status' => 'required',
+
+            'analysis' => 'nullable|string',
+            'corrections' => 'nullable|string',
 
             'reuseStartLocalization' => 'nullable|integer',
 

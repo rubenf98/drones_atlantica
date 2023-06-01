@@ -121,6 +121,12 @@ export const FlightReportDrawerContainer = (props) => {
                 <Item label="Visibilidade" value={emptyItem(current.visibility)} />
                 <Item label="Dispositivos conectados" value={emptyItem(current.connected_devices)} />
                 <Item label="Payload" value={emptyItem(current.payload)} />
+
+                <Item span={12} label="Análise / Avaliação" value={emptyItem(current.analysis)} />
+                <Item span={12} label="Correções" value={emptyItem(current.corrections)} />
+
+
+
             </Row>
 
             <h2>Proximidades</h2>

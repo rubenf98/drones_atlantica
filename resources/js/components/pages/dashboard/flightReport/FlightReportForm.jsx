@@ -147,6 +147,9 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 nearby_vehicles: current.nearby.vehicles,
                 nearby_aircrafts: current.nearby.aircrafts,
 
+                analysis: current.analysis,
+                corrections: current.corrections,
+
                 pix4d: current.pix4d
             })
 
@@ -204,7 +207,6 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 formData.append('authorizations[]', files[i]);
             }
 
-            console.log(Object.fromEntries(formData.entries()))
             createFlightReport(formData).then((response) => {
                 navigate(redirect);
             }).catch((err) => {
@@ -436,6 +438,17 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                         </Form.Item>
                     </Col>
 
+                    <Col xs={24} md={12}>
+                        <Form.Item name="analysis" label="Análise / Avaliação" rules={rules.analysis}>
+                            <TextArea placeholder='Análise / Avaliação' />
+                        </Form.Item>
+                    </Col>
+                    <Col xs={24} md={12}>
+                        <Form.Item name="corrections" label="Correções" rules={rules.corrections}>
+                            <TextArea placeholder='Correções' />
+                        </Form.Item>
+                    </Col>
+
 
                     <Col xs={12} md={6}>
                         <Checkbox checked={nearby.people} onChange={(e) => setNearby({ ...nearby, people: e.target.checked })}>Pessoas nas proximidades?</Checkbox>
@@ -489,6 +502,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                             </div>
                         }
                     </Col>
+
 
                 </Row>
 
@@ -552,7 +566,6 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                             Adicionar registo de acidente
                         </SecundaryButton>
                     }
-
 
                     <PrimaryButton>
                         Submeter

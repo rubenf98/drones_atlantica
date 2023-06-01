@@ -30,7 +30,7 @@ export const deleteCrashReport = id => ({
 
 export const updateCrashReport = (id, data) => ({
     type: types.UPDATE_CRASH_REPORT,
-    payload: axios.put(`${window.location.origin}/api/crash-reports/${id}`, data),
+    payload: axios.post(`${window.location.origin}/api/crash-reports/${id}`, data),
 });
 
 export const createCrashReport = (data) => ({

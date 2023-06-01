@@ -42,6 +42,9 @@ class CreateFlightReportsTable extends Migration
             $table->string('transmission_power')->nullable();
             $table->text('connected_devices')->nullable();
             $table->string('flight_duration')->nullable();
+
+            $table->text('analysis')->nullable();
+            $table->text('corrections')->nullable();
             $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->onDelete("set null");

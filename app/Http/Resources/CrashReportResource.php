@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CrashReportResource extends JsonResource
@@ -16,7 +17,7 @@ class CrashReportResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => $this->date,
+            'date' => Carbon::parse($this->date)->format('d-m-Y H:m'),
             'damage' => $this->damage,
             'analysis' => $this->analysis,
             'description' => $this->description,

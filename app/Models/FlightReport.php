@@ -7,6 +7,7 @@ use Cerbero\QueryFilters\FiltersRecords;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class FlightReport extends Model
 {
@@ -14,7 +15,7 @@ class FlightReport extends Model
 
     protected $fillable = [
         'date', 'client', 'pix4d', 'visibility', 'max_altitude', 'max_distance', 'payload',
-        'description', 'objective', 'plan', 'anac', 'aan',
+        'description', 'objective', 'plan', 'anac', 'aan', 'analysis', 'corrections',
         'connection_type', 'transmission_power', 'connected_devices', 'flight_duration',
         'pre_verification', 'during_verification', 'post_verification',
         'user_id', 'drone_id', 'operator_id', 'start_localization_id', 'end_localization_id', 'nearby_id', 'condition_id'
@@ -36,6 +37,9 @@ class FlightReport extends Model
             "description" => Arr::get($validator, 'description'),
             "objective" => Arr::get($validator, 'objective'),
             "plan" => Arr::get($validator, 'plan'),
+
+            "analysis" => Arr::get($validator, 'analysis'),
+            "corrections" => Arr::get($validator, 'corrections'),
 
             "connection_type" => Arr::get($validator, 'connection_type'),
             "transmission_power" => Arr::get($validator, 'transmission_power'),
@@ -63,7 +67,9 @@ class FlightReport extends Model
         $date = Carbon::parse($validator["date"]);
         $serial = 'R-19' . $date->format('y');
 
-        $record->serial_number = $serial . str_pad($record->id, 4, '0', STR_PAD_LEFT);
+        $counter = FlightReport::whereYear('date', $date->format('Y'))->count();
+
+        $record->serial_number = $serial . str_pad($counter, 4, '0', STR_PAD_LEFT);
         $record->save();
 
         return $record;

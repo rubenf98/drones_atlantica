@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CrashReportRequest;
+use App\Http\Requests\UpdateCrashReportRequest;
 use App\Http\Resources\CrashReportResource;
 use App\Models\CrashMedia;
 use App\Models\CrashReport;
@@ -82,9 +83,47 @@ class CrashReportController extends Controller
      * @param  \App\Models\CrashReport  $crashReport
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, CrashReport $crashReport)
+    public function update(UpdateCrashReportRequest $request, CrashReport $crashReport)
     {
-        //
+        $validator = $request->validated();
+
+        $crashReport->update($validator);
+        $images = [];
+        $inputs = $request->all();
+        // $out = new ConsoleOutput();
+
+        if (array_key_exists("remove", $validator)) {
+            foreach ($validator["remove"] as $removeId) {
+                $removeRecord = CrashMedia::find($removeId);
+                $removeRecord->delete();
+            }
+        }
+
+        foreach ($inputs as $key => $value) {
+            // $out->writeln($key);
+            if (str_contains($key, "image_")) {
+                array_push($images, $value);
+            }
+        }
+
+        if (count($images)) {
+            $imageName = time() . '_' . $crashReport->id;
+
+            foreach ($images as $index => $image) {
+                Image::make($image)->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->save(storage_path('app/public/crash_reports/' . $index . "_" . $imageName . "." . $image->extension()));
+
+                CrashMedia::create([
+                    'path' =>  $index . "_"  . $imageName,
+                    'crash_report_id' => $crashReport->id,
+                    'file_type' => $image->extension(),
+                ]);
+            }
+        }
+
+        return new CrashReportResource($crashReport);
     }
 
     /**

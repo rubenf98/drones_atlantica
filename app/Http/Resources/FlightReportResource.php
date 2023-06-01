@@ -32,6 +32,8 @@ class FlightReportResource extends JsonResource
             'nearby' => $this->nearby,
             'payload' => $this->payload,
             'user' => $this->user,
+            'analysis' => $this->analysis,
+            'corrections' => $this->corrections,
             'pre_verification' => $this->pre_verification,
             'during_verification' => $this->during_verification,
             'post_verification' => $this->post_verification,

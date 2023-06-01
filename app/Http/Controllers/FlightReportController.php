@@ -28,7 +28,7 @@ class FlightReportController extends Controller
     {
         return FlightReportResource::collection(
             FlightReport::with('crashReport')->with('startLocalization')->with('operator')->with('drone')
-                ->paginate(10)
+                ->latest()->paginate(10)
         );
     }
 

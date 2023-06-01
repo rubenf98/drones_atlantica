@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import { fetchCrashReport, deleteCrashReport } from '../../../../redux/crashReport/actions';
 import styled from "styled-components";
 import MapContainer from '../common/MapContainer';
-import { SecundaryButton } from '../../../globalStyles';
+import { PrimaryButton, SecundaryButton } from '../../../globalStyles';
+import { Link } from 'react-router-dom';
 
 const ButtonContainer = styled.section`
     display: flex;
@@ -51,7 +52,6 @@ export const CrashReportDrawerContainer = (props) => {
     function emptyItem(field) {
         return field ? field : "---";
     }
-    console.log(current);
 
     return (
         <Drawer
@@ -104,6 +104,11 @@ export const CrashReportDrawerContainer = (props) => {
                         Apagar
                     </SecundaryButton>
                 </Popconfirm>
+                <Link to="/painel/acidentes/create?edit">
+                    <PrimaryButton>
+                        Atualizar
+                    </PrimaryButton>
+                </Link>
             </ButtonContainer>
         </Drawer>
     )
