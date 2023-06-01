@@ -28,7 +28,7 @@ function CrashReportMapPicker({ form, location, setLocation }) {
                     latitude: parseFloat(location.lat),
                     zoom: 8
                 }}
-                mapStyle="mapbox://styles/mapbox/streets-v9"
+                mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
                 mapboxAccessToken={MAPBOX_TOKEN}
                 style={{ height: '100%', minHeight: "300px", marginBottom: "30px" }}
             >

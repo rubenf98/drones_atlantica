@@ -13,7 +13,7 @@ function MapContainer({ coordinates }) {
                 zoom: 8
             }}
             style={{ width: "100%", height: "400px" }}
-            mapStyle="mapbox://styles/mapbox/streets-v9"
+            mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
             mapboxAccessToken={MAPBOX_TOKEN}
         >
             <Marker
