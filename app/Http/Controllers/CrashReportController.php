@@ -20,7 +20,7 @@ class CrashReportController extends Controller
      */
     public function index()
     {
-        return CrashReportResource::collection(CrashReport::with('flightReport')->paginate(10));
+        return CrashReportResource::collection(CrashReport::with('flightReport')->latest()->paginate(10));
     }
 
     /**

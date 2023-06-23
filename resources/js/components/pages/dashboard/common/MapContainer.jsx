@@ -10,7 +10,7 @@ function MapContainer({ coordinates }) {
             initialViewState={{
                 longitude: parseFloat(coordinates.longitude),
                 latitude: parseFloat(coordinates.latitude),
-                zoom: 8
+                zoom: 16
             }}
             style={{ width: "100%", height: "400px" }}
             mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
