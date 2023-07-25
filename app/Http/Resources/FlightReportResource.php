@@ -18,7 +18,7 @@ class FlightReportResource extends JsonResource
         return [
             'id' => $this->id,
             'serial_number' => $this->serial_number,
-            'date' => Carbon::parse($this->date)->format('d-m-Y H:m'),
+            'date' => Carbon::parse($this->date)->format('d-m-Y H:i'),
             'objective' => $this->objective,
             'plan' => $this->plan,
             'flight_duration' => $this->flight_duration,

@@ -26,7 +26,7 @@ class ExportFlightReport extends Controller
 
         self::returnItem($section, "N.º registo de voo", $flightReport->serial_number);
         self::returnItem($section, "Data", Carbon::parse($flightReport->date)->format('d-m-Y'));
-        self::returnItem($section, "Hora", Carbon::parse($flightReport->date)->format('H:m'));
+        self::returnItem($section, "Hora", Carbon::parse($flightReport->date)->format('H:i'));
         self::returnItem($section, "Marca", $flightReport->drone->manufacturer->name);
         self::returnItem($section, "Modelo", $flightReport->drone->project->name);
         self::returnItem($section, "N.º Série", $flightReport->drone->serial_number);
@@ -75,7 +75,7 @@ class ExportFlightReport extends Controller
 
         $section->addPageBreak();
         self::returnItem($section, "Houve acidente?", $flightReport->crashReport ? "Sim" : "Não");
-        self::returnItem($section, "Hora do despiste", $flightReport->crashReport ? Carbon::parse($flightReport->crashReport->date)->format('H:m') : "N/A");
+        self::returnItem($section, "Hora do despiste", $flightReport->crashReport ? Carbon::parse($flightReport->crashReport->date)->format('H:i') : "N/A");
         self::returnItem($section, "Latitude", $flightReport->crashReport ? $flightReport->crashReport->latitude : "N/A");
         self::returnItem($section, "Longitude", $flightReport->crashReport ? $flightReport->crashReport->longitude : "N/A");
         self::returnItem($section, "Danos ao equipamento", $flightReport->crashReport ? $flightReport->crashReport->damage : "N/A");

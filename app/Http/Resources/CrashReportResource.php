@@ -17,7 +17,7 @@ class CrashReportResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'date' => Carbon::parse($this->date)->format('d-m-Y H:m'),
+            'date' => Carbon::parse($this->date)->format('d-m-Y H:i'),
             'damage' => $this->damage,
             'analysis' => $this->analysis,
             'description' => $this->description,
