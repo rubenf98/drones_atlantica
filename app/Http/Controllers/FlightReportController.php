@@ -130,12 +130,12 @@ class FlightReportController extends Controller
         }
 
         $flightReport->update($flightReport->generateDataArray($validator));
-        $serial = 'R-19' . Carbon::parse($flightReport->date)->format('y');
-        $counter = FlightReport::whereYear('date', $flightReport->date->format('Y'))->count();
+        // $serial = 'R-19' . Carbon::parse($flightReport->date)->format('y');
+        // $counter = FlightReport::whereYear('date', $flightReport->date->format('Y'))->count();
 
-        $flightReport->serial_number = $serial . str_pad($counter, 4, '0', STR_PAD_LEFT);
+        //$flightReport->serial_number = $serial . str_pad($counter, 4, '0', STR_PAD_LEFT);
         //$flightReport->serial_number = $serial . str_pad($flightReport->id, 4, '0', STR_PAD_LEFT);
-        $flightReport->save();
+        //$flightReport->save();
         return new FlightReportResource($flightReport);
     }
 
