@@ -26,7 +26,7 @@ class FlightReportRequest extends FormRequest
         $out = new ConsoleOutput();
 
         // $ids = explode(",", $this->drone_id);
-  
+
         $this->merge([
             'drone_id' => $this->drone_id[1],
             'operator_id' => $this->operator_id != "undefined" ? $this->operator_id : null,
