@@ -31,7 +31,7 @@ class FlightReportRequest extends FormRequest
             'drone_id' => $this->drone_id[1],
             'operator_id' => $this->operator_id != "undefined" ? $this->operator_id : null,
             'user_id' => Auth::user()->id,
-            'date' => Carbon::parse($this->date),
+            'date' => Carbon::parse($this->date, "d-m-Y H:i"),
             'nearby_vehicles' => $this->nearby_vehicles ? $this->nearby_vehicles : null,
             'nearby_aircrafts' => $this->nearby_aircrafts ? $this->nearby_aircrafts : null,
             'nearby_animals' => $this->nearby_animals ? $this->nearby_animals : null,
