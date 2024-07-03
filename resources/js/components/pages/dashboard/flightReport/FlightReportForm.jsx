@@ -114,10 +114,9 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 vehicles: current.nearby.vehicles != null && true,
                 aircraft: current.nearby.aircrafts != null && true
             });
-            console.log([current?.drone?.drone_type?.id, current?.drone?.id]);
             form.setFieldsValue({
                 date: dayjs(current.date, 'DD-MM-YYYY HH:mm', true),
-                drone_id: [current?.drone?.drone_type?.id, current?.drone?.id],
+                drone_id: [current?.drone?.project?.id, current?.drone?.id],
                 operator_id: current?.operator?.id,
                 flight_duration: current.flight_duration,
                 max_distance: current.max_distance,
@@ -175,7 +174,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
 
 
         if (editMode) {
-            updateFlightReport(current.id, { ...values, reuseStartLocalization: reuseStartLocalization }).then(() => {
+            updateFlightReport(current.id, { ...values, reuseStartLocalization: reuseStartLocalization, date: dayjs(values.date).format("YYYY-MM-DD HH:mm") }).then(() => {
                 navigate(redirect);
             }).catch((err) => {
                 var response = err.response.data.errors;
@@ -196,7 +195,11 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                             formData.append('drone_id[]', values[key][i]);
                         }
                     } else {
-                        formData.append(key, values[key]);
+                        if (key == "date") {
+                            formData.append(key, dayjs(values[key]).format("YYYY-MM-DD HH:mm"));
+                        } else {
+                            formData.append(key, values[key]);
+                        }
                     }
 
                 }
