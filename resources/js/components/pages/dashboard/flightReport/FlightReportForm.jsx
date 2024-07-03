@@ -114,7 +114,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
                 vehicles: current.nearby.vehicles != null && true,
                 aircraft: current.nearby.aircrafts != null && true
             });
-
+            console.log([current?.drone?.drone_type?.id, current?.drone?.id]);
             form.setFieldsValue({
                 date: dayjs(current.date, 'DD-MM-YYYY HH:mm', true),
                 drone_id: [current?.drone?.drone_type?.id, current?.drone?.id],
