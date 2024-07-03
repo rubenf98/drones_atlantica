@@ -117,7 +117,7 @@ function FlightReportForm({ createFlightReport, current, updateFlightReport }) {
 
             form.setFieldsValue({
                 date: dayjs(current.date, 'DD-MM-YYYY HH:mm', true),
-                drone_id: [current?.drone_type?.id, current?.drone?.id],
+                drone_id: [current?.drone?.drone_type?.id, current?.drone?.id],
                 operator_id: current?.operator?.id,
                 flight_duration: current.flight_duration,
                 max_distance: current.max_distance,
