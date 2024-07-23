@@ -1,9 +1,10 @@
 import { types } from "./types";
 import axios from "axios";
+import queryString from 'query-string';
 
 export const fetchLocalizations = (filters = {}) => ({
     type: types.FETCH_LOCALIZATIONS,
-    payload: axios.get(`${window.location.origin}/api/localizations?${JSON.stringify(filters)}`)
+    payload: axios.get(`${window.location.origin}/api/localizations?${queryString.stringify(filters)}`)
 })
 
 export const fetchLocalization = (id) => ({

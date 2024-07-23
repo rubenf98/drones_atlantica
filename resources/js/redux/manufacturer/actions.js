@@ -1,9 +1,10 @@
 import { types } from "./types";
 import axios from "axios";
+import queryString from 'query-string';
 
 export const fetchManufacturers = (filters = {}) => ({
     type: types.FETCH_MANUFACTURERS,
-    payload: axios.get(`${window.location.origin}/api/manufacturers?${JSON.stringify(filters)}`)
+    payload: axios.get(`${window.location.origin}/api/manufacturers?${queryString.stringify(filters)}`)
 })
 
 export const fetchManufacturer = (id) => ({

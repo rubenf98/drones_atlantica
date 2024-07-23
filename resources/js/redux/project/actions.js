@@ -1,14 +1,15 @@
 import { types } from "./types";
 import axios from "axios";
+import queryString from 'query-string';
 
 export const fetchProjects = (filters = {}) => ({
     type: types.FETCH_PROJECTS,
-    payload: axios.get(`${window.location.origin}/api/projects?${JSON.stringify(filters)}`)
+    payload: axios.get(`${window.location.origin}/api/projects?${queryString.stringify(filters)}`)
 })
 
 export const fetchProjectsSelector = (filters = {}) => ({
     type: types.FETCH_PROJECTS_SELECTOR,
-    payload: axios.get(`${window.location.origin}/api/selector/projects?${JSON.stringify(filters)}`)
+    payload: axios.get(`${window.location.origin}/api/selector/projects?${queryString.stringify(filters)}`)
 })
 
 export const fetchProject = (id) => ({

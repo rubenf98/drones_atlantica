@@ -25,7 +25,7 @@ const Divider = styled.div`
 
 function OperatorRemoteSelectContainer({ handleChange, fetchOperators, data, loading, value, handleOperatorSelection }) {
     useEffect(() => {
-        fetchOperators()
+        fetchOperators({ selectorMode: true })
     }, [])
 
     return (

@@ -1,9 +1,11 @@
 import { types } from "./types";
 import axios from "axios";
+import queryString from 'query-string';
+
 
 export const fetchOperators = (filters = {}) => ({
     type: types.FETCH_OPERATORS,
-    payload: axios.get(`${window.location.origin}/api/operators?${JSON.stringify(filters)}`)
+    payload: axios.get(`${window.location.origin}/api/operators?${queryString.stringify(filters)}`)
 })
 
 export const fetchInoperationalOperators = () => ({
